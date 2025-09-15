@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Configure for Replit environment
+  experimental: {
+    serverComponentsExternalPackages: [],
+  }
 };
 
 export default nextConfig;
