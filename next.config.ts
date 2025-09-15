@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Configure for Replit environment - minimal config to start
+  // Configure for Replit environment
 };
 
 export default nextConfig;
