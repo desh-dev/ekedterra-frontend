@@ -1,42 +1,27 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useQuery } from '@apollo/client';
-import { GET_PROPERTIES } from '@/lib/graphql/queries';
-import { Property, PropertyInput, PaginationInput } from '@/lib/graphql/types';
+import { useState } from 'react';
+import { Property, PropertyInput } from '@/lib/graphql/types';
 import PropertyGrid from '@/components/property/property-grid';
 import CategoryTabs from '@/components/home/category-tabs';
 import HomeHero from '@/components/home/home-hero';
 
 export default function HomePage() {
   const [searchFilters, setSearchFilters] = useState<PropertyInput>({});
-  
-  const { data, loading, error, refetch } = useQuery(GET_PROPERTIES, {
-    variables: {
-      property: searchFilters,
-      pagination: { page: 1, limit: 20 } as PaginationInput
-    },
-    errorPolicy: 'all'
-  });
-
-  const properties: Property[] = data?.properties?.data || [];
-  const total = data?.properties?.total || 0;
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSearch = (filters: PropertyInput) => {
     setSearchFilters(filters);
-    refetch({
-      property: filters,
-      pagination: { page: 1, limit: 20 }
-    });
+    setIsLoading(true);
+    // Simulate loading
+    setTimeout(() => setIsLoading(false), 1000);
   };
 
   const handleCategoryChange = (category: string) => {
     const newFilters = { ...searchFilters, category: category as any };
     setSearchFilters(newFilters);
-    refetch({
-      property: newFilters,
-      pagination: { page: 1, limit: 20 }
-    });
+    setIsLoading(true);
+    setTimeout(() => setIsLoading(false), 500);
   };
 
   // Show mock data while GraphQL endpoint is not connected
@@ -134,9 +119,6 @@ export default function HomePage() {
     }
   ];
 
-  // Use mock data if GraphQL data is not available
-  const displayProperties = properties.length > 0 ? properties : mockProperties;
-
   return (
     <div className="min-h-screen bg-white">
       <HomeHero onSearch={handleSearch} />
@@ -148,28 +130,26 @@ export default function HomePage() {
         {/* Results count */}
         <div className="mb-6">
           <p className="text-sm text-gray-600">
-            {loading ? 'Loading...' : `${total || displayProperties.length} stays`}
+            {isLoading ? 'Loading...' : `${mockProperties.length} stays`}
           </p>
         </div>
 
         {/* Property Grid */}
         <PropertyGrid 
-          properties={displayProperties}
-          loading={loading && properties.length === 0}
+          properties={mockProperties}
+          loading={isLoading}
           onToggleFavorite={(propertyId) => {
             // TODO: Implement favorite toggle with GraphQL mutation
             console.log('Toggle favorite:', propertyId);
           }}
         />
 
-        {/* Error handling */}
-        {error && (
-          <div className="mt-8 p-4 bg-red-50 border border-red-200 rounded-lg">
-            <p className="text-red-700">
-              Could not load properties. Using sample data for demonstration.
-            </p>
-          </div>
-        )}
+        {/* Info message */}
+        <div className="mt-8 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <p className="text-blue-700 text-sm">
+            Currently showing sample data. GraphQL integration will be connected once the backend is available.
+          </p>
+        </div>
       </div>
     </div>
   );
