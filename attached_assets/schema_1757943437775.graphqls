@@ -1,0 +1,75 @@
+type Query {
+    user(id: ID!): User
+    users(page: Int!, limit: Int!): [User!]!
+    verificationDocs(userId: ID!): VerificationDocs
+}
+
+type Mutation {
+    updateUser(id: ID!, user: userInput!): User
+    updateUserVerification(id: ID!, verified: Boolean!): String
+    addUserAddress(userId: ID!, userAddress: UserAddressInput!): UserAddress
+    updateUserAddress(userId: ID!, userAddress: UserAddressInput!): UserAddress
+    addVerificationDocs(userId: ID!, verificationDocs: VerificationDocsInput!): VerificationDocs
+    updateVerificationDocs(userId: ID!, verificationDocs: VerificationDocsInput!): VerificationDocs
+    deleteVerificationDocs(id: ID!): Boolean
+}
+
+input userInput {
+    avatarUrl: String
+    fullName: String
+    email: String
+    phone: String
+    role: String
+}
+input UserAddressInput {
+    country: String
+    region: String
+    city: String
+    street: String
+    zip: String
+}
+
+enum Role {
+    ADMIN
+    BUYER
+    AGENT
+}
+
+type User @key(fields: "userId") {
+    userId: ID
+    email: String
+    avatarUrl: String
+    fullName: String
+    phone: String
+    role: String
+    verified: Boolean
+    address: UserAddress
+    createdAt: String
+    updatedAt: String
+}
+
+type UserAddress {
+    id: ID
+    country: String
+    region: String
+    city: String
+    street: String
+    zip: String
+    createdAt: String
+    updatedAt: String
+}
+
+type VerificationDocs {
+    id: ID
+    frontId: String
+    backId: String
+    selfie: String
+    selfieWithId: String
+}
+
+input VerificationDocsInput {
+    frontId: String
+    backId: String
+    selfie: String
+    selfieWithId: String
+}

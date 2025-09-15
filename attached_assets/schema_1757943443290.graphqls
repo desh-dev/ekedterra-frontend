@@ -1,0 +1,170 @@
+type Query {
+    property(id: ID!): Property
+    properties(property: PropertyInput, pagination: PaginationInput!): PaginatedProperty!
+}
+
+type Mutation {
+    createProperty(property: PropertyCreateInput!): Property!
+    updateProperty(id: ID!, property: PropertyUpdateInput!): Property
+    deleteProperty(id: ID!): Boolean!
+    addFavorite(favorite: FavoriteInput!): Favorite!
+    addPropertyAddress(propertyId: ID!, propertyAddress: PropertyAddressInput!): PropertyAddress
+    updatePropertyAddress(propertyId: ID!, propertyAddress: PropertyAddressInput!): PropertyAddress
+    addPropertyImage(propertyId: ID!, propertyImage: PropertyImageInput!): PropertyImage
+    deletePropertyImage(id: ID!): Boolean!
+}
+
+enum Type {
+    studio
+    room
+    apartment
+    house
+    hotel
+    guesthouse
+    store
+}
+
+enum Category {
+    land
+    housing
+    business
+}
+
+enum RentDuration {
+    daily
+    monthly
+    yearly
+}
+
+input PaginationInput {
+    page: Int!
+    limit: Int!
+}
+
+input PropertyInput {
+    id: ID
+    title: String
+    buildingName: String
+    type: Type
+    rent: Float
+    rentDuration: RentDuration
+    price: Float
+    vacant: Boolean
+    mainImage: String
+    contactInfo: String
+    category: Category
+    description: String
+    userId: ID
+    address: PropertyAddressInput
+    createdAt: String
+    updatedAt: String
+}
+
+type User @key(fields: "userId") @extends{
+    userId: ID @external
+    favorites: [Property]
+}
+
+type Booking @key(fields: "propertyId") @extends {
+    propertyId: ID @external
+    property: Property
+}
+
+input FavoriteInput {
+    propertyId: ID!
+    userId: ID!
+}
+
+type Favorite {
+    propertyId: ID!
+    userId: ID!
+    createdAt: String
+}
+
+type Property {
+    id: ID
+    title: String
+    buildingName: String
+    type: Type
+    rent: Float
+    rentDuration: RentDuration
+    price: Float
+    vacant: Boolean
+    mainImage: String
+    contactInfo: String
+    category: Category
+    description: String
+    userId: ID
+    address: PropertyAddress
+    images: [PropertyImage]
+    createdAt: String
+    updatedAt: String
+}
+
+type PaginatedProperty {
+    data: [Property]
+    total: Int
+}
+
+input PropertyCreateInput {
+    title : String!
+    buildingName : String
+    type : Type
+    rent : Float
+    rentDuration : RentDuration
+    price : Float
+    currency : String
+    vacant : Boolean
+    mainImage : String
+    views : Int
+    contactInfo : String
+    category : Category!
+    description : String
+    userId: ID!
+}
+
+input PropertyUpdateInput {
+    title : String
+    buildingName : String
+    type : String
+    rent : Float
+    rentDuration: RentDuration
+    price : Float
+    currency : String
+    vacant : Boolean
+    mainImage : String
+    views : Int
+    category : Category
+    description : String
+    userId: ID
+}
+
+input PropertyAddressInput {
+    country: String
+    region: String
+    city: String
+    street: String
+    zip: String
+    longitude: Float
+    latitude: Float
+}
+
+type PropertyAddress {
+    id: ID
+    country: String
+    region: String
+    city: String
+    street: String
+    zip: String
+    longitude: Float
+    latitude: Float
+}
+
+type PropertyImage {
+    id: ID
+    imageUrl: String
+}
+
+input PropertyImageInput {
+    imageUrl: String
+}
