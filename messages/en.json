@@ -1,0 +1,49 @@
+{
+  "home": {
+    "hero": {
+      "title": "Find your next stay",
+      "subtitle": "Discover amazing places to stay around the world"
+    },
+    "popularDestinations": "Popular destinations",
+    "categories": {
+      "all": "All",
+      "apartments": "Apartments",
+      "houses": "Houses",
+      "studios": "Studios",
+      "rooms": "Rooms",
+      "hotels": "Hotels",
+      "guesthouses": "Guesthouses",
+      "land": "Land",
+      "business": "Business"
+    },
+    "results": {
+      "loading": "Loading...",
+      "stays": "stays",
+      "stay": "stay"
+    },
+    "info": {
+      "sampleData": "Currently showing sample data. GraphQL integration will be connected once the backend is available."
+    }
+  },
+  "search": {
+    "where": "Where",
+    "when": "When",
+    "type": "Type",
+    "whereTo": "Where to?",
+    "becomeHost": "Airbnb your home"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "view": "View",
+    "close": "Close"
+  }
+}

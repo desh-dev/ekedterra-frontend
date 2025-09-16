@@ -1,0 +1,49 @@
+{
+  "home": {
+    "hero": {
+      "title": "Trouvez votre prochain séjour",
+      "subtitle": "Découvrez des endroits incroyables où séjourner dans le monde entier"
+    },
+    "popularDestinations": "Destinations populaires",
+    "categories": {
+      "all": "Tout",
+      "apartments": "Appartements",
+      "houses": "Maisons",
+      "studios": "Studios",
+      "rooms": "Chambres",
+      "hotels": "Hôtels",
+      "guesthouses": "Maisons d'hôtes",
+      "land": "Terrain",
+      "business": "Entreprise"
+    },
+    "results": {
+      "loading": "Chargement...",
+      "stays": "séjours",
+      "stay": "séjour"
+    },
+    "info": {
+      "sampleData": "Affichage actuel des données d'exemple. L'intégration GraphQL sera connectée une fois que le backend sera disponible."
+    }
+  },
+  "search": {
+    "where": "Où",
+    "when": "Quand",
+    "type": "Type",
+    "whereTo": "Où aller ?",
+    "becomeHost": "Devenez hôte Airbnb"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "sort": "Trier",
+    "view": "Voir",
+    "close": "Fermer"
+  }
+}

@@ -1,25 +1,27 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 
 interface CategoryTabsProps {
   onCategoryChange: (category: string) => void;
 }
 
-const categories = [
-  { id: '', label: 'All', icon: '🏠' },
-  { id: 'apartment', label: 'Apartments', icon: '🏢' },
-  { id: 'house', label: 'Houses', icon: '🏡' },
-  { id: 'studio', label: 'Studios', icon: '🏠' },
-  { id: 'room', label: 'Rooms', icon: '🛏️' },
-  { id: 'hotel', label: 'Hotels', icon: '🏨' },
-  { id: 'guesthouse', label: 'Guesthouses', icon: '🏘️' },
-  { id: 'land', label: 'Land', icon: '🌍' },
-  { id: 'business', label: 'Business', icon: '🏢' },
-];
-
 export default function CategoryTabs({ onCategoryChange }: CategoryTabsProps) {
+  const t = useTranslations('home.categories');
+
+  const categories = [
+    { id: '', label: t('all'), icon: '🏠' },
+    { id: 'apartment', label: t('apartments'), icon: '🏢' },
+    { id: 'house', label: t('houses'), icon: '🏡' },
+    { id: 'studio', label: t('studios'), icon: '🏠' },
+    { id: 'room', label: t('rooms'), icon: '🛏️' },
+    { id: 'hotel', label: t('hotels'), icon: '🏨' },
+    { id: 'guesthouse', label: t('guesthouses'), icon: '🏘️' },
+    { id: 'land', label: t('land'), icon: '🌍' },
+    { id: 'business', label: t('business'), icon: '🏢' },
+  ];
   const [activeCategory, setActiveCategory] = useState('');
   const [scrollPosition, setScrollPosition] = useState(0);
 
@@ -58,7 +60,7 @@ export default function CategoryTabs({ onCategoryChange }: CategoryTabsProps) {
 
         {/* Categories container */}
         <div className="overflow-hidden mx-8">
-          <div 
+          <div
             className="flex space-x-8 transition-transform duration-300"
             style={{ transform: `translateX(-${scrollPosition}px)` }}
           >
@@ -73,7 +75,9 @@ export default function CategoryTabs({ onCategoryChange }: CategoryTabsProps) {
                 }`}
               >
                 <span className="text-2xl">{category.icon}</span>
-                <span className="text-xs font-medium whitespace-nowrap">{category.label}</span>
+                <span className="text-xs font-medium whitespace-nowrap">
+                  {category.label}
+                </span>
               </button>
             ))}
           </div>

@@ -1,12 +1,14 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { Property, PropertyInput } from '@/lib/graphql/types';
 import PropertyGrid from '@/components/property/property-grid';
 import CategoryTabs from '@/components/home/category-tabs';
 import HomeHero from '@/components/home/home-hero';
 
 export default function HomePage() {
+  const t = useTranslations('home');
   const [searchFilters, setSearchFilters] = useState<PropertyInput>({});
   const [isLoading, setIsLoading] = useState(false);
 
@@ -35,7 +37,8 @@ export default function HomePage() {
       rentDuration: 'daily' as any,
       price: 120,
       vacant: true,
-      mainImage: 'https://images.unsplash.com/photo-1567496898669-ee935f5f647a?w=500&h=500&fit=crop&crop=center',
+      mainImage:
+        'https://images.unsplash.com/photo-1567496898669-ee935f5f647a?w=500&h=500&fit=crop&crop=center',
       contactInfo: '+1234567890',
       category: 'housing' as any,
       description: 'A stunning apartment with city views',
@@ -48,14 +51,22 @@ export default function HomePage() {
         street: '123 Main St',
         zip: '94105',
         longitude: -122.4194,
-        latitude: 37.7749
+        latitude: 37.7749,
       },
       images: [
-        { id: '1', imageUrl: 'https://images.unsplash.com/photo-1567496898669-ee935f5f647a?w=500&h=500&fit=crop&crop=center' },
-        { id: '2', imageUrl: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500&h=500&fit=crop&crop=center' }
+        {
+          id: '1',
+          imageUrl:
+            'https://images.unsplash.com/photo-1567496898669-ee935f5f647a?w=500&h=500&fit=crop&crop=center',
+        },
+        {
+          id: '2',
+          imageUrl:
+            'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500&h=500&fit=crop&crop=center',
+        },
       ],
       createdAt: '2024-01-01',
-      updatedAt: '2024-01-01'
+      updatedAt: '2024-01-01',
     },
     {
       id: '2',
@@ -66,7 +77,8 @@ export default function HomePage() {
       rentDuration: 'daily' as any,
       price: 85,
       vacant: true,
-      mainImage: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500&h=500&fit=crop&crop=center',
+      mainImage:
+        'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500&h=500&fit=crop&crop=center',
       contactInfo: '+1234567891',
       category: 'housing' as any,
       description: 'Perfect beachside getaway',
@@ -79,13 +91,17 @@ export default function HomePage() {
         street: '456 Beach Blvd',
         zip: '90401',
         longitude: -118.4912,
-        latitude: 34.0195
+        latitude: 34.0195,
       },
       images: [
-        { id: '3', imageUrl: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500&h=500&fit=crop&crop=center' }
+        {
+          id: '3',
+          imageUrl:
+            'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500&h=500&fit=crop&crop=center',
+        },
       ],
       createdAt: '2024-01-02',
-      updatedAt: '2024-01-02'
+      updatedAt: '2024-01-02',
     },
     {
       id: '3',
@@ -96,7 +112,8 @@ export default function HomePage() {
       rentDuration: 'daily' as any,
       price: 200,
       vacant: true,
-      mainImage: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=500&h=500&fit=crop&crop=center',
+      mainImage:
+        'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=500&h=500&fit=crop&crop=center',
       contactInfo: '+1234567892',
       category: 'housing' as any,
       description: 'Spacious house with beautiful garden',
@@ -108,34 +125,44 @@ export default function HomePage() {
         city: 'Palo Alto',
         street: '789 Garden Way',
         zip: '94301',
-        longitude: -122.1430,
-        latitude: 37.4419
+        longitude: -122.143,
+        latitude: 37.4419,
       },
       images: [
-        { id: '4', imageUrl: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=500&h=500&fit=crop&crop=center' }
+        {
+          id: '4',
+          imageUrl:
+            'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=500&h=500&fit=crop&crop=center',
+        },
       ],
       createdAt: '2024-01-03',
-      updatedAt: '2024-01-03'
-    }
+      updatedAt: '2024-01-03',
+    },
   ];
 
   return (
     <div className="min-h-screen bg-white">
       <HomeHero onSearch={handleSearch} />
-      
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Categories */}
         <CategoryTabs onCategoryChange={handleCategoryChange} />
-        
+
         {/* Results count */}
         <div className="mb-6">
           <p className="text-sm text-gray-600">
-            {isLoading ? 'Loading...' : `${mockProperties.length} stays`}
+            {isLoading
+              ? t('results.loading')
+              : `${mockProperties.length} ${
+                  mockProperties.length === 1
+                    ? t('results.stay')
+                    : t('results.stays')
+                }`}
           </p>
         </div>
 
         {/* Property Grid */}
-        <PropertyGrid 
+        <PropertyGrid
           properties={mockProperties}
           loading={isLoading}
           onToggleFavorite={(propertyId) => {
@@ -146,9 +173,7 @@ export default function HomePage() {
 
         {/* Info message */}
         <div className="mt-8 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-          <p className="text-blue-700 text-sm">
-            Currently showing sample data. GraphQL integration will be connected once the backend is available.
-          </p>
+          <p className="text-blue-700 text-sm">{t('info.sampleData')}</p>
         </div>
       </div>
     </div>

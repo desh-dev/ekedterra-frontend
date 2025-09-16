@@ -1,4 +1,7 @@
 import type { NextConfig } from "next";
+import createNextIntlPlugin from 'next-intl/plugin';
+
+const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 const nextConfig: NextConfig = {
   // Configure for Replit production environment
@@ -7,6 +10,11 @@ const nextConfig: NextConfig = {
   images: {
     domains: ["images.unsplash.com"],
   },
+  // i18n: {
+  //   locales: [ 'en', 'fr'],
+  //   defaultLocale: 'fr',
+  // },
+  // trailingSlash: false,
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);
