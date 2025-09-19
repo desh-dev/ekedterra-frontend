@@ -1,112 +1,138 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useLocale, useTranslations } from 'next-intl';
-import {
-  MagnifyingGlassIcon,
-  Bars3Icon,
-  UserCircleIcon,
-  GlobeAltIcon,
-} from '@heroicons/react/24/outline';
-import { HeartIcon } from '@heroicons/react/24/outline';
-import SearchModal from '@/components/search/search-modal';
-import UserMenu from '@/components/user/user-menu';
-import LanguageSwitcher from '@/components/language-switcher';
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { Link } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
+import { Bars3Icon } from "@heroicons/react/24/outline";
+import UserMenu from "@/components/user/user-menu";
+import LanguageSwitcher from "@/components/language-switcher";
+import SearchBar from "./search-bar";
+import CategoryTabs from "../home/category-tabs";
+import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 
 export default function Header() {
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  const locale = useLocale();
-  const t = useTranslations('search');
+  const [scrolledDown, setScrolledDown] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
+  const t = useTranslations("search");
 
+  const { scrollY } = useScroll();
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    setScrolledDown(latest > 0);
+  });
+
+  useEffect(() => {
+    const checkSize = () => setIsDesktop(window.innerWidth >= 768);
+    checkSize();
+    window.addEventListener("resize", checkSize);
+    return () => window.removeEventListener("resize", checkSize);
+  }, []);
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
-          <Link href={`/${locale}`} className="flex-shrink-0">
-            <div className="flex items-center">
-              <div className="text-[#FF385C] text-2xl font-bold">airbnb</div>
-            </div>
-          </Link>
-
-          {/* Search Bar - Desktop */}
-          <div className="hidden md:block flex-1 max-w-2xl mx-8">
-            <button
-              onClick={() => setIsSearchOpen(true)}
-              className="w-full flex items-center justify-between px-6 py-3 border border-gray-300 rounded-full shadow-sm hover:shadow-md transition-shadow duration-200 bg-white"
-            >
-              <div className="flex items-center space-x-6 text-sm">
-                <span className="font-medium text-gray-900">{t('where')}</span>
-                <span className="text-gray-500">|</span>
-                <span className="font-medium text-gray-900">{t('when')}</span>
-                <span className="text-gray-500">|</span>
-                <span className="font-medium text-gray-900">{t('type')}</span>
-              </div>
-              <div className="bg-[#FF385C] p-2 rounded-full">
-                <MagnifyingGlassIcon className="h-4 w-4 text-white" />
-              </div>
-            </button>
-          </div>
-
-          {/* Search Icon - Mobile */}
-          <div className="md:hidden flex-1 mx-4">
-            <button
-              onClick={() => setIsSearchOpen(true)}
-              className="w-full flex items-center px-4 py-2 border border-gray-300 rounded-full shadow-sm bg-white"
-            >
-              <MagnifyingGlassIcon className="h-5 w-5 text-gray-400 mr-3" />
-              <span className="text-gray-500 text-sm">{t('whereTo')}</span>
-            </button>
-          </div>
-
-          {/* Right Side Menu */}
-          <div className="flex items-center space-x-4">
-            {/* Become a Host - Desktop only */}
+    <motion.header
+      initial={{ height: "auto" }}
+      animate={{
+        height: isDesktop ? (scrolledDown ? "120px" : "220px") : "auto",
+      }}
+      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      className="w-full sticky top-0 z-50 bg-white md:border-b border-gray-200 pb-4"
+    >
+      <div className="w-full lg:max-w-7xl mx-auto lg:px-8">
+        {/* Desktop */}
+        <div className="hidden md:flex justify-between items-center px-6">
+          <div>
+            <Link href="/" className="flex place-self-center hidden lg:block">
+              <Image src="/logo-lg.png" alt="Logo" width={140} height={80} />
+            </Link>
             <Link
-              href="/host"
-              className="hidden md:block text-sm font-medium text-gray-900 hover:bg-gray-50 px-3 py-2 rounded-full transition-colors"
+              href="/"
+              className="flex place-self-center hidden md:block lg:hidden"
             >
-              {t('becomeHost')}
+              <Image src="/logo.png" alt="Logo" width={120} height={60} />
             </Link>
+          </div>
 
-            {/* Language Switcher - Desktop only */}
-            <div className="hidden md:block">
-              <LanguageSwitcher />
-            </div>
+          <motion.div
+            initial={{ y: 0, opacity: 1 }}
+            animate={
+              isDesktop
+                ? {
+                    y: scrolledDown ? -40 : 0,
+                    opacity: scrolledDown ? 0 : 1,
+                  }
+                : {}
+            }
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          >
+            <CategoryTabs />
+          </motion.div>
 
-            {/* Wishlist - Mobile only */}
-            <Link href="/wishlists" className="md:hidden p-2">
-              <HeartIcon className="h-6 w-6 text-gray-700" />
-            </Link>
-
-            {/* User Menu */}
-            <div className="relative">
+          <div className="flex gap-2">
+            <motion.div
+              initial={{ y: 0, opacity: 1 }}
+              animate={
+                isDesktop
+                  ? {
+                      y: scrolledDown ? -40 : 0,
+                      opacity: scrolledDown ? 0 : 1,
+                    }
+                  : {}
+              }
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            >
+              <Link
+                href="/host"
+                className="md:hidden lg:block space-x-2 text-sm font-medium border border-gray-200 p-2 rounded-full hover:shadow-md transition-shadow"
+              >
+                Become an agent
+              </Link>
+            </motion.div>
+            <LanguageSwitcher />
+            <div>
               <button
                 onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                className="flex items-center space-x-2 border border-gray-300 rounded-full pl-3 pr-2 py-1 hover:shadow-md transition-shadow"
+                className="flex items-center space-x-2 border border-gray-200 p-2 rounded-full hover:shadow-md transition-shadow"
               >
-                <Bars3Icon className="h-4 w-4 text-gray-700" />
-                <div className="bg-gray-500 rounded-full p-1">
-                  <UserCircleIcon className="h-6 w-6 text-white" />
-                </div>
+                <Bars3Icon className="h-5 w-5 text-gray-600" />
               </button>
-
               {isUserMenuOpen && (
                 <UserMenu onClose={() => setIsUserMenuOpen(false)} />
               )}
             </div>
           </div>
         </div>
+        <motion.div
+          initial={{ y: 0, scale: 1 }}
+          animate={
+            isDesktop
+              ? {
+                  y: scrolledDown ? -90 : 0,
+                  scale: scrolledDown ? 0.71 : 1,
+                }
+              : {}
+          }
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          className="mt-4 md:mt-0 px-6"
+        >
+          <motion.div
+            className="w-full flex flex-col gap-2 justify-center items-center"
+            initial={{ height: "auto" }}
+            animate={{
+              marginBottom: !isDesktop
+                ? scrolledDown
+                  ? "-32px"
+                  : "auto"
+                : "auto",
+            }}
+            transition={{ duration: 0.1, ease: "backIn" }}
+          >
+            <SearchBar />
+            <div className="w-full flex justify-center md:hidden">
+              <CategoryTabs />
+            </div>
+          </motion.div>
+        </motion.div>
       </div>
-
-      {/* Search Modal */}
-      <SearchModal
-        isOpen={isSearchOpen}
-        onClose={() => setIsSearchOpen(false)}
-      />
-    </header>
+    </motion.header>
   );
 }

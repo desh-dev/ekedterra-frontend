@@ -1,13 +1,14 @@
-'use client';
+"use client";
 
-import { useLocale } from 'next-intl';
-import { useRouter, usePathname } from 'next/navigation';
-import { useState } from 'react';
-import { ChevronDownIcon } from '@heroicons/react/24/outline';
+import { useLocale } from "next-intl";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { usePathname } from "@/i18n/routing";
+import { Globe } from "lucide-react";
 
 const languages = [
-  { code: 'fr', name: 'Français', flag: '🇫🇷' },
-  { code: 'en', name: 'English', flag: '🇺🇸' },
+  { code: "fr", name: "Français", flag: "🇫🇷" },
+  { code: "en", name: "English", flag: "🇺🇸" },
 ];
 
 export default function LanguageSwitcher() {
@@ -21,7 +22,11 @@ export default function LanguageSwitcher() {
 
   const handleLanguageChange = (newLocale: string) => {
     // Remove the current locale from the pathname
-    const pathWithoutLocale = pathname.replace(`/${locale}`, '') || '/';
+    const pathWithoutLocale = pathname.replace(`/${locale}`, "") || "/";
+    // Set the locale cookie for 1 year
+    document.cookie = `locale=${newLocale}; path=/; max-age=${
+      60 * 60 * 24 * 365
+    }`;
     // Navigate to the new locale
     router.push(`/${newLocale}${pathWithoutLocale}`);
     setIsOpen(false);
@@ -33,9 +38,7 @@ export default function LanguageSwitcher() {
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center space-x-2 px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
       >
-        <span className="text-lg">{currentLanguage.flag}</span>
-        <span>{currentLanguage.name}</span>
-        <ChevronDownIcon className="w-4 h-4" />
+        <Globe />
       </button>
 
       {isOpen && (
@@ -55,8 +58,8 @@ export default function LanguageSwitcher() {
                   onClick={() => handleLanguageChange(language.code)}
                   className={`w-full flex items-center space-x-3 px-4 py-2 text-sm hover:bg-gray-50 transition-colors ${
                     language.code === locale
-                      ? 'bg-gray-50 text-gray-900'
-                      : 'text-gray-700'
+                      ? "bg-gray-50 text-gray-900"
+                      : "text-gray-700"
                   }`}
                 >
                   <span className="text-lg">{language.flag}</span>

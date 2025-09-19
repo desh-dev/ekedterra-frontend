@@ -1,11 +1,14 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { HeartIcon } from '@heroicons/react/24/outline';
-import { HeartIcon as HeartIconSolid, StarIcon } from '@heroicons/react/24/solid';
-import { Property } from '@/lib/graphql/types';
+import { useState } from "react";
+import Image from "next/image";
+import { Link } from "@/i18n/routing";
+import { HeartIcon } from "@heroicons/react/24/outline";
+import {
+  HeartIcon as HeartIconSolid,
+  StarIcon,
+} from "@heroicons/react/24/solid";
+import { Property } from "@/lib/graphql/types";
 
 interface PropertyCardProps {
   property: Property;
@@ -13,32 +16,29 @@ interface PropertyCardProps {
   onToggleFavorite?: (propertyId: string) => void;
 }
 
-export default function PropertyCard({ 
-  property, 
-  isFavorite = false, 
-  onToggleFavorite 
+export default function PropertyCard({
+  property,
+  isFavorite = false,
+  onToggleFavorite,
 }: PropertyCardProps) {
   const [imageError, setImageError] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const images = property.images && property.images.length > 0 
-    ? property.images.map(img => img.imageUrl)
-    : [property.mainImage];
+  const images =
+    property.images && property.images.length > 0
+      ? property.images.map((img) => img.imageUrl)
+      : [property.mainImage];
 
   const handlePrevImage = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setCurrentImageIndex((prev) => 
-      prev === 0 ? images.length - 1 : prev - 1
-    );
+    setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
   };
 
   const handleNextImage = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setCurrentImageIndex((prev) => 
-      prev === images.length - 1 ? 0 : prev + 1
-    );
+    setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
 
   const handleToggleFavorite = (e: React.MouseEvent) => {
@@ -75,9 +75,7 @@ export default function PropertyCard({
                 <button
                   key={index}
                   className={`w-2 h-2 rounded-full transition-colors ${
-                    index === currentImageIndex 
-                      ? 'bg-white' 
-                      : 'bg-white/60'
+                    index === currentImageIndex ? "bg-white" : "bg-white/60"
                   }`}
                   onClick={(e) => {
                     e.preventDefault();
@@ -96,16 +94,36 @@ export default function PropertyCard({
                 onClick={handlePrevImage}
                 className="absolute left-3 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-white/80 hover:bg-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
                 </svg>
               </button>
               <button
                 onClick={handleNextImage}
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-white/80 hover:bg-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
                 </svg>
               </button>
             </>
@@ -151,9 +169,7 @@ export default function PropertyCard({
           </p>
 
           {/* Dates */}
-          <p className="text-gray-500 text-sm">
-            Available now
-          </p>
+          <p className="text-gray-500 text-sm">Available now</p>
 
           {/* Price */}
           <div className="flex items-baseline space-x-1">
@@ -161,8 +177,11 @@ export default function PropertyCard({
               ${property.price || property.rent}
             </span>
             <span className="text-gray-500 text-sm">
-              {property.rentDuration === 'daily' ? 'night' : 
-               property.rentDuration === 'monthly' ? 'month' : 'year'}
+              {property.rentDuration === "daily"
+                ? "night"
+                : property.rentDuration === "monthly"
+                ? "month"
+                : "year"}
             </span>
           </div>
         </div>

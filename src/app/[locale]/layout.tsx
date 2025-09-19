@@ -1,10 +1,8 @@
-import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
-import { notFound } from 'next/navigation';
-import Header from '@/components/layout/header';
-import BottomNav from '@/components/layout/bottom-nav';
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
+import { notFound } from "next/navigation";
 
-const locales = ['en', 'fr'];
+const locales = ["en", "fr"];
 
 export default async function LocaleLayout({
   children,
@@ -15,22 +13,15 @@ export default async function LocaleLayout({
 }) {
   const { locale } = await params;
 
-  // Validate that the incoming `locale` parameter is valid
   if (!locales.includes(locale)) {
     notFound();
   }
 
-  // Providing all messages to the client
-  // side is the easiest way to get started
   const messages = await getMessages();
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
-      <div className="min-h-screen flex flex-col">
-        <Header />
-        <main className="flex-1 pb-16 md:pb-0">{children}</main>
-        <BottomNav />
-      </div>
+      {children}
     </NextIntlClientProvider>
   );
 }

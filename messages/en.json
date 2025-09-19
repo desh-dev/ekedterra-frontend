@@ -1,5 +1,10 @@
 {
   "home": {
+    "categories": {
+      "homes": "Homes",
+      "land": "Land",
+      "stores": "Stores"
+    },
     "hero": {
       "title": "Find your next stay",
       "subtitle": "Discover amazing places to stay around the world"

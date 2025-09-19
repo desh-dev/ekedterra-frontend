@@ -1,8 +1,7 @@
-'use client';
+"use client";
 
-import { Fragment } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { Fragment } from "react";
+import { Link, useRouter } from "@/i18n/routing";
 
 interface UserMenuProps {
   onClose: () => void;
@@ -12,12 +11,12 @@ export default function UserMenu({ onClose }: UserMenuProps) {
   const router = useRouter();
 
   const handleLogin = () => {
-    router.push('/auth/login');
+    router.push("/auth/login");
     onClose();
   };
 
   const handleSignUp = () => {
-    router.push('/auth/sign-up');
+    router.push("/auth/sign-up");
     onClose();
   };
 
@@ -27,11 +26,8 @@ export default function UserMenu({ onClose }: UserMenuProps) {
   return (
     <>
       {/* Backdrop */}
-      <div 
-        className="fixed inset-0 z-40"
-        onClick={onClose}
-      />
-      
+      <div className="fixed inset-0 z-40" onClick={onClose} />
+
       {/* Menu */}
       <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
         {!isLoggedIn ? (
