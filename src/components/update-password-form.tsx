@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "@/i18n/routing";
 import { useState } from "react";
+import BottomNav from "./layout/bottom-nav";
 
 export function UpdatePasswordForm({
   className,
@@ -73,6 +74,7 @@ export function UpdatePasswordForm({
           </form>
         </CardContent>
       </Card>
+      <BottomNav />
     </div>
   );
 }

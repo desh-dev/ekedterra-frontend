@@ -1,3 +1,4 @@
+import BottomNav from "@/components/layout/bottom-nav";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default async function Page({
@@ -31,6 +32,7 @@ export default async function Page({
           </Card>
         </div>
       </div>
+      <BottomNav />
     </div>
   );
 }

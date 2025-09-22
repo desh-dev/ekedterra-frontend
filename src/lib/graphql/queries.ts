@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 // Property Queries
 export const GET_PROPERTIES = gql`
@@ -97,14 +97,6 @@ export const GET_USER = gql`
       }
       favorites {
         id
-        title
-        mainImage
-        price
-        rent
-        address {
-          city
-          country
-        }
       }
       bookings {
         id
@@ -115,6 +107,7 @@ export const GET_USER = gql`
         property {
           id
           title
+          buildingName
           mainImage
           address {
             city

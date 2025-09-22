@@ -1,10 +1,24 @@
 "use client";
 
 import { apolloClient } from "../apollo/client";
-import { GET_PROPERTIES } from "../graphql/queries";
+import { GET_PROPERTIES, GET_USER } from "../graphql/queries";
 import { PropertyInput } from "../graphql/types";
 
 const LIMIT = 10;
+
+export const getUser = async (id: string) => {
+  try {
+    const { data } = await apolloClient.query({
+      query: GET_USER,
+      variables: { id },
+      fetchPolicy: "network-only",
+    });
+    //@ts-ignore
+    return data?.user;
+  } catch (error) {
+    console.error("Error fetching user:", error);
+  }
+};
 
 export const getProperties = async ({
   pageParam,
@@ -16,7 +30,10 @@ export const getProperties = async ({
   try {
     const { data } = await apolloClient.query({
       query: GET_PROPERTIES,
-      variables: { pagination: { page: pageParam, limit: LIMIT }, property },
+      variables: {
+        pagination: { page: pageParam, limit: LIMIT },
+        property,
+      },
     });
 
     //@ts-ignore

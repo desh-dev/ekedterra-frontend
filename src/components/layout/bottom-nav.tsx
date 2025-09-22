@@ -23,14 +23,14 @@ const nav = [
     iconSolid: MagnifyingGlassIconSolid,
   },
   {
-    name: "Wishlists",
+    name: "Favorites",
     href: "/favorites",
     icon: HeartIcon,
     iconSolid: HeartIconSolid,
   },
   {
     name: "Log in",
-    href: "/login",
+    href: "/auth/login",
     icon: UserCircleIcon,
     iconSolid: UserCircleIconSolid,
   },
@@ -38,8 +38,12 @@ const nav = [
 
 const BottomNav = () => {
   const pathname = usePathname();
-  const [showNav, setShowNav] = useState(true);
+  const [showNav, setShowNav] = useState(false);
+  const [isIframe, setIsIframe] = useState(true);
   const [navItems, setNavItems] = useState(nav);
+  useEffect(() => {
+    setIsIframe(window.self !== window.top);
+  }, []);
 
   useEffect(() => {
     const getClaims = async () => {
@@ -86,33 +90,39 @@ const BottomNav = () => {
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
       className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50"
     >
-      <nav className="flex items-center justify-around h-16">
-        {navItems.map((item) => {
-          const isActive = pathname === item.href;
-          const Icon = isActive ? item.iconSolid : item.icon;
-
-          return (
-            <Link
-              key={item.name}
-              href={item.href}
-              className="flex flex-col items-center justify-center flex-1 py-2"
-            >
-              <Icon
-                className={`h-6 w-6 ${
-                  isActive ? "text-[#FF385C]" : "text-gray-400"
-                }`}
-              />
-              <span
-                className={`text-xs mt-1 ${
-                  isActive ? "text-[#FF385C] font-medium" : "text-gray-400"
-                }`}
-              >
-                {item.name}
-              </span>
-            </Link>
-          );
-        })}
-      </nav>
+      {!isIframe ? (
+        <div>
+          <nav className="flex items-center justify-around h-16">
+            {navItems.map((item) => {
+              const isExplore =
+                item.href === "/" &&
+                (pathname === "/" || pathname === "/search");
+              const isActive = isExplore || pathname === item.href;
+              const Icon = isActive ? item.iconSolid : item.icon;
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className="flex flex-col items-center justify-center flex-1 py-2"
+                >
+                  <Icon
+                    className={`h-6 w-6 ${
+                      isActive ? "text-[#FF385C]" : "text-gray-400"
+                    }`}
+                  />
+                  <span
+                    className={`text-xs mt-1 ${
+                      isActive ? "text-[#FF385C] font-medium" : "text-gray-400"
+                    }`}
+                  >
+                    {item.name}
+                  </span>
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
+      ) : null}
     </motion.div>
   );
 };

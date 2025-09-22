@@ -2,26 +2,22 @@
 
 import { Fragment } from "react";
 import { Link, useRouter } from "@/i18n/routing";
+import { useCategoryStore } from "@/providers/category-store-provider";
+import { useAuth } from "@/providers/auth-provider";
 
 interface UserMenuProps {
   onClose: () => void;
 }
 
 export default function UserMenu({ onClose }: UserMenuProps) {
+  const setLogin = useCategoryStore((state) => state.setLogin);
   const router = useRouter();
 
-  const handleLogin = () => {
-    router.push("/auth/login");
+  const handleAuth = () => {
+    setLogin(true);
     onClose();
   };
-
-  const handleSignUp = () => {
-    router.push("/auth/sign-up");
-    onClose();
-  };
-
-  // TODO: Replace with actual auth state
-  const isLoggedIn = false;
+  const { user, isAgent, signOut } = useAuth();
 
   return (
     <>
@@ -30,19 +26,13 @@ export default function UserMenu({ onClose }: UserMenuProps) {
 
       {/* Menu */}
       <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
-        {!isLoggedIn ? (
+        {!user ? (
           <Fragment>
             <button
-              onClick={handleLogin}
+              onClick={handleAuth}
               className="block w-full text-left px-4 py-3 text-sm font-medium text-gray-900 hover:bg-gray-50"
             >
-              Log in
-            </button>
-            <button
-              onClick={handleSignUp}
-              className="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
-            >
-              Sign up
+              Log in or Sign up
             </button>
             <hr className="my-1" />
             <Link
@@ -50,31 +40,31 @@ export default function UserMenu({ onClose }: UserMenuProps) {
               className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
               onClick={onClose}
             >
-              Airbnb your home
+              Ekedterra agent
             </Link>
-            <Link
+            {/* <Link
               href="/help"
               className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
               onClick={onClose}
             >
               Help Center
-            </Link>
+            </Link> */}
           </Fragment>
         ) : (
           <Fragment>
             <Link
-              href="/trips"
+              href="/bookings"
               className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
               onClick={onClose}
             >
-              Trips
+              Bookings
             </Link>
             <Link
-              href="/wishlists"
+              href="/favorites"
               className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
               onClick={onClose}
             >
-              Wishlists
+              Favorites
             </Link>
             <hr className="my-1" />
             <Link
@@ -103,6 +93,7 @@ export default function UserMenu({ onClose }: UserMenuProps) {
               className="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
               onClick={() => {
                 // TODO: Implement logout
+                signOut();
                 onClose();
               }}
             >

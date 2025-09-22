@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { use, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import {
@@ -33,16 +33,19 @@ import {
   SheetTrigger,
 } from "../ui/sheet";
 import CategoryTabs from "../home/category-tabs";
-import { Card } from "../ui/card";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "../ui/accordion";
+import { useCategoryStore } from "@/providers/category-store-provider";
+import { usePathname, useRouter } from "@/i18n/routing";
+import { useSearchParams } from "next/navigation";
+import { PropertyType } from "@/lib/graphql/types";
 
-const countries = ["Cameroon"];
-const cities = [
+export const countries = ["Cameroon"];
+export const cities = [
   "Buea",
   "Douala",
   "Yaounde",
@@ -56,9 +59,61 @@ const cities = [
 const types = ["Apartment", "House", "Room", "Studio", "Hotel", "Guesthouse"];
 
 const SearchBar = () => {
-  const [country, setCountry] = useState("Search countries...");
-  const [city, setCity] = useState("Search cities...");
-  const [type, setType] = useState("");
+  const { category, country, setCountry, city, setCity, type, setType } =
+    useCategoryStore((state) => state);
+  const [tempCountry, setTempCountry] = useState(country);
+  const [tempCity, setTempCity] = useState(city);
+  const [tempType, setTempType] = useState(type);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const path = usePathname();
+  const sheetCloseRef = useRef<HTMLButtonElement>(null);
+
+  const handleSearch = () => {
+    setCountry(tempCountry);
+    setCity(tempCity);
+    setType(tempType);
+    // Close the sheet if open
+    if (sheetCloseRef.current) {
+      sheetCloseRef.current.click();
+    }
+    const params = new URLSearchParams();
+    if (country) params.append("country", country);
+    if (city) params.append("city", city);
+    if (type) params.append("type", type);
+    router.push({
+      pathname: "/search",
+      query: params.toString() ? Object.fromEntries(params) : undefined,
+    });
+  };
+  const onClose = () => {
+    setTempCountry(undefined);
+    setTempCity(undefined);
+    setTempType(undefined);
+    setCountry(undefined);
+    setCity(undefined);
+    setType(undefined);
+  };
+  const COUNTRY = country ?? searchParams.get("country") ?? "";
+  const CITY = city ?? searchParams.get("city") ?? "";
+  const TYPE = type ?? searchParams.get("type") ?? "";
+
+  const displaySearchText = useMemo(
+    () => () => {
+      if (TYPE && CITY && COUNTRY) {
+        return `${TYPE}s in ${CITY}`;
+      } else if (CITY && COUNTRY) {
+        return `${category} in ${CITY}`;
+      } else if (COUNTRY) {
+        return `${category} in ${COUNTRY}`;
+      } else if (TYPE) {
+        return `All ${TYPE}s`;
+      } else {
+        return `All ${category}`;
+      }
+    },
+    [category, COUNTRY, CITY, TYPE]
+  );
 
   return (
     <div className="w-full max-w-4xl mx-auto">
@@ -66,15 +121,15 @@ const SearchBar = () => {
         <div className="w-full md:flex justify-between items-center hidden">
           {/* Country */}
           <div className="flex-1 px-6 py-2 border-b md:border-b-0 md:border-r">
-            <div className="text-xs font-semibold text-center text-foreground mb-1">
+            <div className="text-sm font-semibold text-center text-foreground mb-1">
               Country
             </div>
             <Popover>
               <PopoverTrigger asChild>
                 <input
-                  value={country}
-                  onChange={(e) => setCountry(e.target.value)}
-                  className="w-full bg-transparent text-sm border-none outline-none"
+                  value={tempCountry ?? "Search countries..."}
+                  // onChange={(e) => setTempCountry(e.target.value)}
+                  className="w-full bg-transparent text-sm border-none outline-none cursor-pointer placeholder:text-muted-foreground"
                   placeholder="Search countries"
                 />
               </PopoverTrigger>
@@ -85,7 +140,7 @@ const SearchBar = () => {
                     <CommandEmpty>No country found.</CommandEmpty>
                     <CommandGroup>
                       {countries.map((c) => (
-                        <CommandItem key={c} onSelect={() => setCountry(c)}>
+                        <CommandItem key={c} onSelect={() => setTempCountry(c)}>
                           {c}
                         </CommandItem>
                       ))}
@@ -98,14 +153,14 @@ const SearchBar = () => {
 
           {/* City */}
           <div className="flex-1 px-6 py-2 border-b md:border-b-0 md:border-r cursor-pointer hover:bg-gray-50 transition-colors">
-            <div className="text-xs font-semibold text-foreground text-center mb-1">
+            <div className="text-sm font-semibold text-foreground text-center mb-1">
               City
             </div>
             <Popover>
               <PopoverTrigger asChild>
                 <input
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
+                  value={tempCity ?? "Search cities..."}
+                  // onChange={(e) => setCity(e.target.value)}
                   className="w-full bg-transparent text-sm placeholder:text-muted-foreground border-none outline-none cursor-pointer"
                   placeholder="Add city"
                 />
@@ -117,7 +172,7 @@ const SearchBar = () => {
                     <CommandEmpty>No city found.</CommandEmpty>
                     <CommandGroup>
                       {cities.map((c) => (
-                        <CommandItem key={c} onSelect={() => setCity(c)}>
+                        <CommandItem key={c} onSelect={() => setTempCity(c)}>
                           {c}
                         </CommandItem>
                       ))}
@@ -129,10 +184,14 @@ const SearchBar = () => {
           </div>
 
           <div className="flex-1 px-6 py-2 pt-4">
-            <div className="text-xs font-semibold text-center text-foreground mb-1">
+            <div className="text-sm font-semibold text-center text-foreground mb-1">
               Type
             </div>
-            <Select value={type} onValueChange={setType}>
+            <Select
+              value={type}
+              //@ts-ignore
+              onValueChange={setTempType}
+            >
               <SelectTrigger className="bg-transparent border-none outline-none text-sm place-self-center mt-[-4px]">
                 <SelectValue
                   placeholder="Select type of housing"
@@ -152,20 +211,29 @@ const SearchBar = () => {
           <div className="flex items-center justify-center p-2">
             <Button
               size="icon"
-              className="rounded-full w-8 h-8 bg-primary hover:bg-primary/90"
+              onClick={handleSearch}
+              className="rounded-full w-10 h-10 bg-primary hover:bg-primary/90"
             >
               <Search className="h-4 w-4 text-primary-foreground" />
             </Button>
           </div>
         </div>
 
-        <Sheet>
+        <Sheet onOpenChange={(open) => !open && onClose()}>
           <SheetTrigger asChild>
-            <div className="md:hidden flex gap-2 items-center justify-center w-full">
-              <Search size={16} />
-              <p className="text-sm font-bold text-gray-700">
-                Start your search
-              </p>
+            <div className="md:hidden flex justify-center w-full">
+              {path === "/search" ? (
+                <p className="text-sm font-bold text-gray-700 capitalize">
+                  {displaySearchText()}
+                </p>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <Search size={16} />
+                  <p className="text-sm font-bold text-gray-700">
+                    Start your search
+                  </p>
+                </div>
+              )}
             </div>
           </SheetTrigger>
           <SheetContent side="bottom" className="h-[100vh] bg-muted">
@@ -182,10 +250,10 @@ const SearchBar = () => {
                 <AccordionItem value="country" className="bg-white rounded-xl">
                   <AccordionTrigger className="px-4 py-3 text-base font-semibold rounded-xl hover:bg-gray-50 hover:no-underline">
                     Country{" "}
-                    {country && country !== "Search countries..." && (
+                    {tempCountry && (
                       <span className="text-gray-500 text-center text-sm">
                         {" "}
-                        {country}
+                        {tempCountry}
                       </span>
                     )}
                   </AccordionTrigger>
@@ -201,16 +269,10 @@ const SearchBar = () => {
                             No country found.
                           </CommandEmpty>
                           <CommandGroup>
-                            <CommandItem
-                              onSelect={() => setCountry("Nearby")}
-                              className="cursor-pointer text-base"
-                            >
-                              Nearby
-                            </CommandItem>
                             {countries.map((c) => (
                               <CommandItem
                                 key={c}
-                                onSelect={() => setCountry(c)}
+                                onSelect={() => setTempCountry(c)}
                                 className="cursor-pointer text-base"
                               >
                                 {c}
@@ -227,10 +289,10 @@ const SearchBar = () => {
                 <AccordionItem value="city" className="bg-white rounded-xl">
                   <AccordionTrigger className="px-4 py-3 text-base font-semibold rounded-xl hover:bg-gray-50 hover:no-underline">
                     City{" "}
-                    {city && city !== "Search cities..." && (
+                    {tempCity && (
                       <span className="text-gray-500 text-center text-sm">
                         {" "}
-                        {city}
+                        {tempCity}
                       </span>
                     )}
                   </AccordionTrigger>
@@ -249,7 +311,7 @@ const SearchBar = () => {
                             {cities.map((c) => (
                               <CommandItem
                                 key={c}
-                                onSelect={() => setCity(c)}
+                                onSelect={() => setTempCity(c)}
                                 className="cursor-pointer text-base"
                               >
                                 {c}
@@ -263,49 +325,53 @@ const SearchBar = () => {
                 </AccordionItem>
 
                 {/* Type */}
-                <AccordionItem value="type" className="bg-white rounded-xl">
-                  <AccordionTrigger className="px-4 py-3 text-base font-semibold rounded-xl hover:bg-gray-50 hover:no-underline">
-                    Type{" "}
-                    {type && (
-                      <span className="text-gray-500 text-center text-sm">
-                        {" "}
-                        {type}
-                      </span>
-                    )}
-                  </AccordionTrigger>
-                  <AccordionContent className="px-3 pb-3">
-                    <div className="bg-card border-none rounded-lg p-3">
-                      <ul className="space-y-2">
-                        {types.map((t) => (
-                          <li
-                            key={t}
-                            onClick={() => setType(t)}
-                            className={`flex items-center gap-2 p-2 rounded-lg cursor-pointer hover:bg-muted transition text-base ${
-                              type === t ? "bg-muted font-medium" : ""
-                            }`}
-                          >
-                            {t}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
+                {category === "housing" && (
+                  <AccordionItem value="type" className="bg-white rounded-xl">
+                    <AccordionTrigger className="px-4 py-3 text-base font-semibold rounded-xl hover:bg-gray-50 hover:no-underline">
+                      Type{" "}
+                      {tempType && (
+                        <span className="text-gray-500 text-center text-sm">
+                          {" "}
+                          {tempType}
+                        </span>
+                      )}
+                    </AccordionTrigger>
+                    <AccordionContent className="px-3 pb-3">
+                      <div className="bg-card border-none rounded-lg p-3">
+                        <ul className="space-y-2">
+                          {types.map((t) => (
+                            <li
+                              key={t}
+                              onClick={() => setTempType(t as PropertyType)}
+                              className={`flex items-center gap-2 p-2 rounded-lg cursor-pointer hover:bg-muted transition text-base ${
+                                type === t ? "bg-muted font-medium" : ""
+                              }`}
+                            >
+                              {t}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                )}
               </Accordion>
             </div>
 
             <SheetFooter className="sticky bottom-0 left-0 w-full bg-muted px-4 pb-6 shadow-md flex flex-row justify-between items-center">
               <SheetClose asChild>
                 <Button
+                  ref={sheetCloseRef}
                   size="lg"
                   variant="outline"
                   className="text-md font-semibold"
                 >
-                  Cancel
+                  Clear
                 </Button>
               </SheetClose>
               <Button
                 size="lg"
+                onClick={handleSearch}
                 className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-md font-semibold"
               >
                 <Search className="h-5 w-5 text-primary-foreground" />

@@ -1,3 +1,4 @@
+import { CategoryStoreProvider } from "@/providers/category-store-provider";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -21,7 +22,7 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
-      {children}
+      <CategoryStoreProvider>{children}</CategoryStoreProvider>
     </NextIntlClientProvider>
   );
 }

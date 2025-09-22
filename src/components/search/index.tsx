@@ -8,24 +8,28 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 import Header from "./header";
 import { PropertyInput } from "@/lib/graphql/types";
-import HomeSkeleton from "./skeleton";
 import { apolloClient } from "@/lib/apollo/client";
 import { GET_PROPERTIES } from "@/lib/graphql/queries";
 import PropertyCardSkeleton from "../property/property-card-skeleton";
 import { useCategoryStore } from "@/providers/category-store-provider";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
-import { useRouter } from "@/i18n/routing";
-import { useAuth } from "@/providers/auth-provider";
+import HomeSkeleton from "../home/skeleton";
+import { useSearchParams } from "next/navigation";
 
 const LIMIT = 10;
 
-const HomePage = () => {
+const SearchPage = () => {
   const [total, setTotal] = useState(0);
-  const [isCategoryLoading, setIsCategoryLoading] = useState(false);
   const { ref, inView } = useInView();
-  const { category, login, setLogin } = useCategoryStore((state) => state);
-  const { loading, setUser } = useAuth();
-  const router = useRouter();
+  const { category, country, city, type } = useCategoryStore((state) => state);
+  const [isCategoryLoading, setIsCategoryLoading] = useState(false);
+  const params = useSearchParams();
+  const COUNTRY =
+    params.get("country")?.toLocaleLowerCase() || country?.toLocaleLowerCase();
+  const CITY =
+    params.get("city")?.toLocaleLowerCase() || city?.toLocaleLowerCase();
+  const TYPE =
+    params.get("type")?.toLocaleLowerCase() || type?.toLocaleLowerCase();
+
   const getProperties = async ({
     pageParam,
   }: {
@@ -37,7 +41,14 @@ const HomePage = () => {
         query: GET_PROPERTIES,
         variables: {
           pagination: { page: pageParam, limit: LIMIT },
-          property: { category },
+          property: {
+            category,
+            type: TYPE,
+            address: {
+              country: COUNTRY,
+              city: CITY,
+            },
+          },
         },
       });
 
@@ -74,7 +85,7 @@ const HomePage = () => {
 
   useEffect(() => {
     // Set total only once when data is loaded
-    if (data?.pages?.length === 1 && data.pages[0]?.total) {
+    if (data?.pages.length === 1 && data.pages[0]?.total) {
       setTotal(data.pages[0].total);
     }
   }, [data]);
@@ -83,58 +94,26 @@ const HomePage = () => {
   const isPending = status === "pending";
   const isError = status === "error";
 
-  const handleClose = () => {
-    setLogin(false);
-  };
+  const handleSearch = (filters: PropertyInput) => {};
 
   useEffect(() => {
     setIsCategoryLoading(true);
     refetch().finally(() => setIsCategoryLoading(false));
-  }, [category]);
+  }, [category, country, city, type]);
 
   useEffect(() => {
     if (inView) {
       fetchNextPage();
     }
   }, [fetchNextPage, inView]);
-
-  useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
-      if (event.origin === "http://localhost:5000") {
-        if (event.data?.type === "LOGIN_SUCCESS") {
-          setUser(event.data?.user);
-          setLogin(false);
-        }
-      }
-    };
-    window.addEventListener("message", handleMessage);
-    return () => window.removeEventListener("message", handleMessage);
-  }, [setLogin]);
-
-  return isPending || loading ? (
+  return isPending ? (
     <HomeSkeleton />
   ) : isError ? (
     <div>Error: {(error as Error).message}</div>
   ) : (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen ">
       <Header />
       <main className="flex-1 p-4 md:pb-0">
-        {login && (
-          <Dialog onOpenChange={handleClose} open={login}>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Welcome to Ekedterra</DialogTitle>
-              </DialogHeader>
-              <div className="flex justify-center items-center">
-                <iframe
-                  src="http://localhost:5000/fr/auth/login"
-                  height="500"
-                  width="400"
-                />
-              </div>
-            </DialogContent>
-          </Dialog>
-        )}
         {isCategoryLoading ? (
           <div className="md:mx-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {Array.from({ length: 12 }).map((_, index) => (
@@ -158,4 +137,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default SearchPage;

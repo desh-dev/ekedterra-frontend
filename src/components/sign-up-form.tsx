@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Link } from "@/i18n/routing";
 import { useRouter } from "@/i18n/routing";
 import { useState } from "react";
+import BottomNav from "./layout/bottom-nav";
 
 export function SignUpForm({
   className,
@@ -44,9 +45,15 @@ export function SignUpForm({
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/protected`,
+          emailRedirectTo: `${window.location.origin}`,
         },
       });
+      window.parent.postMessage(
+        {
+          type: "SIGNUP_SUCCESS",
+        },
+        "http://localhost:5000"
+      );
       if (error) throw error;
       router.push("/auth/sign-up-success");
     } catch (error: unknown) {
@@ -115,6 +122,7 @@ export function SignUpForm({
           </form>
         </CardContent>
       </Card>
+      <BottomNav />
     </div>
   );
 }

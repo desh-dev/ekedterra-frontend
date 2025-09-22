@@ -1,3 +1,4 @@
+import BottomNav from "@/components/layout/bottom-nav";
 import {
   Card,
   CardContent,
@@ -27,6 +28,7 @@ export default function Page() {
           </Card>
         </div>
       </div>
+      <BottomNav />
     </div>
   );
 }

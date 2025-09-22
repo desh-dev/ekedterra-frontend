@@ -7,8 +7,8 @@ import { useTranslations } from "next-intl";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import UserMenu from "@/components/user/user-menu";
 import LanguageSwitcher from "@/components/language-switcher";
-import SearchBar from "./search-bar";
-import CategoryTabs from "../home/category-tabs";
+import SearchBar from "../layout/search-bar";
+import CategoryTabs from "./category-tabs";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 
 export default function Header() {
@@ -35,9 +35,9 @@ export default function Header() {
         height: isDesktop ? (scrolledDown ? "120px" : "220px") : "auto",
       }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
-      className="w-full sticky top-0 z-50 bg-white md:border-b border-gray-200 pb-4"
+      className="w-full sticky top-0 z-50 bg-white  md:bg-gray-50 md:border-b border-gray-200 md:pb-4"
     >
-      <div className="w-full lg:max-w-7xl mx-auto lg:px-8">
+      <div className="w-full shadow-md md:shadow-none lg:max-w-7xl mx-auto lg:px-8">
         {/* Desktop */}
         <div className="hidden md:flex justify-between items-center px-6">
           <div>
@@ -114,23 +114,12 @@ export default function Header() {
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
           className="mt-4 md:mt-0 px-6"
         >
-          <motion.div
-            className="w-full flex flex-col gap-2 justify-center items-center"
-            initial={{ height: "auto" }}
-            animate={{
-              marginBottom: !isDesktop
-                ? scrolledDown
-                  ? "-32px"
-                  : "auto"
-                : "auto",
-            }}
-            transition={{ duration: 0.1, ease: "backIn" }}
-          >
+          <div className="w-full flex flex-col gap-2 justify-center items-center">
             <SearchBar />
             <div className="w-full flex justify-center md:hidden">
               <CategoryTabs />
             </div>
-          </motion.div>
+          </div>
         </motion.div>
       </div>
     </motion.header>

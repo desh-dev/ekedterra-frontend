@@ -4,16 +4,17 @@ import { ThemeProvider } from "next-themes";
 import { ApolloWrapper } from "@/providers/apollo-provider";
 import "./globals.css";
 import ReactQueryProvider from "@/providers/react-query-provider";
+import { AuthProvider } from "@/providers/auth-provider";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : "http://ekedterra.com";
 
-export const metadata: Metadata = {
-  metadataBase: new URL(defaultUrl),
-  title: "Ekedterra - Find your next home",
-  description: "Simplify your property and stay search.",
-};
+// export const metadata: Metadata = {
+//   metadataBase: new URL(defaultUrl),
+//   title: "Ekedterra - Find your next home",
+//   description: "Simplify your property and stay search.",
+// };
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html suppressHydrationWarning>
-      <body className={` antialiased bg-white`}>
+      <body className={`${geistSans.className} antialiased bg-white`}>
         <ReactQueryProvider>
           <ApolloWrapper>
             <ThemeProvider
@@ -37,7 +38,7 @@ export default function RootLayout({
               enableSystem={false}
               disableTransitionOnChange
             >
-              {children}
+              <AuthProvider>{children}</AuthProvider>
             </ThemeProvider>
           </ApolloWrapper>
         </ReactQueryProvider>

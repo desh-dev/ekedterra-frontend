@@ -16,16 +16,17 @@ export async function generateMetadata({
   params,
 }: PropertyPageProps): Promise<Metadata> {
   try {
+    const { locale, id } = await params;
     const { data } = await apolloClient.query({
       query: GET_PROPERTY,
-      variables: { id: params.id },
+      variables: { id },
     });
 
     const property = data?.property;
 
     if (!property) {
       return {
-        title: "Property not found",
+        title: locale === "en" ? "Property not found" : "Propriété introuvable",
       };
     }
 
@@ -46,21 +47,24 @@ export async function generateMetadata({
               },
             ]
           : [],
-        locale: params.locale,
+        locale,
       },
     };
   } catch (error) {
+    const { locale } = await params;
+
     return {
-      title: "Property Details",
+      title: locale === "en" ? "Property Details" : "Détails de la propriété",
     };
   }
 }
 
 export default async function PropertyPage({ params }: PropertyPageProps) {
   try {
+    const { id } = await params;
     const { data } = await apolloClient.query({
       query: GET_PROPERTY,
-      variables: { id: params.id },
+      variables: { id },
       errorPolicy: "all",
     });
 

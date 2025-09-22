@@ -15,6 +15,10 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useRouter } from "@/i18n/routing";
 import { useState } from "react";
+import BottomNav from "./layout/bottom-nav";
+import { useAuth } from "@/providers/auth-provider";
+import { getUser } from "@/lib/data/client";
+import { User } from "@/lib/graphql/types";
 
 export function LoginForm({
   className,
@@ -25,6 +29,7 @@ export function LoginForm({
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { setUser } = useAuth();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,8 +43,25 @@ export function LoginForm({
         password,
       });
       if (error) throw error;
-      // Update this route to redirect to an authenticated route. The user already has an active session.
-      router.push("/protected");
+      const { data } = await supabase.auth.getClaims();
+      let user: User | null = null;
+      if (data?.claims) {
+        user = await getUser(data.claims.sub);
+        setUser(user);
+      }
+      window.parent.postMessage(
+        {
+          type: "LOGIN_SUCCESS",
+          user,
+        },
+        "http://localhost:5000"
+      );
+      const previousUrl = document.referrer;
+      if (previousUrl && previousUrl.includes(window.location.origin)) {
+        router.push(previousUrl.replace(window.location.origin, "") || "/");
+      } else {
+        router.push("/");
+      }
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
     } finally {
@@ -105,6 +127,7 @@ export function LoginForm({
           </form>
         </CardContent>
       </Card>
+      <BottomNav />
     </div>
   );
 }

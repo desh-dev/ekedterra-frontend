@@ -1,38 +1,28 @@
 // Generated types based on GraphQL schemas
 
-export enum PropertyType {
-  STUDIO = 'studio',
-  ROOM = 'room',
-  APARTMENT = 'apartment',
-  HOUSE = 'house',
-  HOTEL = 'hotel',
-  GUESTHOUSE = 'guesthouse',
-  STORE = 'store',
-}
-
-export enum PropertyCategory {
-  LAND = 'land',
-  HOUSING = 'housing',
-  BUSINESS = 'business',
-}
+export type PropertyType =
+  | "house"
+  | "hotel"
+  | "apartment"
+  | "studio"
+  | "store"
+  | "room"
+  | "guesthouse"
+  | undefined;
+export type PropertyCategory = "housing" | "land" | "business";
 
 export enum RentDuration {
-  DAILY = 'daily',
-  MONTHLY = 'monthly',
-  YEARLY = 'yearly',
+  DAILY = "daily",
+  MONTHLY = "monthly",
+  YEARLY = "yearly",
 }
 
-export enum UserRole {
-  ADMIN = 'ADMIN',
-  BUYER = 'BUYER',
-  AGENT = 'AGENT',
-}
-
+export type UserRole = "admin" | "agent";
 export enum BookingStatus {
-  PENDING = 'pending',
-  SUCCESSFUL = 'successful',
-  CANCELLED = 'cancelled',
-  UNKNOWN = 'unknown',
+  PENDING = "pending",
+  SUCCESSFUL = "successful",
+  CANCELLED = "cancelled",
+  UNKNOWN = "unknown",
 }
 
 export interface Property {
