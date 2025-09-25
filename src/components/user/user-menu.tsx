@@ -4,6 +4,8 @@ import { Fragment } from "react";
 import { Link, useRouter } from "@/i18n/routing";
 import { useCategoryStore } from "@/providers/category-store-provider";
 import { useAuth } from "@/providers/auth-provider";
+import { HelpCircle } from "lucide-react";
+import Image from "next/image";
 
 interface UserMenuProps {
   onClose: () => void;
@@ -17,7 +19,7 @@ export default function UserMenu({ onClose }: UserMenuProps) {
     setLogin(true);
     onClose();
   };
-  const { user, isAgent, signOut } = useAuth();
+  const { user, isAgent, isUser, signOut } = useAuth();
 
   return (
     <>
@@ -34,61 +36,100 @@ export default function UserMenu({ onClose }: UserMenuProps) {
             >
               Log in or Sign up
             </button>
-            <hr className="my-1" />
-            <Link
-              href="/host"
-              className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
-              onClick={onClose}
-            >
-              Ekedterra agent
-            </Link>
-            {/* <Link
-              href="/help"
-              className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
-              onClick={onClose}
-            >
-              Help Center
-            </Link> */}
           </Fragment>
         ) : (
           <Fragment>
-            <Link
-              href="/bookings"
-              className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
-              onClick={onClose}
-            >
-              Bookings
-            </Link>
-            <Link
-              href="/favorites"
-              className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
-              onClick={onClose}
-            >
-              Favorites
-            </Link>
+            {isUser && (
+              <div>
+                <Link
+                  href="/bookings"
+                  className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
+                  onClick={onClose}
+                >
+                  Bookings
+                </Link>
+                <Link
+                  href="/favorites"
+                  className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
+                  onClick={onClose}
+                >
+                  Favorites
+                </Link>
+                <Link
+                  href="/profile"
+                  className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
+                  onClick={onClose}
+                >
+                  Account
+                </Link>
+              </div>
+            )}
+            {isAgent && (
+              <div>
+                <Link
+                  href="/listings"
+                  className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
+                  onClick={onClose}
+                >
+                  Manage listings
+                </Link>
+                <Link
+                  href="/products"
+                  className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
+                  onClick={onClose}
+                >
+                  Manage products
+                </Link>
+                <Link
+                  href="/profile"
+                  className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
+                  onClick={onClose}
+                >
+                  Account
+                </Link>
+              </div>
+            )}
+          </Fragment>
+        )}
+        {!isAgent && (
+          <div>
             <hr className="my-1" />
+
             <Link
-              href="/host"
-              className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
+              href="/agent"
+              className="flex px-4 py-3 hover:bg-gray-50"
               onClick={onClose}
             >
-              Manage listings
+              <div className="flex flex-col">
+                <p className="font-semibold  text-sm">Become an agent</p>
+                <p className="text-xs text-gray-500">
+                  It&#39;s easy to become an Ekedterra agent and earn extra
+                  income
+                </p>
+              </div>
+              <Image
+                src="/become-agent.png"
+                alt="become agent"
+                width={44}
+                height={44}
+                // className="mt-2"
+              />
             </Link>
-            <Link
-              href="/account"
-              className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
-              onClick={onClose}
-            >
-              Account
-            </Link>
+          </div>
+        )}
+        <hr className="my-1" />
+        <Link
+          href="/help"
+          className="flex gap-2 items-center px-4 py-3 hover:bg-gray-50"
+          onClick={onClose}
+        >
+          <HelpCircle size={16} />
+          <span className=" text-sm text-gray-700">Help Center</span>
+        </Link>
+        {user && (
+          <div>
             <hr className="my-1" />
-            <Link
-              href="/help"
-              className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
-              onClick={onClose}
-            >
-              Help Center
-            </Link>
+
             <button
               className="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
               onClick={() => {
@@ -99,7 +140,7 @@ export default function UserMenu({ onClose }: UserMenuProps) {
             >
               Log out
             </button>
-          </Fragment>
+          </div>
         )}
       </div>
     </>

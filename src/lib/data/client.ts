@@ -1,8 +1,9 @@
 "use client";
 
 import { apolloClient } from "../apollo/client";
-import { GET_PROPERTIES, GET_USER } from "../graphql/queries";
-import { PropertyInput } from "../graphql/types";
+import { ADD_FAVORITE, REMOVE_FAVORITE } from "../graphql/mutations";
+import { GET_PROPERTIES, GET_PROPERTY, GET_USER } from "../graphql/queries";
+import { FavoriteInput, PropertyInput } from "../graphql/types";
 
 const LIMIT = 10;
 
@@ -17,6 +18,21 @@ export const getUser = async (id: string) => {
     return data?.user;
   } catch (error) {
     console.error("Error fetching user:", error);
+    throw error;
+  }
+};
+
+export const getProperty = async (id: string) => {
+  try {
+    const { data } = await apolloClient.query({
+      query: GET_PROPERTY,
+      variables: { id },
+    });
+    //@ts-ignore
+    return data?.property;
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
 };
 
@@ -44,5 +60,34 @@ export const getProperties = async ({
     return { properties, total };
   } catch (error) {
     console.error(error);
+    throw error;
+  }
+};
+
+export const addFavorite = async (favorite: FavoriteInput) => {
+  try {
+    const { data } = await apolloClient.mutate({
+      mutation: ADD_FAVORITE,
+      variables: { favorite },
+    });
+    //@ts-ignore
+    return data?.addFavorite;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const removeFavorite = async (favorite: FavoriteInput) => {
+  try {
+    const { data } = await apolloClient.mutate({
+      mutation: REMOVE_FAVORITE,
+      variables: { favorite },
+    });
+    //@ts-ignore
+    return data?.removeFavorite;
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
 };

@@ -85,7 +85,10 @@ export const GET_USER = gql`
       avatarUrl
       fullName
       phone
-      role
+      roles {
+        id
+        role
+      }
       verified
       address {
         id

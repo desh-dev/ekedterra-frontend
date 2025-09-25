@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { Link, useRouter } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
@@ -10,12 +10,9 @@ import {
 } from "@heroicons/react/24/outline";
 import UserMenu from "@/components/user/user-menu";
 import LanguageSwitcher from "@/components/language-switcher";
-import CategoryTabs from "../home/category-tabs";
-import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import SearchBar from "../layout/search-bar";
 import SearchBarDesktop from "./search-bar-desktop";
 import { ArrowLeft, Settings2 } from "lucide-react";
-import { Button } from "../ui/button";
 
 export default function Header() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -45,13 +42,13 @@ export default function Header() {
               <span>Filters</span>
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
             <div>
               <Link
-                href="/host"
-                className="md:hidden lg:block space-x-2 text-sm font-medium border border-gray-200 p-2 rounded-full hover:shadow-md transition-shadow"
+                href="/shop"
+                className="space-x-2 text-sm font-medium border border-gray-200 p-2 rounded-full hover:shadow-md transition-shadow"
               >
-                Become an agent
+                Shop
               </Link>
             </div>
             <LanguageSwitcher />

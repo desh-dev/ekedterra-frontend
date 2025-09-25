@@ -17,7 +17,10 @@ export enum RentDuration {
   YEARLY = "yearly",
 }
 
-export type UserRole = "admin" | "agent";
+export interface UserRole {
+  id: string;
+  role: string;
+}
 export enum BookingStatus {
   PENDING = "pending",
   SUCCESSFUL = "successful",
@@ -30,6 +33,7 @@ export interface Property {
   title: string;
   buildingName?: string;
   type: PropertyType;
+  currency: string;
   rent?: number;
   rentDuration?: RentDuration;
   price?: number;
@@ -67,10 +71,10 @@ export interface User {
   avatarUrl?: string;
   fullName: string;
   phone?: string;
-  role: UserRole;
+  roles: UserRole[];
   verified: boolean;
   address?: UserAddress;
-  favorites?: Property[];
+  favorites?: Partial<Property>[];
   bookings?: Booking[];
   createdAt: string;
   updatedAt: string;
@@ -144,4 +148,9 @@ export interface SearchFilters {
   maxPrice?: number;
   rentDuration?: RentDuration;
   category?: PropertyCategory;
+}
+
+export interface FavoriteInput {
+  propertyId: string;
+  userId: string;
 }

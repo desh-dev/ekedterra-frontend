@@ -81,10 +81,7 @@ const SearchBar = () => {
     if (country) params.append("country", country);
     if (city) params.append("city", city);
     if (type) params.append("type", type);
-    router.push({
-      pathname: "/search",
-      query: params.toString() ? Object.fromEntries(params) : undefined,
-    });
+    router.push(`/search?${params.toString()}`);
   };
   const onClose = () => {
     setTempCountry(undefined);

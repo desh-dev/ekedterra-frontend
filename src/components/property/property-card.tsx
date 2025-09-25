@@ -3,27 +3,35 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useSwipeable } from "react-swipeable";
-import { Link } from "@/i18n/routing";
+import { Link, usePathname, useRouter } from "@/i18n/routing";
 import { HeartIcon } from "@heroicons/react/24/outline";
 import {
   HeartIcon as HeartIconSolid,
   StarIcon,
 } from "@heroicons/react/24/solid";
 import { Property } from "@/lib/graphql/types";
+import { useAuth } from "@/providers/auth-provider";
+import useIsDesktop from "@/hooks/useIsDesktop";
+import { useCategoryStore } from "@/providers/category-store-provider";
+import { addFavorite, removeFavorite } from "@/lib/data/client";
+import toast from "react-hot-toast";
 
 interface PropertyCardProps {
   property: Property;
   isFavorite?: boolean;
-  onToggleFavorite?: (propertyId: string) => void;
 }
 
 export default function PropertyCard({
   property,
   isFavorite = false,
-  onToggleFavorite,
 }: PropertyCardProps) {
   const [imageError, setImageError] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const path = usePathname();
+  const { user, setUser, isUser } = useAuth();
+  const { setLogin } = useCategoryStore((state) => state);
+  const { isDesktop } = useIsDesktop();
+  const router = useRouter();
 
   const images =
     property?.images && property.images.length > 0
@@ -40,10 +48,37 @@ export default function PropertyCard({
     setCurrentImageIndex((prev) => (prev === totalImages - 1 ? 0 : prev + 1));
   };
 
-  const handleToggleFavorite = (e: React.MouseEvent) => {
+  const handleToggleFavorite = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    onToggleFavorite?.(property.id);
+    if (!user) return isDesktop ? setLogin(true) : router.push("/auth/login");
+
+    const isFavorite = user.favorites?.some((fav) => fav?.id === property.id);
+
+    // Optimistically update user favorites
+    const prevFavorites = user.favorites || [];
+    let newFavorites;
+    if (isFavorite) {
+      newFavorites = prevFavorites.filter((fav) => fav?.id !== property.id);
+      setUser({ ...user, favorites: newFavorites });
+      try {
+        await removeFavorite({ userId: user.userId, propertyId: property.id });
+      } catch (err) {
+        // Revert optimistic update
+        setUser({ ...user, favorites: prevFavorites });
+        toast.error("Failed to remove favorite.");
+      }
+    } else {
+      newFavorites = [...prevFavorites, { id: property.id }];
+      setUser({ ...user, favorites: newFavorites });
+      try {
+        await addFavorite({ userId: user.userId, propertyId: property.id });
+      } catch (err) {
+        // Revert optimistic update
+        setUser({ ...user, favorites: prevFavorites });
+        toast.error("Failed to add favorite.");
+      }
+    }
   };
 
   // 👇 Swipe support for mobile only
@@ -168,38 +203,45 @@ export default function PropertyCard({
           )}
 
           {/* Favorite Button */}
-          <button
-            onClick={handleToggleFavorite}
-            className="absolute top-3 right-3 p-2 hover:scale-110 transition-transform"
-          >
-            {isFavorite ? (
-              <HeartIconSolid className="w-6 h-6 text-[#FF385C]" />
-            ) : (
-              <HeartIcon className="w-6 h-6 text-white stroke-2 drop-shadow-sm" />
-            )}
-          </button>
+          {path !== "/favorites" && isUser && (
+            <button
+              onClick={handleToggleFavorite}
+              className="absolute top-3 right-3 p-2 hover:scale-110 transition-transform"
+            >
+              {isFavorite ? (
+                <HeartIconSolid className="w-6 h-6 text-[#FF385C]" />
+              ) : (
+                <HeartIcon className="w-6 h-6 text-white stroke-2 drop-shadow-sm" />
+              )}
+            </button>
+          )}
         </div>
 
         {/* Property Details */}
         <div className="mt-3 space-y-1">
           <div className="flex items-center justify-between">
             <h3 className="font-medium text-gray-900 truncate">
-              {property?.address?.city}, {property?.address?.country}
+              {property?.title}
             </h3>
-            <div className="flex items-center space-x-1 flex-shrink-0 ml-2">
+            {/* <div className="flex items-center space-x-1 flex-shrink-0 ml-2">
               <StarIcon className="w-4 h-4 text-gray-900" />
               <span className="text-sm text-gray-900">4.94</span>
-            </div>
+            </div> */}
           </div>
           <p className="text-gray-500 text-sm truncate">
             {property.type &&
               property.type?.charAt(0).toUpperCase() + property.type?.slice(1)}
-            {property.buildingName && ` in ${property.buildingName}`}
+            {property.buildingName && ` - ${property.buildingName}`}
           </p>
-          <p className="text-gray-500 text-sm">Available now</p>
+          <p className="text-gray-500 text-sm">
+            {property.vacant ? "Available" : "Unavailable"}
+            {property.address?.city && `, ${property.address?.city}`}
+          </p>
           <div className="flex items-baseline space-x-1">
-            <span className="font-medium text-gray-900">
-              XAF {property?.price || property?.rent}
+            <span className="font-medium text-gray-900 uppercase">
+              {property?.currency || "xaf"}{" "}
+              {property?.price?.toLocaleString() ||
+                property?.rent?.toLocaleString()}
             </span>
             <span className="text-gray-500 text-sm">
               {property?.rentDuration === "daily"

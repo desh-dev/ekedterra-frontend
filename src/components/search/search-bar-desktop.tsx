@@ -30,14 +30,11 @@ const SearchBarDesktop = () => {
     city: params.get("city") ?? undefined,
     type: params.get("type") ?? undefined,
   };
-  const COUNTRY = country ?? param.country ?? "";
-  const CITY = city ?? param.city ?? "";
-  const TYPE = type ?? param.type ?? "";
+  const COUNTRY = country ?? param.country;
+  const CITY = city ?? param.city;
+  const TYPE = type ?? param.type;
   const handleSearch = () => {
-    router.push({
-      pathname: "/search",
-      query: { country: COUNTRY, city: CITY, type: TYPE },
-    });
+    router.push(`/search?country=${COUNTRY}&city=${CITY}&type=${TYPE}`);
   };
 
   const cat = categories.find((c) => c.id === category);

@@ -13,8 +13,6 @@ import { apolloClient } from "@/lib/apollo/client";
 import { GET_PROPERTIES } from "@/lib/graphql/queries";
 import PropertyCardSkeleton from "../property/property-card-skeleton";
 import { useCategoryStore } from "@/providers/category-store-provider";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
-import { useRouter } from "@/i18n/routing";
 import { useAuth } from "@/providers/auth-provider";
 
 const LIMIT = 10;
@@ -23,9 +21,8 @@ const HomePage = () => {
   const [total, setTotal] = useState(0);
   const [isCategoryLoading, setIsCategoryLoading] = useState(false);
   const { ref, inView } = useInView();
-  const { category, login, setLogin } = useCategoryStore((state) => state);
-  const { loading, setUser } = useAuth();
-  const router = useRouter();
+  const { category } = useCategoryStore((state) => state);
+  const { loading, user } = useAuth();
   const getProperties = async ({
     pageParam,
   }: {
@@ -83,10 +80,6 @@ const HomePage = () => {
   const isPending = status === "pending";
   const isError = status === "error";
 
-  const handleClose = () => {
-    setLogin(false);
-  };
-
   useEffect(() => {
     setIsCategoryLoading(true);
     refetch().finally(() => setIsCategoryLoading(false));
@@ -98,19 +91,6 @@ const HomePage = () => {
     }
   }, [fetchNextPage, inView]);
 
-  useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
-      if (event.origin === "http://localhost:5000") {
-        if (event.data?.type === "LOGIN_SUCCESS") {
-          setUser(event.data?.user);
-          setLogin(false);
-        }
-      }
-    };
-    window.addEventListener("message", handleMessage);
-    return () => window.removeEventListener("message", handleMessage);
-  }, [setLogin]);
-
   return isPending || loading ? (
     <HomeSkeleton />
   ) : isError ? (
@@ -119,22 +99,6 @@ const HomePage = () => {
     <div className="min-h-screen flex flex-col">
       <Header />
       <main className="flex-1 p-4 md:pb-0">
-        {login && (
-          <Dialog onOpenChange={handleClose} open={login}>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Welcome to Ekedterra</DialogTitle>
-              </DialogHeader>
-              <div className="flex justify-center items-center">
-                <iframe
-                  src="http://localhost:5000/fr/auth/login"
-                  height="500"
-                  width="400"
-                />
-              </div>
-            </DialogContent>
-          </Dialog>
-        )}
         {isCategoryLoading ? (
           <div className="md:mx-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {Array.from({ length: 12 }).map((_, index) => (
@@ -145,10 +109,8 @@ const HomePage = () => {
           <PropertyGrid
             properties={properties}
             endRef={ref}
-            onToggleFavorite={(propertyId) => {
-              // TODO: Implement favorite toggle with GraphQL mutation
-              console.log("Toggle favorite:", propertyId);
-            }}
+            //@ts-ignore
+            favorites={user?.favorites?.map((favorite) => favorite?.id) || []}
           />
         )}
       </main>

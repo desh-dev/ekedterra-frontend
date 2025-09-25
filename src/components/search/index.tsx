@@ -121,14 +121,7 @@ const SearchPage = () => {
             ))}
           </div>
         ) : (
-          <PropertyGrid
-            properties={properties}
-            endRef={ref}
-            onToggleFavorite={(propertyId) => {
-              // TODO: Implement favorite toggle with GraphQL mutation
-              console.log("Toggle favorite:", propertyId);
-            }}
-          />
+          <PropertyGrid properties={properties} endRef={ref} />
         )}
       </main>
       <Footer />

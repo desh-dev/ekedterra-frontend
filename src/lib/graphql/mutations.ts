@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 // Property Mutations
 export const CREATE_PROPERTY = gql`
@@ -55,14 +55,22 @@ export const ADD_FAVORITE = gql`
     addFavorite(favorite: $favorite) {
       propertyId
       userId
-      createdAt
     }
+  }
+`;
+
+export const REMOVE_FAVORITE = gql`
+  mutation DeleteFavorite($favorite: FavoriteInput!) {
+    deleteFavorite(favorite: $favorite)
   }
 `;
 
 // Booking Mutations
 export const CREATE_BOOKING = gql`
-  mutation CreateBooking($booking: BookingInput!, $bookingEventData: BookingEventData!) {
+  mutation CreateBooking(
+    $booking: BookingInput!
+    $bookingEventData: BookingEventData!
+  ) {
     createBooking(booking: $booking, bookingEventData: $bookingEventData) {
       id
       userId
@@ -76,8 +84,16 @@ export const CREATE_BOOKING = gql`
 `;
 
 export const UPDATE_BOOKING = gql`
-  mutation UpdateBooking($id: ID!, $booking: BookingUpdateInput!, $bookingEventData: BookingEventData!) {
-    updateBooking(id: $id, booking: $booking, bookingEventData: $bookingEventData) {
+  mutation UpdateBooking(
+    $id: ID!
+    $booking: BookingUpdateInput!
+    $bookingEventData: BookingEventData!
+  ) {
+    updateBooking(
+      id: $id
+      booking: $booking
+      bookingEventData: $bookingEventData
+    ) {
       id
       userId
       propertyId

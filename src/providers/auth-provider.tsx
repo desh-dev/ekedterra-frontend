@@ -14,6 +14,7 @@ type AuthContextType = {
   error: string | null;
   isAdmin: boolean;
   isAgent: boolean;
+  isUser: boolean;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -27,6 +28,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isAgent, setIsAgent] = useState(false);
+  const [isUser, setIsUser] = useState(true);
 
   useEffect(() => {
     const getClaims = async () => {
@@ -37,18 +39,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         const { data, error } = await supabase.auth.getClaims();
         if (error) throw error;
         if (data?.claims) {
-          if (data?.claims) {
-            // Fetch roles when session changes
-            const user = await getUser(data.claims.sub).finally(() => {
-              setLoading(false);
-            });
-            setUser(user);
-            setIsAdmin(user.role === "admin");
-            setIsAgent(user.role === "agent");
-          } else {
-            setIsAdmin(false);
-            setIsAgent(false);
-          }
+          // Fetch roles when session changes
+          const user: User = await getUser(data.claims.sub);
+          setUser(user);
+          setIsAdmin(user.roles.some((role) => role.role === "admin"));
+          setIsAgent(user.roles.some((role) => role.role === "agent"));
+          setIsUser(
+            !user.roles.some((role) => role.role === "admin") &&
+              !user.roles.some((role) => role.role === "agent")
+          );
+        } else {
+          setIsAdmin(false);
+          setIsAgent(false);
+          setIsUser(true);
         }
       } catch (error) {
         setError(error instanceof Error ? error.message : "An error occurred");
@@ -122,6 +125,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         signOut,
         isAdmin,
         isAgent,
+        isUser,
         error,
       }}
     >

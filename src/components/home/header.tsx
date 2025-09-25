@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
@@ -10,24 +10,18 @@ import LanguageSwitcher from "@/components/language-switcher";
 import SearchBar from "../layout/search-bar";
 import CategoryTabs from "./category-tabs";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import useIsDesktop from "@/hooks/useIsDesktop";
 
 export default function Header() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [scrolledDown, setScrolledDown] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(false);
+  const { isDesktop } = useIsDesktop();
   const t = useTranslations("search");
 
   const { scrollY } = useScroll();
   useMotionValueEvent(scrollY, "change", (latest) => {
     setScrolledDown(latest > 0);
   });
-
-  useEffect(() => {
-    const checkSize = () => setIsDesktop(window.innerWidth >= 768);
-    checkSize();
-    window.addEventListener("resize", checkSize);
-    return () => window.removeEventListener("resize", checkSize);
-  }, []);
   return (
     <motion.header
       initial={{ height: "auto" }}
@@ -67,7 +61,7 @@ export default function Header() {
             <CategoryTabs />
           </motion.div>
 
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
             <motion.div
               initial={{ y: 0, opacity: 1 }}
               animate={
@@ -81,10 +75,10 @@ export default function Header() {
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
             >
               <Link
-                href="/host"
-                className="md:hidden lg:block space-x-2 text-sm font-medium border border-gray-200 p-2 rounded-full hover:shadow-md transition-shadow"
+                href="/shop"
+                className="space-x-2 text-sm font-medium border border-gray-200 p-2 rounded-full hover:shadow-md transition-shadow"
               >
-                Become an agent
+                Shop
               </Link>
             </motion.div>
             <LanguageSwitcher />

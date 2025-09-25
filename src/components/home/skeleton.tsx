@@ -59,8 +59,8 @@ const HomeSkeleton = () => {
             </div>
           </div>
           <div className="space-x-2 flex items-center">
-            <div className="md:hidden lg:flex space-x-2 text-sm font-medium border border-gray-200 p-2 rounded-full hover:shadow-md transition-shadow">
-              Become an agent
+            <div className="flex space-x-2 text-sm font-medium border border-gray-200 p-2 rounded-full hover:shadow-md transition-shadow">
+              Shop
             </div>
             <LanguageSwitcher />
             <button className="flex items-center space-x-2 border border-gray-200 p-2 rounded-full hover:shadow-md transition-shadow">
