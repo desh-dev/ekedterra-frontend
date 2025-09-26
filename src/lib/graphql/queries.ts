@@ -76,6 +76,16 @@ export const GET_PROPERTY = gql`
   }
 `;
 
+export const GET_PROPERTY_AGENT = gql`
+  query GetUser($id: ID!) {
+    user(id: $id) {
+      userId
+      email
+      phone
+    }
+  }
+`;
+
 // User Queries
 export const GET_USER = gql`
   query GetUser($id: ID!) {
@@ -105,6 +115,7 @@ export const GET_USER = gql`
         id
         propertyId
         bookingDate
+        checkoutDate
         status
         createdAt
         property {

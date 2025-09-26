@@ -1,5 +1,5 @@
 import { apolloClient } from "../apollo/client";
-import { GET_USER } from "../graphql/queries";
+import { GET_PROPERTY, GET_USER } from "../graphql/queries";
 import { User } from "../graphql/types";
 import { createClient } from "../supabase/server";
 
@@ -17,7 +17,7 @@ const getUser = async (id: string) => {
     throw error;
   }
 };
-export const getRoles = async () => {
+export async function getRoles() {
   const supabase = await createClient();
   const { data } = await supabase.auth.getClaims();
   const user: User = await getUser(data?.claims?.sub || "");
@@ -29,4 +29,21 @@ export const getRoles = async () => {
     isAgent,
     isUser,
   };
-};
+}
+
+export async function getProperty(id: string) {
+  try {
+    const { data } = await apolloClient.query({
+      query: GET_PROPERTY,
+      variables: { id },
+      errorPolicy: "all",
+    });
+    //@ts-ignore
+    const property = data?.property;
+
+    return property;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}

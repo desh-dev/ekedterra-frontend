@@ -140,3 +140,18 @@ export const ADD_USER_ADDRESS = gql`
     }
   }
 `;
+
+export const ADD_ROLE = gql`
+  mutation AddRole(role: RoleInput!, userId: ID!) {
+    addRole(role: $role, userId: $userId) {
+      id
+      role
+    }
+  }
+`;
+
+export const DELETE_ROLE = gql`
+  mutation DeleteRole(id: ID!) {
+    deleteRole(id: $id)
+  }
+`;

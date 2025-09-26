@@ -21,12 +21,7 @@ export interface UserRole {
   id: string;
   role: string;
 }
-export enum BookingStatus {
-  PENDING = "pending",
-  SUCCESSFUL = "successful",
-  CANCELLED = "cancelled",
-  UNKNOWN = "unknown",
-}
+export type BookingStatus = "pending" | "successful" | "cancelled" | "unknown";
 
 export interface Property {
   id: string;
@@ -96,10 +91,35 @@ export interface Booking {
   userId: string;
   propertyId: string;
   bookingDate: string;
+  checkoutDate: string;
   status: BookingStatus;
   property?: Property;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface BookingInput {
+  userId: string;
+  propertyId: string;
+  status?: BookingStatus;
+  bookingDate: string;
+  checkoutDate?: string;
+}
+
+export interface BookingUpdateInput {
+  status?: BookingStatus;
+  bookingDate?: string;
+  checkoutDate?: string;
+}
+
+export interface BookingEventData {
+  bookingId?: string;
+  userContact: string;
+  agentContact: string;
+  propertyInfo: {
+    propertyId: string;
+    propertyTitle: string;
+  }
 }
 
 export interface PaginatedProperty {

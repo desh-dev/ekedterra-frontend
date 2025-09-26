@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Link, useRouter } from "@/i18n/routing";
+import { Link, usePathname, useRouter } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import {
   AdjustmentsHorizontalIcon,
@@ -18,6 +18,7 @@ export default function Header() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const t = useTranslations("search");
   const router = useRouter();
+  const path = usePathname();
 
   return (
     <header className="w-full sticky top-0 z-50 bg-white md:border-b border-gray-200">
@@ -37,10 +38,12 @@ export default function Header() {
           </div>
           <div className="flex gap-2 items-center">
             <SearchBarDesktop />
-            <div className="flex items-center gap-2 text-sm font-medium border border-gray-200 p-2 rounded-full hover:shadow-md transition-shadow">
-              <Settings2 size={16} />
-              <span>Filters</span>
-            </div>
+            {path === "/search" && (
+              <div className="flex items-center gap-2 text-sm font-medium border border-gray-200 p-2 rounded-full hover:shadow-md transition-shadow">
+                <Settings2 size={16} />
+                <span>Filters</span>
+              </div>
+            )}
           </div>
           <div className="flex gap-2 items-center">
             <div>
