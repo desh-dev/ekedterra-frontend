@@ -12,7 +12,7 @@ import {
 import { Property } from "@/lib/graphql/types";
 import { useAuth } from "@/providers/auth-provider";
 import useIsDesktop from "@/hooks/useIsDesktop";
-import { useCategoryStore } from "@/providers/category-store-provider";
+import { useAppStore } from "@/providers/category-store-provider";
 import { addFavorite, removeFavorite } from "@/lib/data/client";
 import toast from "react-hot-toast";
 
@@ -29,7 +29,7 @@ export default function PropertyCard({
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const path = usePathname();
   const { user, setUser, isUser } = useAuth();
-  const { setLogin } = useCategoryStore((state) => state);
+  const { setLogin } = useAppStore((state) => state);
   const { isDesktop } = useIsDesktop();
   const router = useRouter();
 

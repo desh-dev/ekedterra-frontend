@@ -39,7 +39,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "../ui/accordion";
-import { useCategoryStore } from "@/providers/category-store-provider";
+import { useAppStore } from "@/providers/category-store-provider";
 import { usePathname, useRouter } from "@/i18n/routing";
 import { useSearchParams } from "next/navigation";
 import { PropertyType } from "@/lib/graphql/types";
@@ -60,7 +60,7 @@ const types = ["Apartment", "House", "Room", "Studio", "Hotel", "Guesthouse"];
 
 const SearchBar = () => {
   const { category, country, setCountry, city, setCity, type, setType } =
-    useCategoryStore((state) => state);
+    useAppStore((state) => state);
   const [tempCountry, setTempCountry] = useState(country);
   const [tempCity, setTempCity] = useState(city);
   const [tempType, setTempType] = useState(type);
@@ -149,7 +149,7 @@ const SearchBar = () => {
           </div>
 
           {/* City */}
-          <div className="flex-1 px-6 py-2 border-b md:border-b-0 md:border-r cursor-pointer hover:bg-gray-50 transition-colors">
+          <div className="flex-1 px-6 py-2 border-b md:border-b-0 md:border-r cursor-pointer">
             <div className="text-sm font-semibold text-foreground text-center mb-1">
               City
             </div>

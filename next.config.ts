@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
   output: "standalone",
   // Minimal experimental config
   images: {
-    domains: ["images.unsplash.com", "a0.muscache.com"],
+    domains: ["images.unsplash.com", "a0.muscache.com", "files.edgestore.dev"],
   },
   // i18n: {
   //   locales: [ 'en', 'fr'],

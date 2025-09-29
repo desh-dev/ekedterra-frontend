@@ -36,13 +36,23 @@ export default function Header() {
         <div className="hidden md:flex justify-between items-center px-6">
           <div>
             <Link href="/" className="flex place-self-center hidden lg:block">
-              <Image src="/logo-lg.png" alt="Logo" width={140} height={80} />
+              <Image
+                src="https://files.edgestore.dev/4j2pblt570q0o7fi/myPublicImages/_public/25624364-d1c9-4cf8-9226-fc9536c44ca0.webp"
+                alt="Logo"
+                width={140}
+                height={80}
+              />
             </Link>
             <Link
               href="/"
               className="flex place-self-center hidden md:block lg:hidden"
             >
-              <Image src="/logo.png" alt="Logo" width={120} height={60} />
+              <Image
+                src="https://files.edgestore.dev/4j2pblt570q0o7fi/myPublicImages/_public/bac6a535-965c-45b8-9d58-dab1c376e1f2.webp"
+                alt="Logo"
+                width={120}
+                height={60}
+              />
             </Link>
           </div>
 

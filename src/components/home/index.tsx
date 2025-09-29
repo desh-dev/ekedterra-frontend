@@ -12,7 +12,7 @@ import HomeSkeleton from "./skeleton";
 import { apolloClient } from "@/lib/apollo/client";
 import { GET_PROPERTIES } from "@/lib/graphql/queries";
 import PropertyCardSkeleton from "../property/property-card-skeleton";
-import { useCategoryStore } from "@/providers/category-store-provider";
+import { useAppStore } from "@/providers/category-store-provider";
 import { useAuth } from "@/providers/auth-provider";
 
 const LIMIT = 10;
@@ -21,7 +21,7 @@ const HomePage = () => {
   const [total, setTotal] = useState(0);
   const [isCategoryLoading, setIsCategoryLoading] = useState(false);
   const { ref, inView } = useInView();
-  const { category } = useCategoryStore((state) => state);
+  const { category } = useAppStore((state) => state);
   const { loading, user } = useAuth();
   const getProperties = async ({
     pageParam,

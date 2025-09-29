@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { PropertyCategory } from "@/lib/graphql/types";
-import { useCategoryStore } from "@/providers/category-store-provider";
+import { useAppStore } from "@/providers/category-store-provider";
 
 export const categories = [
   { id: "housing", label: "Homes", icon: "/homes-icon.png" },
@@ -12,7 +12,7 @@ export const categories = [
 ];
 
 const CategoryTabs = () => {
-  const { category, setCategory, setType } = useCategoryStore((state) => state);
+  const { category, setCategory, setType } = useAppStore((state) => state);
   const [scrolled, setScrolled] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 

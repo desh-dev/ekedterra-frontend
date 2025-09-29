@@ -2,7 +2,7 @@
 import { PropertyCategory, PropertyType } from "@/lib/graphql/types";
 import { createStore } from "zustand/vanilla";
 
-export type CategoryState = {
+export type AppState = {
   login: boolean;
   category: PropertyCategory;
   country?: string | undefined;
@@ -10,7 +10,7 @@ export type CategoryState = {
   type?: PropertyType | undefined;
 };
 
-export type CategoryAction = {
+export type AppAction = {
   setLogin: (login: boolean) => void;
   setCategory: (category: PropertyCategory) => void;
   setCountry: (country: string | undefined) => void;
@@ -19,9 +19,9 @@ export type CategoryAction = {
   reset: () => void;
 };
 
-export type CategoryStore = CategoryState & CategoryAction;
+export type AppStore = AppState & AppAction;
 
-export const defaultInitState: CategoryState = {
+export const defaultInitState: AppState = {
   login: false,
   category: "housing",
   country: undefined,
@@ -29,10 +29,8 @@ export const defaultInitState: CategoryState = {
   type: undefined,
 };
 
-export const createCategoryStore = (
-  initState: CategoryState = defaultInitState
-) => {
-  return createStore<CategoryStore>()((set) => ({
+export const createAppStore = (initState: AppState = defaultInitState) => {
+  return createStore<AppStore>()((set) => ({
     ...initState,
     setLogin: (login: boolean) => set(() => ({ login })),
     setCategory: (category: PropertyCategory) => set(() => ({ category })),

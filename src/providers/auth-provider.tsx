@@ -65,44 +65,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     getClaims();
   }, []);
 
-  const signUp = async (
-    email: string,
-    password: string,
-    repeatPassword: string
-  ) => {
-    const supabase = createClient();
-    const router = useRouter();
-    setLoading(true);
-    setError(null);
-
-    if (password !== repeatPassword) {
-      setError("Passwords do not match");
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: `${window.location.origin}`,
-        },
-      });
-      if (error) throw error;
-      window.parent.postMessage(
-        {
-          type: "SIGNUP_SUCCESS",
-        },
-        "http://localhost:5000"
-      );
-      router.push("/auth/sign-up-success");
-    } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : "An error occurred");
-    } finally {
-      setLoading(false);
-    }
-  };
   const signOut = async () => {
     try {
       const supabase = createClient();

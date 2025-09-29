@@ -1,17 +1,17 @@
 "use client";
 
-import { useCategoryStore } from "@/providers/category-store-provider";
+import { useAppStore } from "@/providers/category-store-provider";
 import React, { useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { useAuth } from "@/providers/auth-provider";
 
 const LoginIframe = () => {
-  const { login, setLogin } = useCategoryStore((state) => state);
+  const { login, setLogin } = useAppStore((state) => state);
   const { setUser } = useAuth();
   const handleClose = () => setLogin(false);
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
-      if (event.origin === "http://localhost:5000") {
+      if (event.origin === window.location.origin) {
         if (event.data?.type === "LOGIN_SUCCESS") {
           setUser(event.data?.user);
           setLogin(false);
@@ -31,7 +31,7 @@ const LoginIframe = () => {
             </DialogHeader>
             <div className="flex justify-center items-center">
               <iframe
-                src="http://localhost:5000/fr/auth/login"
+                src={`${window.location.origin}/auth/login`}
                 height="500"
                 width="400"
               />

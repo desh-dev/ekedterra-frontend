@@ -1,44 +1,38 @@
 "use client";
 
-import { CategoryStore, createCategoryStore } from "@/store/category";
+import { AppStore, createAppStore } from "@/store/app";
 import { type ReactNode, createContext, useRef, useContext } from "react";
 import { useStore } from "zustand";
 
-export type CategoryStoreApi = ReturnType<typeof createCategoryStore>;
+export type AppStoreApi = ReturnType<typeof createAppStore>;
 
-export const CategoryStoreContext = createContext<CategoryStoreApi | undefined>(
+export const AppStoreContext = createContext<AppStoreApi | undefined>(
   undefined
 );
 
-export interface CategoryStoreProviderProps {
+export interface AppStoreProviderProps {
   children: ReactNode;
 }
 
-export const CategoryStoreProvider = ({
-  children,
-}: CategoryStoreProviderProps) => {
-  const storeRef = useRef<CategoryStoreApi | null>(null);
-  if (storeRef.current === null) {
-    storeRef.current = createCategoryStore();
+export const CategoryStoreProvider = ({ children }: AppStoreProviderProps) => {
+  const appStoreRef = useRef<AppStoreApi | null>(null);
+  if (appStoreRef.current === null) {
+    appStoreRef.current = createAppStore();
   }
 
   return (
-    <CategoryStoreContext.Provider value={storeRef.current}>
+    <AppStoreContext.Provider value={appStoreRef.current}>
       {children}
-    </CategoryStoreContext.Provider>
+    </AppStoreContext.Provider>
   );
 };
 
-export const useCategoryStore = <T,>(
-  selector: (store: CategoryStore) => T
-): T => {
-  const categoryStoreContext = useContext(CategoryStoreContext);
+export const useAppStore = <T,>(selector: (store: AppStore) => T): T => {
+  const appStoreContext = useContext(AppStoreContext);
 
-  if (!categoryStoreContext) {
-    throw new Error(
-      `useCategoryStore must be used within CounterStoreProvider`
-    );
+  if (!appStoreContext) {
+    throw new Error(`useAppStore must be used within CounterStoreProvider`);
   }
 
-  return useStore(categoryStoreContext, selector);
+  return useStore(appStoreContext, selector);
 };

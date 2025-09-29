@@ -8,7 +8,7 @@ const getUser = async (id: string) => {
     const { data } = await apolloClient.query({
       query: GET_USER,
       variables: { id },
-      fetchPolicy: "network-only",
+      fetchPolicy: "cache-first",
     });
     //@ts-ignore
     return data?.user as User;
@@ -20,12 +20,16 @@ const getUser = async (id: string) => {
 export async function getRoles() {
   const supabase = await createClient();
   const { data } = await supabase.auth.getClaims();
+  if (!data?.claims) throw new Error("No user found");
   const user: User = await getUser(data?.claims?.sub || "");
+  let isVerified = false;
   const isAdmin = user?.roles?.some((role) => role.role === "admin");
+  if (isAdmin) isVerified = user.verified;
   const isAgent = user?.roles?.some((role) => role.role === "agent");
   const isUser = !isAdmin && !isAgent;
   return {
     isAdmin,
+    isVerified,
     isAgent,
     isUser,
   };

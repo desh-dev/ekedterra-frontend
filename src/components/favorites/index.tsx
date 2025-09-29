@@ -56,9 +56,11 @@ const FavoritesPage = () => {
 
   if (!user?.favorites?.length) {
     return (
-      <div className="min-h-screen m-4 md:m-0 flex flex-col">
-        <h3 className="text-3xl font-semibold my-8">Favorites</h3>
-        <div className="h-full flex flex-col items-center justify-center mt-20">
+      <div className="min-h-screen m-4 min-w-[70vw] max-w-7xl">
+        <h3 className="text-3xl font-semibold my-8 place-self-start">
+          Favorites
+        </h3>
+        <div className="h-full w-full flex flex-col items-center justify-center mt-20">
           <div className="relative mb-4 w-48 h-48">
             <Image
               src="/favorites-not-found.png"

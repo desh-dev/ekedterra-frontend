@@ -11,7 +11,7 @@ import { PropertyInput } from "@/lib/graphql/types";
 import { apolloClient } from "@/lib/apollo/client";
 import { GET_PROPERTIES } from "@/lib/graphql/queries";
 import PropertyCardSkeleton from "../property/property-card-skeleton";
-import { useCategoryStore } from "@/providers/category-store-provider";
+import { useAppStore } from "@/providers/category-store-provider";
 import HomeSkeleton from "../home/skeleton";
 import { useSearchParams } from "next/navigation";
 
@@ -20,7 +20,7 @@ const LIMIT = 10;
 const SearchPage = () => {
   const [total, setTotal] = useState(0);
   const { ref, inView } = useInView();
-  const { category, country, city, type } = useCategoryStore((state) => state);
+  const { category, country, city, type } = useAppStore((state) => state);
   const [isCategoryLoading, setIsCategoryLoading] = useState(false);
   const params = useSearchParams();
   const COUNTRY =

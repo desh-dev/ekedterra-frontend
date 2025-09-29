@@ -1,24 +1,24 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Image from 'next/image';
-import { HeartIcon, ShareIcon, StarIcon } from '@heroicons/react/24/outline';
-import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
-import { Property } from '@/lib/graphql/types';
-import BookingCard from './booking-card';
-import PropertyGallery from './property-gallery';
-import Header from '../search/header';
-import { useAuth } from '@/providers/auth-provider';
-import { useCategoryStore } from '@/providers/category-store-provider';
-import useIsDesktop from '@/hooks/useIsDesktop';
-import { useRouter } from '@/i18n/routing';
-import { addFavorite, removeFavorite } from '@/lib/data/client';
-import toast from 'react-hot-toast';
-import { ArrowLeft } from 'lucide-react';
-import { useSwipeable } from 'react-swipeable';
-import Footer from '../layout/footer';
-import { Button } from '../ui/button';
-import BookingModal from './booking-modal';
+import { useState } from "react";
+import Image from "next/image";
+import { HeartIcon, ShareIcon, StarIcon } from "@heroicons/react/24/outline";
+import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
+import { Property } from "@/lib/graphql/types";
+import BookingCard from "./booking-card";
+import PropertyGallery from "./property-gallery";
+import Header from "../search/header";
+import { useAuth } from "@/providers/auth-provider";
+import { useAppStore } from "@/providers/category-store-provider";
+import useIsDesktop from "@/hooks/useIsDesktop";
+import { useRouter } from "@/i18n/routing";
+import { addFavorite, removeFavorite } from "@/lib/data/client";
+import toast from "react-hot-toast";
+import { ArrowLeft } from "lucide-react";
+import { useSwipeable } from "react-swipeable";
+import Footer from "../layout/footer";
+import { Button } from "../ui/button";
+import BookingModal from "./booking-modal";
 
 interface PropertyDetailProps {
   property: Property;
@@ -29,7 +29,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showBookingModal, setShowBookingModal] = useState(false);
   const { user, setUser, isUser } = useAuth();
-  const { setLogin } = useCategoryStore((state) => state);
+  const { setLogin } = useAppStore((state) => state);
   const { isDesktop } = useIsDesktop();
   const router = useRouter();
 
@@ -41,7 +41,8 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
 
   // Check if user has an existing booking for this property
   const existingBooking = user?.bookings?.find(
-    (booking) => booking.propertyId === property.id
+    (booking) =>
+      booking.propertyId === property.id && booking.status === "pending"
   );
 
   const totalImages = images.length;
@@ -61,7 +62,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
   const handleToggleFavorite = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!user) return isDesktop ? setLogin(true) : router.push('/auth/login');
+    if (!user) return isDesktop ? setLogin(true) : router.push("/auth/login");
 
     // Optimistically update user favorites
     const prevFavorites = user.favorites || [];
@@ -74,7 +75,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
       } catch (err) {
         // Revert optimistic update
         setUser({ ...user, favorites: prevFavorites });
-        toast.error('Failed to remove favorite.');
+        toast.error("Failed to remove favorite.");
       }
     } else {
       newFavorites = [...prevFavorites, { id: property.id }];
@@ -84,7 +85,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
       } catch (err) {
         // Revert optimistic update
         setUser({ ...user, favorites: prevFavorites });
-        toast.error('Failed to add favorite.');
+        toast.error("Failed to add favorite.");
       }
     }
   };
@@ -300,7 +301,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
             {/* Host Info */}
             <div className="hidden md:block pb-8 border-b border-gray-200">
               <h2 className="text-xl font-semibold capitalize">
-                {property.type}{' '}
+                {property.type}{" "}
                 {property.buildingName && `- ${property.buildingName}`}
               </h2>
               {/* <div className="flex items-center space-x-4 text-gray-600">
@@ -357,12 +358,12 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
           <div className="fixed md:hidden bottom-0 left-0 right-0 px-4 py-2 bg-white flex border-t border-gray-200 justify-between items-center">
             <div className="flex flex-col justify-center items-center">
               <p className="font-semibold uppercase">
-                {property.currency || 'xaf'} {property.rent?.toLocaleString()}
+                {property.currency || "xaf"} {property.rent?.toLocaleString()}
               </p>
               <p className="text-gray-600 text-sm">{property.rentDuration}</p>
-            </div>{' '}
+            </div>{" "}
             <Button size="lg" onClick={handleBookingClick}>
-              {existingBooking ? 'Reschedule' : 'Reserve'}
+              {existingBooking ? "Reschedule" : "Reserve"}
             </Button>
           </div>
         </div>

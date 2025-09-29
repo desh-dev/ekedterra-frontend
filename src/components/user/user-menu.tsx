@@ -2,7 +2,7 @@
 
 import { Fragment } from "react";
 import { Link, useRouter } from "@/i18n/routing";
-import { useCategoryStore } from "@/providers/category-store-provider";
+import { useAppStore } from "@/providers/category-store-provider";
 import { useAuth } from "@/providers/auth-provider";
 import { HelpCircle } from "lucide-react";
 import Image from "next/image";
@@ -12,7 +12,7 @@ interface UserMenuProps {
 }
 
 export default function UserMenu({ onClose }: UserMenuProps) {
-  const setLogin = useCategoryStore((state) => state.setLogin);
+  const setLogin = useAppStore((state) => state.setLogin);
   const router = useRouter();
 
   const handleAuth = () => {

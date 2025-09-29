@@ -48,6 +48,9 @@ export const apolloClient = new ApolloClient({
       Booking: {
         keyFields: ["id"],
       },
+      Product: {
+        keyFields: ["id"],
+      },
     },
   }),
   defaultOptions: {

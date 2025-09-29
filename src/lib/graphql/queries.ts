@@ -19,7 +19,41 @@ export const GET_PROPERTIES = gql`
         description
         userId
         address {
+          country
+          region
+          city
+          street
+        }
+        images {
           id
+          imageUrl
+        }
+        createdAt
+        updatedAt
+      }
+      total
+    }
+  }
+`;
+
+export const GET_LISTINGS = gql`
+  query GetProperties($property: PropertyInput, $pagination: PaginationInput!) {
+    properties(property: $property, pagination: $pagination) {
+      data {
+        id
+        title
+        buildingName
+        type
+        rent
+        rentDuration
+        price
+        vacant
+        mainImage
+        contactInfo
+        category
+        description
+        userId
+        address {
           country
           region
           city
@@ -31,6 +65,14 @@ export const GET_PROPERTIES = gql`
         images {
           id
           imageUrl
+        }
+        bookings {
+          id
+          userId
+          bookingDate
+          status
+          createdAt
+          updatedAt
         }
         createdAt
         updatedAt

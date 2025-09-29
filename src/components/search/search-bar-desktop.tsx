@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { Search } from "lucide-react";
-import { useCategoryStore } from "@/providers/category-store-provider";
+import { useAppStore } from "@/providers/category-store-provider";
 import { useSearchParams } from "next/navigation";
 import CategoryTabs, { categories } from "../home/category-tabs";
 import { motion, AnimatePresence } from "framer-motion";
@@ -21,7 +21,7 @@ const dropdownVariants = {
 
 const SearchBarDesktop = () => {
   const { category, country, setCountry, city, setCity, type, setType } =
-    useCategoryStore((state) => state);
+    useAppStore((state) => state);
 
   const router = useRouter();
   const params = useSearchParams();

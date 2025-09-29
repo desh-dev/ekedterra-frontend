@@ -52,7 +52,7 @@ export function SignUpForm({
         {
           type: "SIGNUP_SUCCESS",
         },
-        "http://localhost:5000"
+        window.location.origin
       );
       if (error) throw error;
       router.push("/auth/sign-up-success");

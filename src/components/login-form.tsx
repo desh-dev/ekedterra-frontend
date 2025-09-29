@@ -54,7 +54,7 @@ export function LoginForm({
           type: "LOGIN_SUCCESS",
           user,
         },
-        "http://localhost:5000"
+        window.location.origin
       );
       const previousUrl = document.referrer;
       if (previousUrl && previousUrl.includes(window.location.origin)) {

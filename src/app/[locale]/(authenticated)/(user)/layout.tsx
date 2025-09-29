@@ -11,19 +11,16 @@ export default async function Layout({
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }) {
-  const [{ isUser }, locale] = await Promise.all([
-    getRoles(),
-    (await params).locale,
-  ]);
-  if (!isUser) {
-    redirect({ href: "/", locale });
+  const { locale } = await params;
+  try {
+    const { isUser } = await getRoles();
+    if (!isUser) {
+      redirect({ href: "/", locale });
+    }
+  } catch (error: any) {
+    if (error?.message === "No user found") {
+      redirect({ href: "/", locale });
+    } else throw error;
   }
-  return (
-    <div className="w-full min-h-screen flex flex-col">
-      <Header />
-      <main className="lg:max-w-7xl md:mx-auto lg:px-8">{children}</main>
-      <Footer />
-      <BottomNav />
-    </div>
-  );
+  return children;
 }
