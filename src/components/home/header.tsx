@@ -37,7 +37,7 @@ export default function Header() {
           <div>
             <Link href="/" className="flex place-self-center hidden lg:block">
               <Image
-                src="https://files.edgestore.dev/4j2pblt570q0o7fi/myPublicImages/_public/25624364-d1c9-4cf8-9226-fc9536c44ca0.webp"
+                src="https://files.edgestore.dev/7muc2z5blt7yqz78/assets/_public/logo-lg.webp"
                 alt="Logo"
                 width={140}
                 height={80}
@@ -48,7 +48,7 @@ export default function Header() {
               className="flex place-self-center hidden md:block lg:hidden"
             >
               <Image
-                src="https://files.edgestore.dev/4j2pblt570q0o7fi/myPublicImages/_public/bac6a535-965c-45b8-9d58-dab1c376e1f2.webp"
+                src="https://files.edgestore.dev/7muc2z5blt7yqz78/assets/_public/logo.webp"
                 alt="Logo"
                 width={120}
                 height={60}

@@ -1,4 +1,5 @@
 import LoginIframe from "@/components/login-iframe";
+import { EdgeStoreProvider } from "@/lib/edgestore";
 import { CategoryStoreProvider } from "@/providers/category-store-provider";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
@@ -25,9 +26,11 @@ export default async function LocaleLayout({
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
       <CategoryStoreProvider>
-        {children}
-        <Toaster />
-        <LoginIframe />
+        <EdgeStoreProvider>
+          {children}
+          <Toaster />
+          <LoginIframe />
+        </EdgeStoreProvider>
       </CategoryStoreProvider>
     </NextIntlClientProvider>
   );

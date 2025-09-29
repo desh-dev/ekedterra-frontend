@@ -16,13 +16,23 @@ const Header = () => {
         <div className="flex justify-between items-center px-6">
           <div>
             <Link href="/" className="flex place-self-center hidden lg:block">
-              <Image src="/logo-lg.png" alt="Logo" width={140} height={80} />
+              <Image
+                src="https://files.edgestore.dev/7muc2z5blt7yqz78/assets/_public/logo-lg.webp"
+                alt="Logo"
+                width={140}
+                height={80}
+              />
             </Link>
             <Link
               href="/"
               className="flex place-self-center hidden md:block lg:hidden"
             >
-              <Image src="/logo.png" alt="Logo" width={120} height={60} />
+              <Image
+                src="https://files.edgestore.dev/7muc2z5blt7yqz78/assets/_public/logo.webp"
+                alt="Logo"
+                width={120}
+                height={60}
+              />
             </Link>
           </div>
           <div className="flex gap-2 items-center">
