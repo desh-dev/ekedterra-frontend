@@ -43,7 +43,7 @@ const FavoritesPage = () => {
 
   if (loading || isLoading) {
     return (
-      <div className="m-4 md:m-0 flex flex-col">
+      <div className="m-4 md:m-0 flex flex-col  min-w-[70vw] max-w-7xl">
         <h3 className="text-3xl font-semibold my-4">Favorites</h3>
         <div className="mx-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {Array.from({ length: PAGE_SIZE }).map((_, index) => (

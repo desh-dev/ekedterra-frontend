@@ -1,6 +1,6 @@
 import LoginIframe from "@/components/login-iframe";
 import { EdgeStoreProvider } from "@/lib/edgestore";
-import { CategoryStoreProvider } from "@/providers/category-store-provider";
+import { CategoryStoreProvider } from "@/providers/app-store-provider";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";

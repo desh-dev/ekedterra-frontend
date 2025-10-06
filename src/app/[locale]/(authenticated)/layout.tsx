@@ -2,7 +2,6 @@ import Header from "@/components/favorites/header";
 import BottomNav from "@/components/layout/bottom-nav";
 import Footer from "@/components/layout/footer";
 import { redirect } from "@/i18n/routing";
-import { getRoles } from "@/lib/data/server";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function Layout({

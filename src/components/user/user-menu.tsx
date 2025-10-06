@@ -2,7 +2,7 @@
 
 import { Fragment } from "react";
 import { Link, useRouter } from "@/i18n/routing";
-import { useAppStore } from "@/providers/category-store-provider";
+import { useAppStore } from "@/providers/app-store-provider";
 import { useAuth } from "@/providers/auth-provider";
 import { HelpCircle } from "lucide-react";
 import Image from "next/image";
@@ -67,14 +67,14 @@ export default function UserMenu({ onClose }: UserMenuProps) {
             {isAgent && (
               <div>
                 <Link
-                  href="/listings"
+                  href="/agent/listings"
                   className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
                   onClick={onClose}
                 >
                   Manage listings
                 </Link>
                 <Link
-                  href="/products"
+                  href="/agent/products"
                   className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
                   onClick={onClose}
                 >

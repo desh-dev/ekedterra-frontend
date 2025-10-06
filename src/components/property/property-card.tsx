@@ -12,7 +12,7 @@ import {
 import { Property } from "@/lib/graphql/types";
 import { useAuth } from "@/providers/auth-provider";
 import useIsDesktop from "@/hooks/useIsDesktop";
-import { useAppStore } from "@/providers/category-store-provider";
+import { useAppStore } from "@/providers/app-store-provider";
 import { addFavorite, removeFavorite } from "@/lib/data/client";
 import toast from "react-hot-toast";
 

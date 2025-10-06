@@ -11,16 +11,40 @@ export type PropertyType =
   | undefined;
 export type PropertyCategory = "housing" | "land" | "business";
 
-export enum RentDuration {
-  DAILY = "daily",
-  MONTHLY = "monthly",
-  YEARLY = "yearly",
-}
+export type PropductCategory =
+  | "transport"
+  | "electronics"
+  | "furniture"
+  | "home"
+  | "health"
+  | "food"
+  | "travel"
+  | "education"
+  | "clothing"
+  | "toys"
+  | "fashion"
+  | "beauty"
+  | "sports"
+  | "service"
+  | "music"
+  | "gaming"
+  | "other";
+
+export type RentDuration = "daily" | "monthly" | "yearly";
 
 export interface UserRole {
   id: string;
   role: string;
 }
+
+export interface VerificationDocs {
+  id: string;
+  frontId: string;
+  backId: string;
+  selfie: string;
+  selfieWithId: string;
+}
+
 export type BookingStatus = "pending" | "successful" | "cancelled" | "unknown";
 
 export interface Property {
@@ -40,6 +64,7 @@ export interface Property {
   userId: string;
   address?: PropertyAddress;
   images?: PropertyImage[];
+  bookings?: Booking[];
   createdAt: string;
   updatedAt: string;
 }
@@ -60,6 +85,10 @@ export interface PropertyImage {
   imageUrl: string;
 }
 
+export interface ImageInput {
+  imageUrl: string;
+}
+
 export interface User {
   userId: string;
   email: string;
@@ -71,6 +100,7 @@ export interface User {
   address?: UserAddress;
   favorites?: Partial<Property>[];
   bookings?: Booking[];
+  verificationDocs?: VerificationDocs;
   createdAt: string;
   updatedAt: string;
 }
@@ -119,7 +149,7 @@ export interface BookingEventData {
   propertyInfo: {
     propertyId: string;
     propertyTitle: string;
-  }
+  };
 }
 
 export interface PaginatedProperty {
@@ -173,4 +203,40 @@ export interface SearchFilters {
 export interface FavoriteInput {
   propertyId: string;
   userId: string;
+}
+
+export interface ProductImage {
+  id: string;
+  imageUrl: string;
+}
+
+export interface Product {
+  id: string;
+  name: string;
+  description: string;
+  category: PropductCategory;
+  price: number;
+  stock: number;
+  mainImage: string;
+  salePrice: number;
+  bulkPrice: number;
+  bulkQty: number;
+  userId: string;
+  images?: ProductImage[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ProductInput {
+  id?: string;
+  name?: string;
+  description?: string;
+  category?: PropductCategory;
+  price?: number;
+  stock?: number;
+  mainImage?: string;
+  salePrice?: number;
+  bulkPrice?: number;
+  bulkQty?: number;
+  userId?: string;
 }

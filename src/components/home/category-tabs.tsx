@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { PropertyCategory } from "@/lib/graphql/types";
-import { useAppStore } from "@/providers/category-store-provider";
+import { useAppStore } from "@/providers/app-store-provider";
 
 export const categories = [
   { id: "housing", label: "Homes", icon: "/homes-icon.png" },

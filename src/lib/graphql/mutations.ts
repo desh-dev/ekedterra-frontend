@@ -17,9 +17,81 @@ export const CREATE_PROPERTY = gql`
       category
       description
       userId
+      address {
+        country
+        region
+        city
+        street
+        zip
+        longitude
+        latitude
+      }
       createdAt
       updatedAt
     }
+  }
+`;
+
+export const ADD_PROPERTY_ADDRESS = gql`
+  mutation AddPropertyAddress(
+    $propertyId: ID!
+    $propertyAddress: PropertyAddressInput!
+  ) {
+    addPropertyAddress(
+      propertyId: $propertyId
+      propertyAddress: $propertyAddress
+    ) {
+      id
+      country
+      region
+      city
+      street
+      zip
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const UPDATE_PROPERTY_ADDRESS = gql`
+  mutation UpdatePropertyAddress(
+    $propertyId: ID!
+    $propertyAddress: PropertyAddressInput!
+  ) {
+    updatePropertyAddress(
+      propertyId: $propertyId
+      propertyAddress: $propertyAddress
+    ) {
+      id
+      country
+      region
+      city
+      street
+      zip
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const ADD_PROPERTY_IMAGES = gql`
+  mutation AddPropertyImages(
+    $propertyId: ID!
+    $propertyImages: [PropertyImageInput]!
+  ) {
+    addPropertyImages(
+      propertyId: $propertyId
+      propertyImages: $propertyImages
+    ) {
+      id
+      imageUrl
+    }
+  }
+`;
+
+export const DELETE_PROPERTY_IMAGE = gql`
+  mutation DeletePropertyImage($id: ID!) {
+    deletePropertyImage(id: $id)
   }
 `;
 
@@ -119,7 +191,6 @@ export const UPDATE_USER = gql`
       avatarUrl
       fullName
       phone
-      role
       verified
       updatedAt
     }
@@ -129,6 +200,21 @@ export const UPDATE_USER = gql`
 export const ADD_USER_ADDRESS = gql`
   mutation AddUserAddress($userId: ID!, $userAddress: UserAddressInput!) {
     addUserAddress(userId: $userId, userAddress: $userAddress) {
+      id
+      country
+      region
+      city
+      street
+      zip
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const UPDATE_USER_ADDRESS = gql`
+  mutation UpdateUserAddress($userId: ID!, $userAddress: UserAddressInput!) {
+    updateUserAddress(userId: $userId, userAddress: $userAddress) {
       id
       country
       region
@@ -153,5 +239,107 @@ export const ADD_ROLE = gql`
 export const DELETE_ROLE = gql`
   mutation DeleteRole($id: ID!) {
     deleteRole(id: $id)
+  }
+`;
+
+export const ADD_VERIFICATION_DOCS = gql`
+  mutation AddVerificationDocs(
+    $userId: ID!
+    $verificationDocs: VerificationDocsInput!
+  ) {
+    addVerificationDocs(userId: $userId, verificationDocs: $verificationDocs) {
+      id
+      frontId
+      backId
+      selfie
+      selfieWithId
+    }
+  }
+`;
+
+export const UPDATE_VERIFICATION_DOCS = gql`
+  mutation UpdateVerificationDocs(
+    $userId: ID!
+    $verificationDocs: VerificationDocsInput!
+  ) {
+    updateVerificationDocs(
+      userId: $userId
+      verificationDocs: $verificationDocs
+    ) {
+      id
+      frontId
+      backId
+      selfie
+      selfieWithId
+    }
+  }
+`;
+
+export const DELETE_VERIFICATION_DOCS = gql`
+  mutation DeleteVerificationDocs($id: ID!) {
+    deleteVerificationDocs(id: $id)
+  }
+`;
+
+export const CREATE_PRODUCT = gql`
+  mutation CreateProduct($product: ProductCreateInput!) {
+    createProduct(product: $product) {
+      id
+      name
+      description
+      category
+      price
+      stock
+      mainImage
+      salePrice
+      bulkPrice
+      bulkQty
+      userId
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const UPDATE_PRODUCT = gql`
+  mutation UpdateProduct($id: ID!, $product: ProductInput!) {
+    updateProduct(id: $id, product: $product) {
+      id
+      name
+      description
+      category
+      price
+      stock
+      mainImage
+      salePrice
+      bulkPrice
+      bulkQty
+      userId
+      updatedAt
+    }
+  }
+`;
+
+export const DELETE_PRODUCT = gql`
+  mutation DeleteProduct($id: ID!) {
+    deleteProduct(id: $id)
+  }
+`;
+
+export const ADD_PRODUCT_IMAGES = gql`
+  mutation AddProductImages(
+    $productId: ID!
+    $productImages: [ProductImageInput]!
+  ) {
+    addProductImages(productId: $productId, productImages: $productImages) {
+      id
+      imageUrl
+    }
+  }
+`;
+
+export const DELETE_PRODUCT_IMAGE = gql`
+  mutation DeleteProductImage($id: ID!) {
+    deleteProductImage(id: $id)
   }
 `;

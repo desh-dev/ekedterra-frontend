@@ -171,6 +171,13 @@ export const GET_USER = gql`
           }
         }
       }
+      verificationDocs {
+        id
+        frontId
+        backId
+        selfie
+        selfieWithId
+      }
       createdAt
       updatedAt
     }
@@ -202,6 +209,56 @@ export const GET_BOOKING = gql`
       status
       createdAt
       updatedAt
+    }
+  }
+`;
+
+export const GET_PRODUCTS = gql`
+  query GetProducts($product: ProductInput, $pagination: PaginationInput!) {
+    products(product: $product, pagination: $pagination) {
+      data {
+        id
+        name
+        description
+        category
+        price
+        stock
+        mainImage
+        salePrice
+        bulkPrice
+        bulkQty
+        userId
+        createdAt
+        updatedAt
+      }
+      total
+    }
+  }
+`;
+
+export const GET_PRODUCTS_LISTINGS = gql`
+  query GetProducts($product: ProductInput, $pagination: PaginationInput!) {
+    products(product: $product, pagination: $pagination) {
+      data {
+        id
+        name
+        description
+        category
+        price
+        stock
+        mainImage
+        salePrice
+        bulkPrice
+        bulkQty
+        userId
+        images {
+          id
+          imageUrl
+        }
+        createdAt
+        updatedAt
+      }
+      total
     }
   }
 `;

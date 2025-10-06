@@ -9,7 +9,7 @@ import BookingCard from "./booking-card";
 import PropertyGallery from "./property-gallery";
 import Header from "../search/header";
 import { useAuth } from "@/providers/auth-provider";
-import { useAppStore } from "@/providers/category-store-provider";
+import { useAppStore } from "@/providers/app-store-provider";
 import useIsDesktop from "@/hooks/useIsDesktop";
 import { useRouter } from "@/i18n/routing";
 import { addFavorite, removeFavorite } from "@/lib/data/client";

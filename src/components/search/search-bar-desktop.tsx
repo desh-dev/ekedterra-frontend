@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { Search } from "lucide-react";
-import { useAppStore } from "@/providers/category-store-provider";
+import { useAppStore } from "@/providers/app-store-provider";
 import { useSearchParams } from "next/navigation";
 import CategoryTabs, { categories } from "../home/category-tabs";
 import { motion, AnimatePresence } from "framer-motion";

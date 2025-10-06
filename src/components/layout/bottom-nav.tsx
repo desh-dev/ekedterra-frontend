@@ -63,10 +63,10 @@ const BottomNav = () => {
 
   const BookingActive = pathname === "/bookings";
 
-  const ProductActive = pathname === "/products";
+  const ProductActive = pathname === "/agent/products";
   const ProductIcon = ProductActive ? TagIconSolid : TagIcon;
 
-  const ListingActive = pathname === "/listings";
+  const ListingActive = pathname === "/agent/listings";
   const ListingIcon = ListingActive
     ? BuildingOffice2IconSolid
     : BuildingOffice2Icon;
@@ -168,7 +168,7 @@ const BottomNav = () => {
             {/* Products */}
             {isAgent && (
               <Link
-                href="/products"
+                href="/agent/products"
                 className="flex flex-col items-center justify-center flex-1 py-2"
               >
                 <ProductIcon
@@ -190,7 +190,7 @@ const BottomNav = () => {
             {/* Listings */}
             {isAgent && (
               <Link
-                href="/listings"
+                href="/agent/listings"
                 className="flex flex-col items-center justify-center flex-1 py-2"
               >
                 <ListingIcon

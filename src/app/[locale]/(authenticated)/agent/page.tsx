@@ -1,3 +1,5 @@
+import BecomeAgentPage from "@/components/agent";
+
 export default function Page() {
-  return <div></div>;
+  return <BecomeAgentPage />;
 }

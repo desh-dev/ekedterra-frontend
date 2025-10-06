@@ -6,7 +6,13 @@ const es = initEdgeStore.create();
  */
 const edgeStoreRouter = es.router({
   properties: es.imageBucket({
-    maxSize: 1024 * 1024 * 1, // 1MB
+    maxSize: 1024 * 1024 * 5, // 5MB
+  }),
+  verificationDocs: es.imageBucket({
+    maxSize: 1024 * 1024 * 5, // 5MB
+  }),
+  products: es.imageBucket({
+    maxSize: 1024 * 1024 * 5, // 5MB
   }),
 });
 const handler = createEdgeStoreNextHandler({

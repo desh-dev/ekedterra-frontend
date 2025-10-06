@@ -12,7 +12,7 @@ import UserMenu from "@/components/user/user-menu";
 import LanguageSwitcher from "@/components/language-switcher";
 import SearchBar from "../layout/search-bar";
 import SearchBarDesktop from "./search-bar-desktop";
-import { ArrowLeft, Settings2 } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 export default function Header() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -50,7 +50,8 @@ export default function Header() {
             <SearchBarDesktop />
             {path === "/search" && (
               <div className="flex items-center gap-2 text-sm font-medium border border-gray-200 p-2 rounded-full hover:shadow-md transition-shadow">
-                <Settings2 size={16} />
+                <AdjustmentsHorizontalIcon className="h-4 w-4" />
+
                 <span>Filters</span>
               </div>
             )}

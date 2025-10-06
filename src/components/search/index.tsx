@@ -11,7 +11,7 @@ import { PropertyInput } from "@/lib/graphql/types";
 import { apolloClient } from "@/lib/apollo/client";
 import { GET_PROPERTIES } from "@/lib/graphql/queries";
 import PropertyCardSkeleton from "../property/property-card-skeleton";
-import { useAppStore } from "@/providers/category-store-provider";
+import { useAppStore } from "@/providers/app-store-provider";
 import HomeSkeleton from "../home/skeleton";
 import { useSearchParams } from "next/navigation";
 
