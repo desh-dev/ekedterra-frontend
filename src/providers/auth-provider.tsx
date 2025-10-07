@@ -62,7 +62,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
     // Check for existing session
     getClaims();
-  }, []);
+  }, [user]);
 
   const signOut = async () => {
     try {

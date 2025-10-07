@@ -1,41 +1,20 @@
 import { LoginForm } from "@/components/login-form";
-import { redirect } from "@/i18n/routing";
-import { createClient } from "@/lib/supabase/server";
+import { getTranslations } from "next-intl/server";
 
 interface PageProps {
   params: Promise<{ locale: string }>;
 }
 
-const metadata = (locale: string) => {
-  if (locale === "en") {
-    return {
-      title: "Log In",
-      description: "Log in to Ekedterra to keep track of real estate.",
-    };
-  }
-  return {
-    title: "Connexion",
-    description:
-      "Connectez-vous sur Ekedterra pour suivre les biens immobiliers.",
-  };
-};
-
 export async function generateMetadata({ params }: PageProps) {
   const { locale } = await params;
-  return metadata(locale);
+  const t = await getTranslations({ locale, namespace: "metadata.login" });
+  return {
+    title: t("title"),
+    description: t("description"),
+  };
 }
 
-export default async function Page({ params }: PageProps) {
-  const { locale } = await params;
-  try {
-    const supabase = await createClient();
-    const { data } = await supabase.auth.getClaims();
-    if (data?.claims) {
-      redirect({ href: "/", locale });
-    }
-  } catch (error: unknown) {
-    throw error;
-  }
+export default async function Page() {
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm">

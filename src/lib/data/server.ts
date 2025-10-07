@@ -3,7 +3,7 @@ import { GET_PROPERTY, GET_USER } from "../graphql/queries";
 import { User } from "../graphql/types";
 import { createClient } from "../supabase/server";
 
-const getUser = async (id: string) => {
+export const getUser = async (id: string) => {
   try {
     const { data } = await apolloClient.query({
       query: GET_USER,

@@ -1,6 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { hasEnvVars } from "../utils";
+import { getUser } from "../data/server";
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
@@ -46,17 +47,75 @@ export async function updateSession(request: NextRequest) {
   // with the Supabase client, your users may be randomly logged out.
   const { data } = await supabase.auth.getClaims();
   const user = data?.claims;
+  const pathname = request.nextUrl.pathname;
 
-  if (
-    request.nextUrl.pathname !== "/" &&
-    !user &&
-    !request.nextUrl.pathname.startsWith("/login") &&
-    !request.nextUrl.pathname.startsWith("/auth")
-  ) {
-    // no user, potentially respond by redirecting the user to the login page
+  // Extract locale from pathname
+  const localeMatch = pathname.match(/^\/(en|fr)/);
+  const locale = localeMatch ? localeMatch[1] : "fr";
+
+  // Check if accessing protected authenticated routes
+  const isAuthenticatedRoute =
+    pathname.includes("/(authenticated)") ||
+    pathname.match(/\/(en|fr)\/(account-settings|profile|agent)/);
+
+  // Check if accessing user-only routes
+  const isUserRoute = pathname.match(/\/(en|fr)\/(bookings|favorites)/);
+
+  // Check if accessing agent verified routes
+  const isVerifiedAgentRoute = pathname.match(
+    /\/(en|fr)\/agent\/(listings|products)/
+  );
+
+  // Check if accessing auth pages (login, sign-up, etc)
+  const isAuthPage =
+    pathname.includes("/auth/") && !pathname.includes("/auth/callback");
+
+  // If user is logged in and trying to access auth pages, redirect to home
+  if (user && isAuthPage) {
     const url = request.nextUrl.clone();
-    url.pathname = "/auth/login";
+    url.pathname = `/${locale}`;
     return NextResponse.redirect(url);
+  }
+
+  // If user is not logged in and trying to access authenticated routes
+  if (!user && isAuthenticatedRoute) {
+    const url = request.nextUrl.clone();
+    url.pathname = `/${locale}/auth/login`;
+    return NextResponse.redirect(url);
+  }
+
+  // If user is logged in and trying to access protected routes, check roles
+  if (user && (isUserRoute || isVerifiedAgentRoute)) {
+    const userData = await getUser(user.sub);
+
+    if (!userData) {
+      const url = request.nextUrl.clone();
+      url.pathname = `/${locale}`;
+      return NextResponse.redirect(url);
+    }
+
+    const isAdmin = userData.roles?.some(
+      (role: { role: string }) => role.role === "admin"
+    );
+    const isAgent = userData.roles?.some(
+      (role: { role: string }) => role.role === "agent"
+    );
+    const isUserRole = !isAdmin && !isAgent;
+    const isVerified = isAdmin ? userData.verified : false;
+
+    // Check user-only routes (bookings, favorites)
+    if (isUserRoute && !isUserRole) {
+      const url = request.nextUrl.clone();
+      url.pathname = `/${locale}`;
+      return NextResponse.redirect(url);
+    }
+
+    // Check verified agent routes (listings, products)
+    if (isVerifiedAgentRoute && !isVerified) {
+      const url = request.nextUrl.clone();
+      url.pathname = `/${locale}`;
+      return NextResponse.redirect(url);
+    }
   }
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is.

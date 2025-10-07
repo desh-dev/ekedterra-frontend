@@ -5,13 +5,22 @@ import { useAuth } from "@/providers/auth-provider";
 import { Card } from "@/components/ui/card";
 import { Link } from "@/i18n/routing";
 import Image from "next/image";
-import { CheckCircle2, ChevronRight, User, AlertCircle } from "lucide-react";
+import {
+  CheckCircle2,
+  ChevronRight,
+  User,
+  AlertCircle,
+  LogOut,
+} from "lucide-react";
 import { PersonalInformationSheet } from "./personal-information-sheet";
 import Loading from "../loading";
+import { useTranslations } from "next-intl";
+import LanguageSwitcher from "../language-switcher";
 
 const ProfilePage = () => {
-  const { user, loading, isAgent } = useAuth();
+  const { user, loading, isAgent, signOut } = useAuth();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const t = useTranslations("profile");
 
   if (loading) {
     return (
@@ -24,9 +33,7 @@ const ProfilePage = () => {
   if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-muted-foreground">
-          Please log in to view your profile
-        </p>
+        <p className="text-muted-foreground">{t("pleaseLogin")}</p>
       </div>
     );
   }
@@ -54,7 +61,12 @@ const ProfilePage = () => {
     <div className="min-h-screen bg-background p-4 md:p-8">
       <div className="max-w-4xl mx-auto">
         {/* Page Header */}
-        <h1 className="text-3xl font-bold mb-6">Profile</h1>
+        <div className="w-full flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold">{t("title")}</h1>
+          <div className="block md:hidden">
+            <LanguageSwitcher />
+          </div>
+        </div>
 
         {/* User Info Card */}
         <Card className="p-6 mb-4">
@@ -97,11 +109,10 @@ const ProfilePage = () => {
                 />
                 <div className="flex-1">
                   <h3 className="font-semibold text-lg mb-1">
-                    Become an agent
+                    {t("becomeAgent")}
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    It&apos;s easy to become an Ekedterra agent and earn extra
-                    income
+                    {t("becomeAgentDescription")}
                   </p>
                 </div>
                 <ChevronRight className="text-muted-foreground flex-shrink-0" />
@@ -119,11 +130,10 @@ const ProfilePage = () => {
                     </div>
                     <div className="flex-1">
                       <h3 className="font-semibold text-lg mb-1">
-                        Complete your verification
+                        {t("completeVerification")}
                       </h3>
                       <p className="text-sm text-muted-foreground">
-                        Please complete your verification documents to start
-                        listing properties
+                        {t("completeVerificationDescription")}
                       </p>
                     </div>
                     <ChevronRight className="text-muted-foreground flex-shrink-0" />
@@ -137,11 +147,10 @@ const ProfilePage = () => {
                   </div>
                   <div className="flex-1">
                     <h3 className="font-semibold text-lg mb-1">
-                      Verification pending
+                      {t("verificationPending")}
                     </h3>
                     <p className="text-sm text-muted-foreground">
-                      Your documents are under review. We&apos;ll notify you
-                      once verification is complete.
+                      {t("verificationPendingDescription")}
                     </p>
                   </div>
                 </div>
@@ -153,11 +162,10 @@ const ProfilePage = () => {
                   </div>
                   <div className="flex-1">
                     <h3 className="font-semibold text-lg mb-1">
-                      Verified agent
+                      {t("verifiedAgent")}
                     </h3>
                     <p className="text-sm text-muted-foreground">
-                      You&apos;re all set! Start listing and managing your
-                      properties.
+                      {t("verifiedAgentDescription")}
                     </p>
                   </div>
                 </div>
@@ -167,8 +175,8 @@ const ProfilePage = () => {
         </Card>
 
         {/* Account Settings Section */}
-        <div className="mt-8">
-          <h2 className="text-xl font-semibold mb-4">Account settings</h2>
+        <div className="mt-8 space-y-4">
+          <h2 className="text-xl font-semibold mb-4">{t("accountSettings")}</h2>
 
           <button
             onClick={() => setIsSheetOpen(true)}
@@ -176,9 +184,16 @@ const ProfilePage = () => {
           >
             <User className="w-5 h-5 text-muted-foreground" />
             <span className="flex-1 text-left font-medium">
-              Personal information
+              {t("personalInformation")}
             </span>
             <ChevronRight className="w-5 h-5 text-muted-foreground" />
+          </button>
+          <button
+            onClick={signOut}
+            className="w-full flex items-center gap-3 p-4 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            <LogOut className="w-5 h-5 text-muted-foreground" />
+            <span className="flex-1 text-left font-medium">{t("logout")}</span>
           </button>
         </div>
       </div>

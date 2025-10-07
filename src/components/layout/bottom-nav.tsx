@@ -22,12 +22,14 @@ import { Link, usePathname } from "@/i18n/routing";
 import { useAuth } from "@/providers/auth-provider";
 import { CalendarFold } from "lucide-react";
 import useIsDesktop from "@/hooks/useIsDesktop";
+import { useTranslations } from "next-intl";
 
 const BottomNav = () => {
   const pathname = usePathname();
   const [showNav, setShowNav] = useState(true);
   const { user, isAgent, isUser } = useAuth();
   const { isIframe } = useIsDesktop();
+  const t = useTranslations("navigation");
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
@@ -71,7 +73,7 @@ const BottomNav = () => {
 
   // Profile/Login logic
   const profileHref = user ? "/profile" : "/auth/login";
-  const profileName = user ? "Profile" : "Log in";
+  const profileName = user ? t("profile") : t("login");
   const ProfileActive = pathname === profileHref;
   const ProfileIcon = ProfileActive ? UserCircleIconSolid : UserCircleIcon;
 
@@ -100,7 +102,7 @@ const BottomNav = () => {
               ExploreActive ? "text-[#FF385C] font-medium" : "text-gray-400"
             }`}
           >
-            Explore
+            {t("explore")}
           </span>
         </Link>
         {/* Favorites */}
@@ -119,7 +121,7 @@ const BottomNav = () => {
                 FavoritesActive ? "text-[#FF385C] font-medium" : "text-gray-400"
               }`}
             >
-              Favorites
+              {t("favorites")}
             </span>
           </Link>
         )}
@@ -138,7 +140,7 @@ const BottomNav = () => {
                 BookingActive ? "text-[#FF385C] font-medium" : "text-gray-400"
               }`}
             >
-              Bookings
+              {t("bookings")}
             </span>
           </Link>
         )}
@@ -156,7 +158,7 @@ const BottomNav = () => {
               ShopActive ? "text-[#FF385C] font-medium" : "text-gray-400"
             }`}
           >
-            Shop
+            {t("shop")}
           </span>
         </Link>
         {/* Products */}
@@ -175,7 +177,7 @@ const BottomNav = () => {
                 ProductActive ? "text-[#FF385C] font-medium" : "text-gray-400"
               }`}
             >
-              Products
+              {t("products")}
             </span>
           </Link>
         )}
@@ -195,7 +197,7 @@ const BottomNav = () => {
                 ListingActive ? "text-[#FF385C] font-medium" : "text-gray-400"
               }`}
             >
-              Listings
+              {t("listings")}
             </span>
           </Link>
         )}

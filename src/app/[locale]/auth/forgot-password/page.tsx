@@ -1,26 +1,18 @@
 import { ForgotPasswordForm } from "@/components/forgot-password-form";
 import BottomNav from "@/components/layout/bottom-nav";
+import { getTranslations } from "next-intl/server";
 
 interface PageProps {
   params: Promise<{ locale: string }>;
 }
 
-const metadata = (locale: string) => {
-  if (locale === "en") {
-    return {
-      title: "Forgot Password",
-      description: "Find your account and reset your password.",
-    };
-  }
-  return {
-    title: "Mot de passe oublié",
-    description: "Trouvez votre compte et réinitialisez votre mot de passe.",
-  };
-};
-
 export async function generateMetadata({ params }: PageProps) {
   const { locale } = await params;
-  return metadata(locale);
+  const t = await getTranslations({ locale, namespace: "metadata.forgotPassword" });
+  return {
+    title: t("title"),
+    description: t("description"),
+  };
 }
 
 export default function Page() {

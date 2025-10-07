@@ -1,33 +1,23 @@
 import HomePage from "@/components/home";
 import { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 
 interface PageProps {
   params: Promise<{ locale: string }>;
 }
 
-const translations = {
-  en: {
-    title: "Ekedterra - House to let",
-    description: "Simplify your search for real estate",
-  },
-  fr: {
-    title: "Ekedterra - Maison à louer",
-    description: "Simplifiez votre recherche de biens immobiliers",
-  },
-};
-
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { locale } = await params;
-  const t = translations[locale as "en" | "fr"] || translations.fr;
+  const t = await getTranslations({ locale, namespace: "metadata.home" });
 
   return {
-    title: t.title,
-    description: t.description,
+    title: t("title"),
+    description: t("description"),
     openGraph: {
-      title: t.title,
-      description: t.description,
+      title: t("title"),
+      description: t("description"),
     },
   };
 }

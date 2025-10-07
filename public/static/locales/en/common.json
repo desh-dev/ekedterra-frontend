@@ -1,16 +1,6 @@
 {
   "home": {
     "categories": {
-      "homes": "Homes",
-      "land": "Land",
-      "stores": "Stores"
-    },
-    "hero": {
-      "title": "Find your next stay",
-      "subtitle": "Discover amazing places to stay around the world"
-    },
-    "popularDestinations": "Popular destinations",
-    "categories": {
       "all": "All",
       "apartments": "Apartments",
       "houses": "Houses",
@@ -20,35 +10,154 @@
       "guesthouses": "Guesthouses",
       "land": "Land",
       "business": "Business"
-    },
-    "results": {
-      "loading": "Loading...",
-      "stays": "stays",
-      "stay": "stay"
-    },
-    "info": {
-      "sampleData": "Currently showing sample data. GraphQL integration will be connected once the backend is available."
     }
   },
-  "search": {
-    "where": "Where",
-    "when": "When",
-    "type": "Type",
-    "whereTo": "Where to?",
-    "becomeHost": "Airbnb your home"
+  "auth": {
+    "login": {
+      "title": "Login",
+      "description": "Enter your email below to login to your account",
+      "email": "Email",
+      "emailPlaceholder": "m@example.com",
+      "password": "Password",
+      "forgotPassword": "Forgot your password?",
+      "loginButton": "Login",
+      "loggingIn": "Logging in...",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up"
+    },
+    "signUp": {
+      "title": "Sign up",
+      "description": "Create a new account",
+      "email": "Email",
+      "emailPlaceholder": "m@example.com",
+      "password": "Password",
+      "repeatPassword": "Repeat Password",
+      "signUpButton": "Sign up",
+      "creatingAccount": "Creating an account...",
+      "haveAccount": "Already have an account?",
+      "login": "Login",
+      "passwordsDoNotMatch": "Passwords do not match",
+      "errorOccurred": "An error occurred"
+    },
+    "forgotPassword": {
+      "title": "Reset Your Password",
+      "description": "Type in your email and we'll send you a link to reset your password",
+      "email": "Email",
+      "emailPlaceholder": "m@example.com",
+      "sendButton": "Send reset email",
+      "sending": "Sending...",
+      "haveAccount": "Already have an account?",
+      "login": "Login",
+      "checkEmailTitle": "Check Your Email",
+      "checkEmailDescription": "Password reset instructions sent",
+      "checkEmailMessage": "If you registered using your email and password, you will receive a password reset email."
+    }
+  },
+  "navigation": {
+    "explore": "Explore",
+    "favorites": "Favorites",
+    "bookings": "Bookings",
+    "shop": "Shop",
+    "products": "Products",
+    "listings": "Listings",
+    "profile": "Profile",
+    "login": "Log in"
+  },
+  "bookings": {
+    "title": "Bookings",
+    "noBookings": "You don't have any bookings",
+    "noBookingsDescription": "Start booking properties to view them here.",
+    "error": "Error",
+    "prev": "Prev",
+    "next": "Next",
+    "page": "Page",
+    "of": "of"
+  },
+  "favorites": {
+    "title": "Favorites",
+    "noFavorites": "You don't have any favorites",
+    "noFavoritesDescription": "Start adding properties to your favorites to view them here.",
+    "error": "Error"
+  },
+  "profile": {
+    "title": "Profile",
+    "pleaseLogin": "Please log in to view your profile",
+    "becomeAgent": "Become an agent",
+    "becomeAgentDescription": "It's easy to become an Ekedterra agent and earn extra income",
+    "completeVerification": "Complete your verification",
+    "completeVerificationDescription": "Please complete your verification documents to start listing properties",
+    "verificationPending": "Verification pending",
+    "verificationPendingDescription": "Your documents are under review. We'll notify you once verification is complete.",
+    "verifiedAgent": "Verified agent",
+    "verifiedAgentDescription": "You're all set! Start listing and managing your properties.",
+    "accountSettings": "Account settings",
+    "personalInformation": "Personal information",
+    "logout": "Logout"
+  },
+  "metadata": {
+    "home": {
+      "title": "Ekedterra - House to let",
+      "description": "Simplify your search for real estate"
+    },
+    "login": {
+      "title": "Log In",
+      "description": "Log in to Ekedterra to keep track of real estate."
+    },
+    "signUp": {
+      "title": "Sign Up",
+      "description": "Join the Ekedterra community and enjoy stress-free real estate search."
+    },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "description": "Find your account and reset your password."
+    },
+    "updatePassword": {
+      "title": "Update Password",
+      "description": "Update your Ekedterra account password."
+    },
+    "bookings": {
+      "title": "My Bookings",
+      "description": "View and manage your property bookings."
+    },
+    "favorites": {
+      "title": "My Favorites",
+      "description": "View your favorite properties."
+    },
+    "profile": {
+      "title": "Profile",
+      "description": "Manage your Ekedterra profile and account settings."
+    },
+    "accountSettings": {
+      "title": "Account Settings",
+      "description": "Manage your account settings and preferences."
+    },
+    "search": {
+      "title": "Search Properties",
+      "description": "Find your perfect property on Ekedterra."
+    },
+    "shop": {
+      "title": "Shop",
+      "description": "Browse products from Ekedterra agents."
+    },
+    "agent": {
+      "title": "Agent Dashboard",
+      "description": "Manage your properties and products as an Ekedterra agent."
+    },
+    "listings": {
+      "title": "My Listings",
+      "description": "View and manage your property listings."
+    },
+    "products": {
+      "title": "My Products",
+      "description": "View and manage your products."
+    }
   },
   "common": {
-    "loading": "Loading...",
     "error": "Error",
-    "success": "Success",
-    "cancel": "Cancel",
-    "save": "Save",
-    "delete": "Delete",
-    "edit": "Edit",
-    "search": "Search",
-    "filter": "Filter",
-    "sort": "Sort",
-    "view": "View",
-    "close": "Close"
+    "loading": "Loading...",
+    "prev": "Prev",
+    "next": "Next",
+    "page": "Page",
+    "of": "of"
   }
 }
