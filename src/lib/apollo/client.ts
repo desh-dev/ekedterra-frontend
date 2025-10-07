@@ -12,7 +12,7 @@ const httpLink = new HttpLink({
     process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || "http://localhost:8000/graphql",
 });
 
-const authLink = new SetContextLink(({ headers }, _) => {
+const authLink = new SetContextLink(({ headers }) => {
   // Get the authentication token from localStorage if it exists
   // We'll integrate this with Supabase auth later
 

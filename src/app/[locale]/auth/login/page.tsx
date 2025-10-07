@@ -3,9 +3,7 @@ import { redirect } from "@/i18n/routing";
 import { createClient } from "@/lib/supabase/server";
 
 interface PageProps {
-  params: {
-    locale: string;
-  };
+  params: Promise<{ locale: string }>;
 }
 
 const metadata = (locale: string) => {
@@ -27,11 +25,7 @@ export async function generateMetadata({ params }: PageProps) {
   return metadata(locale);
 }
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
+export default async function Page({ params }: PageProps) {
   const { locale } = await params;
   try {
     const supabase = await createClient();
@@ -39,7 +33,7 @@ export default async function Page({
     if (data?.claims) {
       redirect({ href: "/", locale });
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     throw error;
   }
   return (

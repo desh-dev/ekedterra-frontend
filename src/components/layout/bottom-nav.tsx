@@ -21,15 +21,13 @@ import {
 import { Link, usePathname } from "@/i18n/routing";
 import { useAuth } from "@/providers/auth-provider";
 import { CalendarFold } from "lucide-react";
+import useIsDesktop from "@/hooks/useIsDesktop";
 
 const BottomNav = () => {
   const pathname = usePathname();
   const [showNav, setShowNav] = useState(true);
-  const [isIframe, setIsIframe] = useState(true);
   const { user, isAgent, isUser } = useAuth();
-  useEffect(() => {
-    setIsIframe(window.self !== window.top);
-  }, []);
+  const { isIframe } = useIsDesktop();
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
@@ -77,160 +75,150 @@ const BottomNav = () => {
   const ProfileActive = pathname === profileHref;
   const ProfileIcon = ProfileActive ? UserCircleIconSolid : UserCircleIcon;
 
+  if (isIframe) return null;
+
   return (
-    <div>
-      {!isIframe ? (
-        <motion.div
-          initial={{ y: 0 }}
-          animate={{ y: showNav ? 0 : 80 }}
-          transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50"
+    <motion.div
+      initial={{ y: 0 }}
+      animate={{ y: showNav ? 0 : 80 }}
+      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50"
+    >
+      <nav className="flex items-center justify-around h-16">
+        {/* Explore */}
+        <Link
+          href="/"
+          className="flex flex-col items-center justify-center flex-1 py-2"
         >
-          <nav className="flex items-center justify-around h-16">
-            {/* Explore */}
-            <Link
-              href="/"
-              className="flex flex-col items-center justify-center flex-1 py-2"
+          <ExploreIcon
+            className={`h-6 w-6 ${
+              ExploreActive ? "text-[#FF385C]" : "text-gray-400"
+            }`}
+          />
+          <span
+            className={`text-xs mt-1 ${
+              ExploreActive ? "text-[#FF385C] font-medium" : "text-gray-400"
+            }`}
+          >
+            Explore
+          </span>
+        </Link>
+        {/* Favorites */}
+        {(!user || isUser) && (
+          <Link
+            href="/favorites"
+            className="flex flex-col items-center justify-center flex-1 py-2"
+          >
+            <FavoritesIcon
+              className={`h-6 w-6 ${
+                FavoritesActive ? "text-[#FF385C]" : "text-gray-400"
+              }`}
+            />
+            <span
+              className={`text-xs mt-1 ${
+                FavoritesActive ? "text-[#FF385C] font-medium" : "text-gray-400"
+              }`}
             >
-              <ExploreIcon
-                className={`h-6 w-6 ${
-                  ExploreActive ? "text-[#FF385C]" : "text-gray-400"
-                }`}
-              />
-              <span
-                className={`text-xs mt-1 ${
-                  ExploreActive ? "text-[#FF385C] font-medium" : "text-gray-400"
-                }`}
-              >
-                Explore
-              </span>
-            </Link>
-            {/* Favorites */}
-            {(!user || isUser) && (
-              <Link
-                href="/favorites"
-                className="flex flex-col items-center justify-center flex-1 py-2"
-              >
-                <FavoritesIcon
-                  className={`h-6 w-6 ${
-                    FavoritesActive ? "text-[#FF385C]" : "text-gray-400"
-                  }`}
-                />
-                <span
-                  className={`text-xs mt-1 ${
-                    FavoritesActive
-                      ? "text-[#FF385C] font-medium"
-                      : "text-gray-400"
-                  }`}
-                >
-                  Favorites
-                </span>
-              </Link>
-            )}
-            {isUser && (
-              <Link
-                href="/bookings"
-                className="flex flex-col items-center justify-center flex-1 py-2"
-              >
-                <CalendarFold
-                  className={`h-6 w-6 ${
-                    BookingActive ? "text-[#FF385C]" : "text-gray-400"
-                  }`}
-                />
-                <span
-                  className={`text-xs mt-1 ${
-                    BookingActive
-                      ? "text-[#FF385C] font-medium"
-                      : "text-gray-400"
-                  }`}
-                >
-                  Bookings
-                </span>
-              </Link>
-            )}
-            <Link
-              href="/shop"
-              className="flex flex-col items-center justify-center flex-1 py-2"
+              Favorites
+            </span>
+          </Link>
+        )}
+        {isUser && (
+          <Link
+            href="/bookings"
+            className="flex flex-col items-center justify-center flex-1 py-2"
+          >
+            <CalendarFold
+              className={`h-6 w-6 ${
+                BookingActive ? "text-[#FF385C]" : "text-gray-400"
+              }`}
+            />
+            <span
+              className={`text-xs mt-1 ${
+                BookingActive ? "text-[#FF385C] font-medium" : "text-gray-400"
+              }`}
             >
-              <ShopIcon
-                className={`h-6 w-6 ${
-                  ShopActive ? "text-[#FF385C]" : "text-gray-400"
-                }`}
-              />
-              <span
-                className={`text-xs mt-1 ${
-                  ShopActive ? "text-[#FF385C] font-medium" : "text-gray-400"
-                }`}
-              >
-                Shop
-              </span>
-            </Link>
-            {/* Products */}
-            {isAgent && (
-              <Link
-                href="/agent/products"
-                className="flex flex-col items-center justify-center flex-1 py-2"
-              >
-                <ProductIcon
-                  className={`h-6 w-6 ${
-                    ProductActive ? "text-[#FF385C]" : "text-gray-400"
-                  }`}
-                />
-                <span
-                  className={`text-xs mt-1 ${
-                    ProductActive
-                      ? "text-[#FF385C] font-medium"
-                      : "text-gray-400"
-                  }`}
-                >
-                  Products
-                </span>
-              </Link>
-            )}
-            {/* Listings */}
-            {isAgent && (
-              <Link
-                href="/agent/listings"
-                className="flex flex-col items-center justify-center flex-1 py-2"
-              >
-                <ListingIcon
-                  className={`h-6 w-6 ${
-                    ListingActive ? "text-[#FF385C]" : "text-gray-400"
-                  }`}
-                />
-                <span
-                  className={`text-xs mt-1 ${
-                    ListingActive
-                      ? "text-[#FF385C] font-medium"
-                      : "text-gray-400"
-                  }`}
-                >
-                  Listings
-                </span>
-              </Link>
-            )}
-            {/* Profile / Log in */}
-            <Link
-              href={profileHref}
-              className="flex flex-col items-center justify-center flex-1 py-2"
+              Bookings
+            </span>
+          </Link>
+        )}
+        <Link
+          href="/shop"
+          className="flex flex-col items-center justify-center flex-1 py-2"
+        >
+          <ShopIcon
+            className={`h-6 w-6 ${
+              ShopActive ? "text-[#FF385C]" : "text-gray-400"
+            }`}
+          />
+          <span
+            className={`text-xs mt-1 ${
+              ShopActive ? "text-[#FF385C] font-medium" : "text-gray-400"
+            }`}
+          >
+            Shop
+          </span>
+        </Link>
+        {/* Products */}
+        {isAgent && (
+          <Link
+            href="/agent/products"
+            className="flex flex-col items-center justify-center flex-1 py-2"
+          >
+            <ProductIcon
+              className={`h-6 w-6 ${
+                ProductActive ? "text-[#FF385C]" : "text-gray-400"
+              }`}
+            />
+            <span
+              className={`text-xs mt-1 ${
+                ProductActive ? "text-[#FF385C] font-medium" : "text-gray-400"
+              }`}
             >
-              <ProfileIcon
-                className={`h-6 w-6 ${
-                  ProfileActive ? "text-[#FF385C]" : "text-gray-400"
-                }`}
-              />
-              <span
-                className={`text-xs mt-1 ${
-                  ProfileActive ? "text-[#FF385C] font-medium" : "text-gray-400"
-                }`}
-              >
-                {profileName}
-              </span>
-            </Link>
-          </nav>
-        </motion.div>
-      ) : null}
-    </div>
+              Products
+            </span>
+          </Link>
+        )}
+        {/* Listings */}
+        {isAgent && (
+          <Link
+            href="/agent/listings"
+            className="flex flex-col items-center justify-center flex-1 py-2"
+          >
+            <ListingIcon
+              className={`h-6 w-6 ${
+                ListingActive ? "text-[#FF385C]" : "text-gray-400"
+              }`}
+            />
+            <span
+              className={`text-xs mt-1 ${
+                ListingActive ? "text-[#FF385C] font-medium" : "text-gray-400"
+              }`}
+            >
+              Listings
+            </span>
+          </Link>
+        )}
+        {/* Profile / Log in */}
+        <Link
+          href={profileHref}
+          className="flex flex-col items-center justify-center flex-1 py-2"
+        >
+          <ProfileIcon
+            className={`h-6 w-6 ${
+              ProfileActive ? "text-[#FF385C]" : "text-gray-400"
+            }`}
+          />
+          <span
+            className={`text-xs mt-1 ${
+              ProfileActive ? "text-[#FF385C] font-medium" : "text-gray-400"
+            }`}
+          >
+            {profileName}
+          </span>
+        </Link>
+      </nav>
+    </motion.div>
   );
 };
 

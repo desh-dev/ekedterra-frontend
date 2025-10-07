@@ -6,10 +6,7 @@ import { GET_PROPERTY } from "@/lib/graphql/queries";
 import { getProperty } from "@/lib/data/server";
 
 interface PropertyPageProps {
-  params: {
-    id: string;
-    locale: string;
-  };
+  params: Promise<{ id: string; locale: string }>;
 }
 
 // This enables SSR for SEO
@@ -22,7 +19,7 @@ export async function generateMetadata({
       query: GET_PROPERTY,
       variables: { id },
     });
-    //@ts-ignore
+    //@ts-expect-error Object is possibly 'null'.
     const property = data?.property;
 
     if (!property) {
@@ -52,6 +49,7 @@ export async function generateMetadata({
       },
     };
   } catch (error) {
+    console.error("Error generating metadata:", error);
     const { locale } = await params;
 
     return {

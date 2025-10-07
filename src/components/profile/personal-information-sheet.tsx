@@ -189,7 +189,7 @@ export function PersonalInformationSheet({
             }
           : user.verificationDocs,
       };
-      //@ts-ignore
+      //@ts-expect-error Object is possibly 'null'.
       setUser(updatedUser);
       toast.success("Personal information updated successfully!");
       onOpenChange(false);
@@ -203,8 +203,11 @@ export function PersonalInformationSheet({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="px-8 max-h-[80vh] overflow-y-auto">
-        <SheetHeader className="sticky top-0 left-0 right-0 z-10 bg-background">
+      <SheetContent
+        side="bottom"
+        className="px-8 max-h-[80vh] max-w-7xl mx-auto overflow-y-auto rounded-lg"
+      >
+        <SheetHeader className="w-[100vw] sticky top-0 left-0 right-0 z-10 bg-background">
           <SheetTitle>Personal information</SheetTitle>
           <SheetDescription>
             Update your personal information and identity verification
@@ -240,7 +243,7 @@ export function PersonalInformationSheet({
             />
             <p className="text-xs text-muted-foreground mt-1">
               Add a number so confirmed guests and Ekedterra can get in touch.
-              You can add other numbers and choose how they're used.
+              You can add other numbers and choose how they&apos;re used.
             </p>
           </div>
 

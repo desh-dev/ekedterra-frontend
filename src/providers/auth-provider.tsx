@@ -4,7 +4,6 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { getUser } from "@/lib/data/client";
 import { User } from "@/lib/graphql/types";
-import { useRouter } from "@/i18n/routing";
 
 type AuthContextType = {
   user: User | null;
@@ -53,7 +52,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           setIsAgent(false);
           setIsUser(true);
         }
-      } catch (error) {
+      } catch (error: unknown) {
         setError(error instanceof Error ? error.message : "An error occurred");
       } finally {
         setLoading(false);
@@ -71,7 +70,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       setLoading(true);
       await supabase.auth.signOut();
       setUser(null);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error signing out:", error);
     } finally {
       setLoading(false);

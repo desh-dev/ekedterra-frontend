@@ -5,10 +5,7 @@ import Image from "next/image";
 import { useSwipeable } from "react-swipeable";
 import { Link, usePathname, useRouter } from "@/i18n/routing";
 import { HeartIcon } from "@heroicons/react/24/outline";
-import {
-  HeartIcon as HeartIconSolid,
-  StarIcon,
-} from "@heroicons/react/24/solid";
+import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
 import { Property } from "@/lib/graphql/types";
 import { useAuth } from "@/providers/auth-provider";
 import useIsDesktop from "@/hooks/useIsDesktop";
@@ -64,6 +61,7 @@ export default function PropertyCard({
       try {
         await removeFavorite({ userId: user.userId, propertyId: property.id });
       } catch (err) {
+        console.error("Failed to remove favorite:", err);
         // Revert optimistic update
         setUser({ ...user, favorites: prevFavorites });
         toast.error("Failed to remove favorite.");
@@ -74,6 +72,7 @@ export default function PropertyCard({
       try {
         await addFavorite({ userId: user.userId, propertyId: property.id });
       } catch (err) {
+        console.error("Failed to add favorite:", err);
         // Revert optimistic update
         setUser({ ...user, favorites: prevFavorites });
         toast.error("Failed to add favorite.");

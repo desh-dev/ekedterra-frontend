@@ -129,7 +129,7 @@ export default function CreateProductSheet({
         },
       });
 
-      //@ts-ignore
+      //@ts-expect-error Object is possibly 'null'.
       const createdProduct = data?.createProduct;
 
       if (!createdProduct) {
@@ -179,8 +179,11 @@ export default function CreateProductSheet({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="px-8 max-h-[90vh] overflow-y-auto">
-        <SheetHeader className="sticky top-0 left-0 right-0 z-10 bg-background pb-4">
+      <SheetContent
+        side="bottom"
+        className="px-8 max-h-[80vh] max-w-7xl mx-auto overflow-y-auto"
+      >
+        <SheetHeader className="w-[100vw] sticky top-0 left-0 right-0 z-10 bg-background rounded-lg pb-4">
           <SheetTitle>Create new product</SheetTitle>
           <SheetDescription>
             Add a new product to your inventory

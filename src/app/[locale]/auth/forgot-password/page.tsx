@@ -2,9 +2,7 @@ import { ForgotPasswordForm } from "@/components/forgot-password-form";
 import BottomNav from "@/components/layout/bottom-nav";
 
 interface PageProps {
-  params: {
-    locale: string;
-  };
+  params: Promise<{ locale: string }>;
 }
 
 const metadata = (locale: string) => {

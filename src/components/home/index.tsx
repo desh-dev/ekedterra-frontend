@@ -38,9 +38,9 @@ const HomePage = () => {
         },
       });
 
-      //@ts-ignore
+      //@ts-expect-error Object is possibly 'null'.
       const properties = data?.properties?.data;
-      //@ts-ignore
+      //@ts-expect-error Object is possibly 'null'.
       const total = data?.properties?.total;
 
       return { properties, total };
@@ -49,25 +49,24 @@ const HomePage = () => {
     }
   };
 
-  const { data, error, status, fetchNextPage, refetch, isFetchingNextPage } =
-    useInfiniteQuery({
-      queryKey: ["properties"],
-      queryFn: getProperties,
-      initialPageParam: 0,
-      // Remove setTotal from select!
-      select: (data) => data,
-      getNextPageParam: (lastPage, allPages) => {
-        const totalPropertiesLoaded = allPages.reduce(
-          (acc, page) => acc + page?.properties?.length,
-          0
-        );
+  const { data, error, status, fetchNextPage, refetch } = useInfiniteQuery({
+    queryKey: ["properties"],
+    queryFn: getProperties,
+    initialPageParam: 0,
+    // Remove setTotal from select!
+    select: (data) => data,
+    getNextPageParam: (lastPage, allPages) => {
+      const totalPropertiesLoaded = allPages.reduce(
+        (acc, page) => acc + page?.properties?.length,
+        0
+      );
 
-        if (totalPropertiesLoaded >= total) {
-          return undefined;
-        }
-        return allPages?.length;
-      },
-    });
+      if (totalPropertiesLoaded >= total) {
+        return undefined;
+      }
+      return allPages?.length;
+    },
+  });
 
   useEffect(() => {
     // Set total only once when data is loaded
@@ -83,7 +82,7 @@ const HomePage = () => {
   useEffect(() => {
     setIsCategoryLoading(true);
     refetch().finally(() => setIsCategoryLoading(false));
-  }, [category]);
+  }, [category, refetch]);
 
   useEffect(() => {
     if (inView) {
@@ -109,7 +108,7 @@ const HomePage = () => {
           <PropertyGrid
             properties={properties}
             endRef={ref}
-            //@ts-ignore
+            //@ts-expect-error Object is possibly 'null'.
             favorites={user?.favorites?.map((favorite) => favorite?.id) || []}
           />
         )}

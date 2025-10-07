@@ -6,9 +6,9 @@ import { PropertyCategory } from "@/lib/graphql/types";
 import { useAppStore } from "@/providers/app-store-provider";
 
 export const categories = [
-  { id: "housing", label: "Homes", icon: "/homes-icon.png" },
-  { id: "land", label: "Land", icon: "/land-icon.png" },
-  { id: "business", label: "Stores", icon: "/stores-icon.png" },
+  { id: "housing", label: "Homes", icon: "/homes-icon.webp" },
+  { id: "land", label: "Land", icon: "/land-icon.webp" },
+  { id: "business", label: "Stores", icon: "/stores-icon.webp" },
 ];
 
 const CategoryTabs = () => {

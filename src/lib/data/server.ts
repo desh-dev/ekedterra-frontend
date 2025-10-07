@@ -10,9 +10,9 @@ const getUser = async (id: string) => {
       variables: { id },
       fetchPolicy: "cache-first",
     });
-    //@ts-ignore
+    // @ts-expect-error Object is possibly 'null'.
     return data?.user as User;
-  } catch (error) {
+  } catch (error: unknown) {
     console.error("Error fetching user:", error);
     throw error;
   }
@@ -42,11 +42,11 @@ export async function getProperty(id: string) {
       variables: { id },
       errorPolicy: "all",
     });
-    //@ts-ignore
+    // @ts-expect-error Object is possibly 'null'.
     const property = data?.property;
 
     return property;
-  } catch (error) {
+  } catch (error: unknown) {
     console.error(error);
     throw error;
   }

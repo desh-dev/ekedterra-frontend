@@ -2,11 +2,27 @@ import { useEffect, useState } from "react";
 
 interface UseIsDesktop {
   isDesktop: boolean;
+  isIOS: boolean;
+  isStandalone: boolean;
+  isIframe: boolean;
 }
 
 export default function useIsDesktop(): UseIsDesktop {
   const [isDesktop, setIsDesktop] = useState(false);
+  const [isIOS, setIsIOS] = useState(true);
+  const [isStandalone, setIsStandalone] = useState(true);
+  const [isIframe, setIsIframe] = useState(true);
+
   useEffect(() => {
+    const isIOSDevice =
+      /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+    const isStandaloneApp = window.matchMedia(
+      "(display-mode: standalone)"
+    ).matches;
+    setIsIframe(window.self !== window.top);
+
+    setIsIOS(isIOSDevice);
+    setIsStandalone(isStandaloneApp);
     const checkSize = () => setIsDesktop(window.innerWidth >= 768);
     checkSize();
     window.addEventListener("resize", checkSize);
@@ -14,5 +30,8 @@ export default function useIsDesktop(): UseIsDesktop {
   }, []);
   return {
     isDesktop,
+    isIOS,
+    isStandalone,
+    isIframe,
   };
 }

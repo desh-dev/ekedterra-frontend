@@ -20,7 +20,7 @@ export default function PropertyGrid({
       <div className="min-h-[60vh] flex flex-col items-center justify-center">
         <div className="relative mb-4 w-48 h-48">
           <Image
-            src="/properties-not-found.png"
+            src="/properties-not-found.webp"
             alt="properties not found"
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

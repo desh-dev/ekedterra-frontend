@@ -52,9 +52,9 @@ const SearchPage = () => {
         },
       });
 
-      //@ts-ignore
+      // @ts-expect-error Object is possibly 'null'.
       const properties = data?.properties?.data;
-      //@ts-ignore
+      // @ts-expect-error Object is possibly 'null'.
       const total = data?.properties?.total;
 
       return { properties, total };
@@ -63,25 +63,24 @@ const SearchPage = () => {
     }
   };
 
-  const { data, error, status, fetchNextPage, refetch, isFetchingNextPage } =
-    useInfiniteQuery({
-      queryKey: ["properties"],
-      queryFn: getProperties,
-      initialPageParam: 0,
-      // Remove setTotal from select!
-      select: (data) => data,
-      getNextPageParam: (lastPage, allPages) => {
-        const totalPropertiesLoaded = allPages.reduce(
-          (acc, page) => acc + page?.properties?.length,
-          0
-        );
+  const { data, error, status, fetchNextPage, refetch } = useInfiniteQuery({
+    queryKey: ["properties"],
+    queryFn: getProperties,
+    initialPageParam: 0,
+    // Remove setTotal from select!
+    select: (data) => data,
+    getNextPageParam: (lastPage, allPages) => {
+      const totalPropertiesLoaded = allPages.reduce(
+        (acc, page) => acc + page?.properties?.length,
+        0
+      );
 
-        if (totalPropertiesLoaded >= total) {
-          return undefined;
-        }
-        return allPages?.length;
-      },
-    });
+      if (totalPropertiesLoaded >= total) {
+        return undefined;
+      }
+      return allPages?.length;
+    },
+  });
 
   useEffect(() => {
     // Set total only once when data is loaded
@@ -94,12 +93,10 @@ const SearchPage = () => {
   const isPending = status === "pending";
   const isError = status === "error";
 
-  const handleSearch = (filters: PropertyInput) => {};
-
   useEffect(() => {
     setIsCategoryLoading(true);
     refetch().finally(() => setIsCategoryLoading(false));
-  }, [category, country, city, type]);
+  }, [category, country, city, type, refetch]);
 
   useEffect(() => {
     if (inView) {

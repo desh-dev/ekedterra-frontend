@@ -1,7 +1,7 @@
 "use client";
 
 import { Fragment } from "react";
-import { Link, useRouter } from "@/i18n/routing";
+import { Link } from "@/i18n/routing";
 import { useAppStore } from "@/providers/app-store-provider";
 import { useAuth } from "@/providers/auth-provider";
 import { HelpCircle } from "lucide-react";
@@ -13,7 +13,6 @@ interface UserMenuProps {
 
 export default function UserMenu({ onClose }: UserMenuProps) {
   const setLogin = useAppStore((state) => state.setLogin);
-  const router = useRouter();
 
   const handleAuth = () => {
     setLogin(true);
@@ -108,7 +107,7 @@ export default function UserMenu({ onClose }: UserMenuProps) {
                 </p>
               </div>
               <Image
-                src="/become-agent.png"
+                src="/become-agent.webp"
                 alt="become agent"
                 width={44}
                 height={44}

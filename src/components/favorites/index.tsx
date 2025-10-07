@@ -6,13 +6,14 @@ import PropertyCardSkeleton from "../property/property-card-skeleton";
 import { useAuth } from "@/providers/auth-provider";
 import { getProperty } from "@/lib/data/client";
 import Image from "next/image";
+import { Property } from "@/lib/graphql/types";
 
 const PAGE_SIZE = 10;
 
 const FavoritesPage = () => {
   const { loading, user } = useAuth();
   const [page, setPage] = useState(1);
-  const [properties, setProperties] = useState<any[]>([]);
+  const [properties, setProperties] = useState<Property[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -63,7 +64,7 @@ const FavoritesPage = () => {
         <div className="h-full w-full flex flex-col items-center justify-center mt-20">
           <div className="relative mb-4 w-48 h-48">
             <Image
-              src="/favorites-not-found.png"
+              src="/favorites-not-found.webp"
               alt="favorites not found"
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { HeartIcon, ShareIcon, StarIcon } from "@heroicons/react/24/outline";
+import { HeartIcon, ShareIcon } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
 import { Property } from "@/lib/graphql/types";
 import BookingCard from "./booking-card";
@@ -73,6 +73,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
       try {
         await removeFavorite({ userId: user.userId, propertyId: property.id });
       } catch (err) {
+        console.error("Failed to remove favorite:", err);
         // Revert optimistic update
         setUser({ ...user, favorites: prevFavorites });
         toast.error("Failed to remove favorite.");
@@ -83,6 +84,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
       try {
         await addFavorite({ userId: user.userId, propertyId: property.id });
       } catch (err) {
+        console.error("Failed to add favorite:", err);
         // Revert optimistic update
         setUser({ ...user, favorites: prevFavorites });
         toast.error("Failed to add favorite.");

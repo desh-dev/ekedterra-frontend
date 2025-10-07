@@ -18,7 +18,8 @@ export default async function Layout({
     if (!data?.claims) {
       redirect({ href: "/", locale });
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
+    console.error(error);
     throw error;
   }
   return (

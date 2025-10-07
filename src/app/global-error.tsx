@@ -29,7 +29,7 @@ export default function GlobalError({
                     className="flex place-self-center hidden lg:block"
                   >
                     <Image
-                      src="https://files.edgestore.dev/7muc2z5blt7yqz78/assets/_public/logo-lg.webp"
+                      src="/logo-lg.webp"
                       alt="Logo"
                       width={140}
                       height={80}
@@ -40,7 +40,7 @@ export default function GlobalError({
                     className="flex place-self-center hidden md:block lg:hidden"
                   >
                     <Image
-                      src="https://files.edgestore.dev/7muc2z5blt7yqz78/assets/_public/logo.webp"
+                      src="/logo.webp"
                       alt="Logo"
                       width={120}
                       height={60}
@@ -70,26 +70,26 @@ export default function GlobalError({
 
                   <div className="space-y-2">
                     <p className="text-sm text-gray-700">
-                      An error has occurred and we're working to fix the
-                      problem! We'll be up and running shortly.
+                      An error has occurred and we&apos;re working to fix the
+                      problem! We&apos;ll be up and running shortly.
                     </p>
 
                     <p className="text-sm text-gray-700">
                       If you need immediate help from our customer service team
                       about an ongoing reservation, please{" "}
-                      <a
+                      <Link
                         href="/contact"
                         className="text-[#FF385C] hover:underline font-medium"
                       >
                         contact us
-                      </a>
-                      . If it isn't an urgent matter, please visit our{" "}
-                      <a
+                      </Link>
+                      . If it isn&apos;t an urgent matter, please visit our{" "}
+                      <Link
                         href="/help"
                         className="text-[#FF385C] hover:underline font-medium"
                       >
                         Help Center
-                      </a>{" "}
+                      </Link>{" "}
                       for additional information. Thanks for your patience!
                     </p>
 

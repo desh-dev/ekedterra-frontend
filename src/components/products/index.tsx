@@ -42,9 +42,9 @@ const ProductsPage = () => {
       });
 
       return {
-        // @ts-ignore
+        //@ts-expect-error Object is possibly 'null'.
         products: data?.products?.data || [],
-        // @ts-ignore
+        //@ts-expect-error Object is possibly 'null'.
         total: data?.products?.total || 0,
       };
     },

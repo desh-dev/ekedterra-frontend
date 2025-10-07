@@ -20,7 +20,7 @@ const LoginIframe = () => {
     };
     window.addEventListener("message", handleMessage);
     return () => window.removeEventListener("message", handleMessage);
-  }, [setLogin]);
+  }, [setLogin, setUser]);
   return (
     <div>
       {login && (

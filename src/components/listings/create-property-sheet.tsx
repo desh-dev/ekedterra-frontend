@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { apolloClient } from "@/lib/apollo/client";
 import { CREATE_PROPERTY, ADD_PROPERTY_IMAGES } from "@/lib/graphql/mutations";
 import toast from "react-hot-toast";
-import { Loader2, MapPin } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { SingleImageDropzone } from "@/components/upload/single-image";
 import { ImageUploader } from "@/components/upload/multi-image";
 import { UploaderProvider } from "@/components/upload/uploader-provider";
@@ -71,7 +71,7 @@ export default function CreatePropertySheet({
   const { user } = useAuth();
   const { edgestore } = useEdgeStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isGettingLocation, setIsGettingLocation] = useState(false);
+  // const [isGettingLocation, setIsGettingLocation] = useState(false);
 
   const [formData, setFormData] = useState<FormData>({
     title: undefined,
@@ -98,10 +98,10 @@ export default function CreatePropertySheet({
   });
 
   const getCurrentLocation = () => {
-    setIsGettingLocation(true);
+    // setIsGettingLocation(true);
     if (!navigator.geolocation) {
       toast.error("Geolocation is not supported by your browser");
-      setIsGettingLocation(false);
+      // setIsGettingLocation(false);
       return;
     }
 
@@ -116,12 +116,12 @@ export default function CreatePropertySheet({
           },
         }));
         toast.success("Location updated successfully");
-        setIsGettingLocation(false);
+        // setIsGettingLocation(false);
       },
       (error) => {
         console.error("Error getting location:", error);
         toast.error("Unable to retrieve your location");
-        setIsGettingLocation(false);
+        // setIsGettingLocation(false);
       },
       {
         enableHighAccuracy: true,
@@ -207,7 +207,7 @@ export default function CreatePropertySheet({
         },
       });
 
-      // @ts-ignore
+      // @ts-expect-error Object is possibly 'null'.
       const createdProperty = data?.createProperty;
 
       if (!createdProperty) {
@@ -262,8 +262,11 @@ export default function CreatePropertySheet({
   }, [open]);
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="px-8 max-h-[90vh] overflow-y-auto">
-        <SheetHeader className="sticky top-0 left-0 right-0 z-10 bg-background pb-4">
+      <SheetContent
+        side="bottom"
+        className="px-8 max-h-[80vh] max-w-7xl mx-auto overflow-y-auto"
+      >
+        <SheetHeader className="w-[100vw] sticky top-0 left-0 right-0 z-10 bg-background rounded-lg pb-4">
           <SheetTitle>Create new property</SheetTitle>
           <SheetDescription>
             Add a new property listing to your portfolio

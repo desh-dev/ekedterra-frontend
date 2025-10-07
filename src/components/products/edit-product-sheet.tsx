@@ -32,6 +32,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import Image from "next/image";
 
 interface EditProductSheetProps {
   open: boolean;
@@ -211,8 +212,11 @@ export default function EditProductSheet({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="px-8 max-h-[90vh] overflow-y-auto">
-        <SheetHeader className="sticky top-0 left-0 right-0 z-10 bg-background pb-4">
+      <SheetContent
+        side="bottom"
+        className="px-8 max-h-[80vh] max-w-7xl mx-auto overflow-y-auto"
+      >
+        <SheetHeader className="w-[100vw] sticky top-0 left-0 right-0 z-10 bg-background rounded-lg pb-4">
           <SheetTitle>Edit product</SheetTitle>
           <SheetDescription>
             Update your product information and images
@@ -404,7 +408,7 @@ export default function EditProductSheet({
               <div className="grid grid-cols-3 gap-2">
                 {existingImages.map((image) => (
                   <div key={image.id} className="relative aspect-square">
-                    <img
+                    <Image
                       src={image.imageUrl}
                       alt="Product"
                       className="w-full h-full object-cover rounded-md"

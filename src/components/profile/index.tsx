@@ -3,16 +3,9 @@
 import React, { useState } from "react";
 import { useAuth } from "@/providers/auth-provider";
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/routing";
 import Image from "next/image";
-import {
-  CheckCircle2,
-  ChevronRight,
-  Settings,
-  User,
-  AlertCircle,
-} from "lucide-react";
+import { CheckCircle2, ChevronRight, User, AlertCircle } from "lucide-react";
 import { PersonalInformationSheet } from "./personal-information-sheet";
 import Loading from "../loading";
 
@@ -54,7 +47,7 @@ const ProfilePage = () => {
     if (names.length >= 2) {
       return `${names[0][0]}${names[1][0]}`.toUpperCase();
     }
-    return name.substring(0, 2).toUpperCase();
+    return name?.substring(0, 2).toUpperCase();
   };
 
   return (
@@ -77,7 +70,7 @@ const ProfilePage = () => {
                   className="rounded-full object-cover"
                 />
               ) : (
-                getInitials(user.fullName)
+                getInitials(user.fullName || user.email)
               )}
             </div>
 
@@ -96,7 +89,7 @@ const ProfilePage = () => {
             <Link href="/agent" className="block">
               <div className="flex items-center gap-4 hover:bg-muted/50 rounded-lg p-2 transition-colors">
                 <Image
-                  src="/become-agent.png"
+                  src="/become-agent.webp"
                   alt="Become an agent"
                   width={60}
                   height={60}
@@ -107,7 +100,8 @@ const ProfilePage = () => {
                     Become an agent
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    It's easy to become an Ekedterra agent and earn extra income
+                    It&apos;s easy to become an Ekedterra agent and earn extra
+                    income
                   </p>
                 </div>
                 <ChevronRight className="text-muted-foreground flex-shrink-0" />
@@ -146,8 +140,8 @@ const ProfilePage = () => {
                       Verification pending
                     </h3>
                     <p className="text-sm text-muted-foreground">
-                      Your documents are under review. We'll notify you once
-                      verification is complete.
+                      Your documents are under review. We&apos;ll notify you
+                      once verification is complete.
                     </p>
                   </div>
                 </div>
@@ -162,7 +156,7 @@ const ProfilePage = () => {
                       Verified agent
                     </h3>
                     <p className="text-sm text-muted-foreground">
-                      You're all set! Start listing and managing your
+                      You&apos;re all set! Start listing and managing your
                       properties.
                     </p>
                   </div>

@@ -43,9 +43,9 @@ const ListingsPage = () => {
       });
 
       return {
-        //@ts-ignore
+        //@ts-expect-error Object is possibly 'null'.
         properties: data?.properties?.data || [],
-        //@ts-ignore
+        //@ts-expect-error Object is possibly 'null'.
         total: data?.properties?.total || 0,
       };
     },

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import BottomNav from "@/components/layout/bottom-nav";
 
 export default function NotFound() {
   return (
@@ -10,23 +9,13 @@ export default function NotFound() {
           <div className="flex items-center space-x-2">
             <div>
               <Link href="/" className="flex place-self-center hidden lg:block">
-                <Image
-                  src="https://files.edgestore.dev/7muc2z5blt7yqz78/assets/_public/logo-lg.webp"
-                  alt="Logo"
-                  width={140}
-                  height={80}
-                />
+                <Image src="/logo-lg.webp" alt="Logo" width={140} height={80} />
               </Link>
               <Link
                 href="/"
                 className="flex place-self-center hidden md:block lg:hidden"
               >
-                <Image
-                  src="https://files.edgestore.dev/7muc2z5blt7yqz78/assets/_public/logo.webp"
-                  alt="Logo"
-                  width={120}
-                  height={60}
-                />
+                <Image src="/logo.webp" alt="Logo" width={120} height={60} />
               </Link>
             </div>
           </div>
@@ -42,7 +31,7 @@ export default function NotFound() {
             </h1>
 
             <p className="text-xl md:text-2xl text-gray-700">
-              We can't seem to find the page you're looking for.
+              We can&apos;t seem to find the page you&apos;re looking for.
             </p>
 
             <div className="space-y-2">

@@ -14,8 +14,8 @@ export default async function Layout({
     if (!isUser) {
       redirect({ href: "/", locale });
     }
-  } catch (error: any) {
-    if (error?.message === "No user found") {
+  } catch (error: unknown) {
+    if (error instanceof Error && error.message === "No user found") {
       redirect({ href: "/", locale });
     } else throw error;
   }

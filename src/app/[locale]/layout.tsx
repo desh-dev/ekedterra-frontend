@@ -1,3 +1,4 @@
+import InstallPrompt from "@/components/install-prompt";
 import LoginIframe from "@/components/login-iframe";
 import { EdgeStoreProvider } from "@/lib/edgestore";
 import { CategoryStoreProvider } from "@/providers/app-store-provider";
@@ -28,6 +29,7 @@ export default async function LocaleLayout({
       <CategoryStoreProvider>
         <EdgeStoreProvider>
           {children}
+          <InstallPrompt />
           <Toaster />
           <LoginIframe />
         </EdgeStoreProvider>

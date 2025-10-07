@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import {
@@ -186,7 +186,7 @@ const SearchBar = () => {
             </div>
             <Select
               value={type}
-              //@ts-ignore
+              //@ts-expect-error Object is possibly 'null'.
               onValueChange={setTempType}
             >
               <SelectTrigger className="bg-transparent border-none outline-none text-sm place-self-center mt-[-4px]">

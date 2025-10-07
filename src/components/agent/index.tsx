@@ -121,7 +121,7 @@ const BecomeAgentPage = () => {
     setCurrentStep("profile");
   };
 
-  const updateFormData = (field: string, value: any) => {
+  const updateFormData = (field: string, value: string) => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,
@@ -283,7 +283,8 @@ const BecomeAgentPage = () => {
                   Our Community Commitment
                 </h2>
                 <p className="text-sm text-muted-foreground mb-4">
-                  To ensure this, we're asking you to commit to the following:
+                  To ensure this, we&apos;re asking you to commit to the
+                  following:
                 </p>
                 <p className="text-sm leading-relaxed mb-4">
                   I agree to treat everyone in the community—regardless of their

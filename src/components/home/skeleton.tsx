@@ -38,10 +38,10 @@ const HomeSkeleton = () => {
         <div className="flex justify-between">
           <div>
             <div className="flex place-self-center hidden lg:block">
-              <Image src="/logo-lg.png" alt="Logo" width={140} height={80} />
+              <Image src="/logo-lg.webp" alt="Logo" width={140} height={80} />
             </div>
             <div className="flex place-self-center hidden md:block lg:hidden">
-              <Image src="/logo.png" alt="Logo" width={120} height={60} />
+              <Image src="/logo.webp" alt="Logo" width={120} height={60} />
             </div>
           </div>
           <div className="flex mb-4 justify-center items-center mb-2 gap-6">

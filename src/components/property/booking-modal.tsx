@@ -14,6 +14,7 @@ import {
   BookingInput,
   BookingEventData,
   BookingUpdateInput,
+  Booking,
 } from "@/lib/graphql/types";
 
 interface AgentData {
@@ -28,6 +29,7 @@ import { createBooking, updateBooking, deleteBooking } from "@/lib/data/client";
 import { useAuth } from "@/providers/auth-provider";
 import toast from "react-hot-toast";
 import dayjs from "dayjs";
+import Image from "next/image";
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -144,7 +146,20 @@ export default function BookingModal({
             ) || [];
         } else {
           // Add new booking to user's bookings array
-          updatedUser.bookings = [...(updatedUser.bookings || []), result];
+          updatedUser.bookings = [
+            ...(updatedUser.bookings || []),
+            {
+              ...result,
+              id: result.id || "", // Provide a default value for required fields
+              userId: result.userId || "",
+              propertyId: result.propertyId || "",
+              bookingDate: result.bookingDate || new Date().toISOString(),
+              status: result.status || "pending",
+              createdAt: result.createdAt || new Date().toISOString(),
+              updatedAt: result.updatedAt || new Date().toISOString(),
+              checkoutDate: result.checkoutDate || "", // or provide a default checkout date
+            } as Booking,
+          ];
         }
         setUser(updatedUser);
       }
@@ -289,12 +304,13 @@ I'd like to schedule a viewing or get more information. Thank you!`
                 <div className="px-6 pb-6">
                   {/* Property Info */}
                   <div className="flex items-center space-x-4 py-4 border-b border-gray-200">
-                    <div className="w-16 h-16 bg-gray-200 rounded-lg flex-shrink-0">
+                    <div className="w-16 h-16 relative bg-gray-200 rounded-lg flex-shrink-0">
                       {property.mainImage && (
-                        <img
+                        <Image
                           src={property.mainImage}
                           alt={property.title}
                           className="w-full h-full object-cover rounded-lg"
+                          fill
                         />
                       )}
                     </div>

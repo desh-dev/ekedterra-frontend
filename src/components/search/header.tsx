@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Link, usePathname, useRouter } from "@/i18n/routing";
-import { useTranslations } from "next-intl";
 import {
   AdjustmentsHorizontalIcon,
   Bars3Icon,
@@ -16,7 +15,6 @@ import { ArrowLeft } from "lucide-react";
 
 export default function Header() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  const t = useTranslations("search");
   const router = useRouter();
   const path = usePathname();
 
@@ -27,23 +25,13 @@ export default function Header() {
         <div className="hidden md:flex justify-between items-center px-6">
           <div>
             <Link href="/" className="flex place-self-center hidden lg:block">
-              <Image
-                src="https://files.edgestore.dev/7muc2z5blt7yqz78/assets/_public/logo-lg.webp"
-                alt="Logo"
-                width={140}
-                height={80}
-              />
+              <Image src="/logo-lg.webp" alt="Logo" width={140} height={80} />
             </Link>
             <Link
               href="/"
               className="flex place-self-center hidden md:block lg:hidden"
             >
-              <Image
-                src="https://files.edgestore.dev/7muc2z5blt7yqz78/assets/_public/logo.webp"
-                alt="Logo"
-                width={120}
-                height={60}
-              />
+              <Image src="/logo.webp" alt="Logo" width={120} height={60} />
             </Link>
           </div>
           <div className="flex gap-2 items-center">

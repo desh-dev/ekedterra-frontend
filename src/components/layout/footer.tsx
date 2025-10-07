@@ -1,6 +1,12 @@
 "use client";
 
+import useIsDesktop from "@/hooks/useIsDesktop";
+
 export default function Footer() {
+  const { isStandalone } = useIsDesktop();
+  
+  if (isStandalone) return null;
+  
   return (
     <footer className="w-full bg-gray-50 border-t border-gray-200 pt-10 pb-4 mt-8 text-sm">
       <div className="max-w-7xl mx-auto px-4">

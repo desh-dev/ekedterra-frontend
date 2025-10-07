@@ -1,9 +1,9 @@
 import HomePage from "@/components/home";
 import { Metadata } from "next";
 
-type Props = {
-  params: { locale: string };
-};
+interface PageProps {
+  params: Promise<{ locale: string }>;
+}
 
 const translations = {
   en: {
@@ -16,7 +16,9 @@ const translations = {
   },
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { locale } = await params;
   const t = translations[locale as "en" | "fr"] || translations.fr;
 
