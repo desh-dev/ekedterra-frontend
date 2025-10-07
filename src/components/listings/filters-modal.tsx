@@ -5,31 +5,29 @@ import { X } from "lucide-react";
 import { Button } from "../ui/button";
 import { AnimatePresence, motion } from "framer-motion";
 
-export interface FilterValues {
+export interface ListingsFilterValues {
   rent?: number;
-  vacant?: boolean;
+  isVacant?: boolean;
   buildingName?: string;
   title?: string;
   street?: string;
 }
 
-interface FiltersModalProps {
+interface ListingsFiltersModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onApplyFilters: (filters: FilterValues) => void;
-  onSearch: () => void;
-  initialFilters?: FilterValues;
+  onApplyFilters: (filters: ListingsFilterValues) => void;
+  initialFilters?: ListingsFilterValues;
 }
 
-const FiltersModal = ({
+const ListingsFiltersModal = ({
   isOpen,
   onClose,
   onApplyFilters,
-  onSearch,
   initialFilters,
-}: FiltersModalProps) => {
+}: ListingsFiltersModalProps) => {
   const [rent, setRent] = useState<string>("");
-  const [vacant, setVacant] = useState<string>("all");
+  const [isVacant, setIsVacant] = useState<string>("all");
   const [buildingName, setBuildingName] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [street, setStreet] = useState<string>("");
@@ -38,10 +36,10 @@ const FiltersModal = ({
   useEffect(() => {
     if (initialFilters) {
       setRent(initialFilters.rent?.toString() || "");
-      setVacant(
-        initialFilters.vacant === undefined
+      setIsVacant(
+        initialFilters.isVacant === undefined
           ? "all"
-          : initialFilters.vacant
+          : initialFilters.isVacant
           ? "yes"
           : "no"
       );
@@ -52,37 +50,27 @@ const FiltersModal = ({
   }, [initialFilters, isOpen]);
 
   const handleApply = () => {
-    const filters: FilterValues = {
+    const filters: ListingsFilterValues = {
       rent: rent ? Number(rent) : undefined,
-      vacant: vacant === "all" ? undefined : vacant === "yes" ? true : false,
-      buildingName: buildingName.trim() || undefined,
-      title: title.trim() || undefined,
-      street: street.trim() || undefined,
+      isVacant: isVacant === "all" ? undefined : isVacant === "yes",
+      buildingName: buildingName?.trim() || undefined,
+      title: title?.trim() || undefined,
+      street: street?.trim() || undefined,
     };
 
     onApplyFilters(filters);
     onClose();
   };
 
-  const handleSearch = () => {
-    const filters: FilterValues = {
-      rent: rent ? Number(rent) : undefined,
-      vacant: vacant === "all" ? undefined : vacant === "yes" ? true : false,
-      buildingName: buildingName.trim() || undefined,
-      title: title.trim() || undefined,
-      street: street.trim() || undefined,
-    };
-
-    onApplyFilters(filters);
-    onSearch();
-  };
-
   const handleReset = () => {
     setRent("");
-    setVacant("all");
+    setIsVacant("all");
     setBuildingName("");
     setTitle("");
     setStreet("");
+
+    // Apply empty filters to reset
+    onApplyFilters({});
   };
 
   return (
@@ -112,10 +100,13 @@ const FiltersModal = ({
                 mass: 0.5,
               }}
               className="bg-white rounded-t-2xl md:rounded-2xl w-full md:max-w-lg md:mx-4 max-h-[90vh] overflow-y-auto md:max-h-[80vh]"
+              onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
               <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center rounded-t-2xl">
-                <h2 className="text-xl font-bold text-gray-900">Filters</h2>
+                <h2 className="text-xl font-bold text-gray-900">
+                  Filter Properties
+                </h2>
                 <button
                   onClick={onClose}
                   className="p-2 hover:bg-gray-100 rounded-full transition-colors"
@@ -139,7 +130,7 @@ const FiltersModal = ({
                     id="title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    placeholder="Search by title..."
+                    placeholder="Filter by title..."
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none"
                   />
                 </div>
@@ -157,7 +148,7 @@ const FiltersModal = ({
                     id="buildingName"
                     value={buildingName}
                     onChange={(e) => setBuildingName(e.target.value)}
-                    placeholder="Search by building name..."
+                    placeholder="Filter by building name..."
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none"
                   />
                 </div>
@@ -175,7 +166,7 @@ const FiltersModal = ({
                     id="street"
                     value={street}
                     onChange={(e) => setStreet(e.target.value)}
-                    placeholder="Search by street or area..."
+                    placeholder="Filter by street or area..."
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none"
                   />
                 </div>
@@ -193,7 +184,7 @@ const FiltersModal = ({
                     id="rent"
                     value={rent}
                     onChange={(e) => setRent(e.target.value)}
-                    placeholder="Enter maximum rent..."
+                    placeholder="Filter by maximum rent..."
                     min="0"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none"
                   />
@@ -210,8 +201,8 @@ const FiltersModal = ({
                         type="radio"
                         name="availability"
                         value="all"
-                        checked={vacant === "all"}
-                        onChange={(e) => setVacant(e.target.value)}
+                        checked={isVacant === "all"}
+                        onChange={(e) => setIsVacant(e.target.value)}
                         className="w-4 h-4 text-primary-600 border-gray-300 focus:ring-primary-500"
                       />
                       <span className="ml-3 text-gray-700">All properties</span>
@@ -221,8 +212,8 @@ const FiltersModal = ({
                         type="radio"
                         name="availability"
                         value="yes"
-                        checked={vacant === "yes"}
-                        onChange={(e) => setVacant(e.target.value)}
+                        checked={isVacant === "yes"}
+                        onChange={(e) => setIsVacant(e.target.value)}
                         className="w-4 h-4 text-primary-600 border-gray-300 focus:ring-primary-500"
                       />
                       <span className="ml-3 text-gray-700">Vacant only</span>
@@ -232,8 +223,8 @@ const FiltersModal = ({
                         type="radio"
                         name="availability"
                         value="no"
-                        checked={vacant === "no"}
-                        onChange={(e) => setVacant(e.target.value)}
+                        checked={isVacant === "no"}
+                        onChange={(e) => setIsVacant(e.target.value)}
                         className="w-4 h-4 text-primary-600 border-gray-300 focus:ring-primary-500"
                       />
                       <span className="ml-3 text-gray-700">Occupied only</span>
@@ -244,21 +235,16 @@ const FiltersModal = ({
 
               {/* Footer */}
               <div className="sticky bottom-0 bg-white border-t border-gray-200 px-6 py-4 space-y-3">
-                <button
-                  onClick={handleSearch}
-                  className="w-full py-3 px-4 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg transition-colors"
-                >
-                  Search
-                </button>
-                <div className="flex gap-20">
-                  <button
+                <div className="flex gap-4">
+                  <Button
                     onClick={handleReset}
-                    className="flex-1 py-2 px-4 border border-gray-300 rounded-lg text-gray-700 text-sm font-medium hover:bg-gray-50 transition-colors"
+                    variant="outline"
+                    className="flex-1"
                   >
-                    Reset
-                  </button>
+                    Reset Filters
+                  </Button>
                   <Button onClick={handleApply} className="flex-1">
-                    Apply & Close
+                    Apply Filters
                   </Button>
                 </div>
               </div>
@@ -270,4 +256,4 @@ const FiltersModal = ({
   );
 };
 
-export default FiltersModal;
+export default ListingsFiltersModal;

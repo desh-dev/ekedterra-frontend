@@ -14,6 +14,7 @@ import EditPropertySheet from "./edit-property-sheet";
 import CreatePropertySheet from "./create-property-sheet";
 import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
 import Loading from "../loading";
+import ListingsFiltersModal, { ListingsFilterValues } from "./filters-modal";
 
 type ViewMode = "list" | "grid";
 
@@ -25,6 +26,12 @@ const ListingsPage = () => {
   );
   const [isEditSheetOpen, setIsEditSheetOpen] = useState(false);
   const [isCreateSheetOpen, setIsCreateSheetOpen] = useState(false);
+  const [filters, setFilters] = useState<ListingsFilterValues>({});
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+  const handleApplyFilters = (newFilters: ListingsFilterValues) => {
+    setFilters(newFilters);
+    setIsFiltersOpen(false);
+  };
 
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["listings", user?.userId],
@@ -36,7 +43,13 @@ const ListingsPage = () => {
         variables: {
           pagination: { page: 0, limit: 100 },
           property: {
-            userId: user.userId,
+            rent: filters.rent,
+            isVacant: filters.isVacant,
+            buildingName: filters.buildingName,
+            title: filters.title,
+            address: {
+              street: filters.street,
+            },
           },
         },
         fetchPolicy: "network-only",
@@ -231,6 +244,12 @@ const ListingsPage = () => {
           refetch();
           setIsCreateSheetOpen(false);
         }}
+      />
+      <ListingsFiltersModal
+        isOpen={isFiltersOpen}
+        onClose={() => setIsFiltersOpen(false)}
+        onApplyFilters={handleApplyFilters}
+        initialFilters={filters}
       />
     </div>
   );

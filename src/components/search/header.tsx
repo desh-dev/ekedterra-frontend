@@ -13,7 +13,11 @@ import SearchBar from "../layout/search-bar";
 import SearchBarDesktop from "./search-bar-desktop";
 import { ArrowLeft } from "lucide-react";
 
-export default function Header() {
+interface HeaderProps {
+  onOpenFilters?: () => void;
+}
+
+export default function Header({ onOpenFilters }: HeaderProps) {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const router = useRouter();
   const path = usePathname();
@@ -36,12 +40,15 @@ export default function Header() {
           </div>
           <div className="flex gap-2 items-center">
             <SearchBarDesktop />
-            {path === "/search" && (
-              <div className="flex items-center gap-2 text-sm font-medium border border-gray-200 p-2 rounded-full hover:shadow-md transition-shadow">
+            {path === "/search" && onOpenFilters && (
+              <button
+                onClick={onOpenFilters}
+                className="flex items-center gap-2 text-sm font-medium border border-gray-200 p-2 rounded-full hover:shadow-md transition-shadow"
+              >
                 <AdjustmentsHorizontalIcon className="h-4 w-4" />
 
                 <span>Filters</span>
-              </div>
+              </button>
             )}
           </div>
           <div className="flex gap-2 items-center">
@@ -73,9 +80,11 @@ export default function Header() {
               <ArrowLeft className="" />
             </button>
             <SearchBar />
-            <button className="w-8 h-8">
-              <AdjustmentsHorizontalIcon />
-            </button>
+            {onOpenFilters && (
+              <button className="w-8 h-8" onClick={onOpenFilters}>
+                <AdjustmentsHorizontalIcon />
+              </button>
+            )}
           </div>
         </div>
       </div>

@@ -14,6 +14,7 @@ import PropertyCardSkeleton from "../property/property-card-skeleton";
 import { useAppStore } from "@/providers/app-store-provider";
 import HomeSkeleton from "../home/skeleton";
 import { useSearchParams } from "next/navigation";
+import FiltersModal, { FilterValues } from "./filters-modal";
 
 const LIMIT = 10;
 
@@ -22,6 +23,8 @@ const SearchPage = () => {
   const { ref, inView } = useInView();
   const { category, country, city, type } = useAppStore((state) => state);
   const [isCategoryLoading, setIsCategoryLoading] = useState(false);
+  const [isFiltersModalOpen, setIsFiltersModalOpen] = useState(false);
+  const [appliedFilters, setAppliedFilters] = useState<FilterValues>({});
   const params = useSearchParams();
   const COUNTRY =
     params.get("country")?.toLocaleLowerCase() || country?.toLocaleLowerCase();
@@ -44,9 +47,14 @@ const SearchPage = () => {
           property: {
             category,
             type: TYPE,
+            rent: appliedFilters.rent,
+            vacant: appliedFilters.vacant,
+            buildingName: appliedFilters.buildingName,
+            title: appliedFilters.title,
             address: {
               country: COUNTRY,
               city: CITY,
+              street: appliedFilters.street,
             },
           },
         },
@@ -96,7 +104,11 @@ const SearchPage = () => {
   useEffect(() => {
     setIsCategoryLoading(true);
     refetch().finally(() => setIsCategoryLoading(false));
-  }, [category, country, city, type, refetch]);
+  }, [category, country, city, type, appliedFilters, refetch]);
+
+  const handleApplyFilters = (filters: FilterValues) => {
+    setAppliedFilters(filters);
+  };
 
   useEffect(() => {
     if (inView) {
@@ -109,7 +121,7 @@ const SearchPage = () => {
     <div>Error: {(error as Error).message}</div>
   ) : (
     <div className="min-h-screen ">
-      <Header />
+      <Header onOpenFilters={() => setIsFiltersModalOpen(true)} />
       <main className="flex-1 p-4 md:pb-0">
         {isCategoryLoading ? (
           <div className="md:mx-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -123,6 +135,16 @@ const SearchPage = () => {
       </main>
       <Footer />
       <BottomNav />
+      <FiltersModal
+        isOpen={isFiltersModalOpen}
+        onClose={() => setIsFiltersModalOpen(false)}
+        onApplyFilters={handleApplyFilters}
+        onSearch={() => {
+          setIsCategoryLoading(true);
+          refetch().finally(() => setIsCategoryLoading(false));
+        }}
+        initialFilters={appliedFilters}
+      />
     </div>
   );
 };
