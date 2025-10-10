@@ -193,10 +193,20 @@ export default function EditPropertySheet({
 
     setIsDeleting(true);
     try {
-      await apolloClient.mutate({
-        mutation: DELETE_PROPERTY,
-        variables: { id: property.id },
-      });
+      await Promise.all([
+        apolloClient.mutate({
+          mutation: DELETE_PROPERTY,
+          variables: { id: property.id },
+        }),
+        ...existingImages.map((img) =>
+          edgestore.properties.delete({
+            url: img.imageUrl,
+          })
+        ),
+        edgestore.properties.delete({
+          url: property.mainImage,
+        }),
+      ]);
       toast.success("Property deleted successfully");
       onSuccess();
     } catch (error) {

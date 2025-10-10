@@ -124,10 +124,20 @@ export default function EditProductSheet({
 
     setIsDeleting(true);
     try {
-      await apolloClient.mutate({
-        mutation: DELETE_PRODUCT,
-        variables: { id: product.id },
-      });
+      await Promise.all([
+        apolloClient.mutate({
+          mutation: DELETE_PRODUCT,
+          variables: { id: product.id },
+        }),
+        ...existingImages.map((img) =>
+          edgestore.products.delete({
+            url: img.imageUrl,
+          })
+        ),
+        edgestore.products.delete({
+          url: product.mainImage,
+        }),
+      ]);
       toast.success("Product deleted successfully");
       onSuccess();
     } catch (error) {
