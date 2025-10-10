@@ -68,8 +68,6 @@ export const UPDATE_PROPERTY_ADDRESS = gql`
       city
       street
       zip
-      createdAt
-      updatedAt
     }
   }
 `;

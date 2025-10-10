@@ -226,11 +226,7 @@ export default function BookingModal({
   };
 
   const handleWhatsAppContact = () => {
-    const agentPhone = (agentData as AgentData)?.phone || property.contactInfo;
-    if (!agentPhone) {
-      toast.error("Agent contact information not available");
-      return;
-    }
+    const agentPhone = "237672336436";
 
     const message = encodeURIComponent(
       `Hi! I'm interested in "${property.title}" in ${

@@ -13,6 +13,7 @@ type AuthContextType = {
   error: string | null;
   isAdmin: boolean;
   isAgent: boolean;
+  isVerified: boolean;
   isUser: boolean;
 };
 
@@ -27,6 +28,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isAgent, setIsAgent] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
   const [isUser, setIsUser] = useState(true);
 
   useEffect(() => {
@@ -47,10 +49,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
             !user.roles.some((role) => role.role === "admin") &&
               !user.roles.some((role) => role.role === "agent")
           );
+          setIsVerified(user.verified);
         } else {
           setIsAdmin(false);
           setIsAgent(false);
           setIsUser(true);
+          setIsVerified(false);
         }
       } catch (error: unknown) {
         setError(error instanceof Error ? error.message : "An error occurred");
@@ -87,6 +91,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         isAdmin,
         isAgent,
         isUser,
+        isVerified,
         error,
       }}
     >

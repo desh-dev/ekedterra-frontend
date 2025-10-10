@@ -28,7 +28,7 @@ const BottomNav = () => {
   const pathname = usePathname();
   const [showNav, setShowNav] = useState(true);
   const { user, isAgent, isUser } = useAuth();
-  const { isIframe } = useIsDesktop();
+  const { isIframe, isIOS, isStandalone } = useIsDesktop();
   const t = useTranslations("navigation");
 
   useEffect(() => {
@@ -84,7 +84,9 @@ const BottomNav = () => {
       initial={{ y: 0 }}
       animate={{ y: showNav ? 0 : 80 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
-      className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50"
+      className={`md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-40 ${
+        isIOS && isStandalone && "pb-6"
+      }`}
     >
       <nav className="flex items-center justify-around h-16">
         {/* Explore */}

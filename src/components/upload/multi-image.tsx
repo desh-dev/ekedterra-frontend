@@ -73,11 +73,14 @@ const ImageList = React.forwardRef<HTMLDivElement, ImageListProps>(
               }
             >
               {displayUrl ? (
-                <Image
-                  className="h-full w-full rounded-md object-cover"
-                  src={displayUrl}
-                  alt={fileState.file.name}
-                />
+                <div className="relative">
+                  <Image
+                    className="h-full w-full rounded-md object-cover"
+                    src={displayUrl}
+                    alt={fileState.file.name}
+                    fill
+                  />
+                </div>
               ) : (
                 <div className="flex h-full w-full items-center justify-center bg-secondary">
                   <span className="text-xs text-muted-foreground">

@@ -205,7 +205,7 @@ export function PersonalInformationSheet({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="bottom"
-        className="px-8 max-h-[80vh] max-w-7xl mx-auto overflow-y-auto rounded-lg"
+        className="px-8 max-h-[80vh] max-w-[100vw] md:max-w-7xl mx-auto overflow-y-auto overflow-x-hidden rounded-lg"
       >
         <SheetHeader className="w-[100vw] sticky top-0 left-0 right-0 z-10 bg-background">
           <SheetTitle>Personal information</SheetTitle>

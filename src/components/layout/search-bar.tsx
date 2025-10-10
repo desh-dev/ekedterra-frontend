@@ -73,15 +73,15 @@ const SearchBar = () => {
     setCountry(tempCountry);
     setCity(tempCity);
     setType(tempType);
-    // Close the sheet if open
-    if (sheetCloseRef.current) {
-      sheetCloseRef.current.click();
+
+    if (path !== "/search") {
+      const params = new URLSearchParams();
+      if (country) params.append("country", country);
+      if (city) params.append("city", city);
+      if (type) params.append("type", type);
+      router.push(`/search?${params.toString()}`);
     }
-    const params = new URLSearchParams();
-    if (country) params.append("country", country);
-    if (city) params.append("city", city);
-    if (type) params.append("type", type);
-    router.push(`/search?${params.toString()}`);
+    sheetCloseRef.current?.click();
   };
   const onClose = () => {
     setTempCountry(undefined);
@@ -185,7 +185,7 @@ const SearchBar = () => {
               Type
             </div>
             <Select
-              value={type}
+              value={tempType}
               //@ts-expect-error Object is possibly 'null'.
               onValueChange={setTempType}
             >
@@ -216,7 +216,7 @@ const SearchBar = () => {
           </div>
         </div>
 
-        <Sheet onOpenChange={(open) => !open && onClose()}>
+        <Sheet>
           <SheetTrigger asChild>
             <div className="md:hidden flex justify-center w-full">
               {path === "/search" ? (
@@ -355,17 +355,18 @@ const SearchBar = () => {
               </Accordion>
             </div>
 
-            <SheetFooter className="sticky bottom-0 left-0 w-full bg-muted px-4 pb-6 shadow-md flex flex-row justify-between items-center">
+            <SheetFooter>
               <SheetClose asChild>
-                <Button
-                  ref={sheetCloseRef}
-                  size="lg"
-                  variant="outline"
-                  className="text-md font-semibold"
-                >
-                  Clear
-                </Button>
+                <button ref={sheetCloseRef} className="hidden"></button>
               </SheetClose>
+              <Button
+                size="lg"
+                variant="outline"
+                onClick={onClose}
+                className="text-md font-semibold"
+              >
+                Clear
+              </Button>
               <Button
                 size="lg"
                 onClick={handleSearch}

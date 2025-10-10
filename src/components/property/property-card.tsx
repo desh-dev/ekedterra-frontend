@@ -32,7 +32,7 @@ export default function PropertyCard({
 
   const images =
     property?.images && property.images.length > 0
-      ? property.images.map((img) => img.imageUrl)
+      ? [property.mainImage, ...property.images.map((img) => img.imageUrl)]
       : [property.mainImage];
 
   const totalImages = images.length;
@@ -217,7 +217,7 @@ export default function PropertyCard({
         </div>
 
         {/* Property Details */}
-        <div className="mt-3 space-y-1">
+        <div className="mt-3 space-y-1 capitalize">
           <div className="flex items-center justify-between">
             <h3 className="font-medium text-gray-900 truncate">
               {property?.title}
@@ -247,7 +247,9 @@ export default function PropertyCard({
                 ? "/night"
                 : property?.rentDuration === "monthly"
                 ? "/month"
-                : "/year"}
+                : property?.rentDuration === "yearly"
+                ? "/year"
+                : ""}
             </span>
           </div>
         </div>

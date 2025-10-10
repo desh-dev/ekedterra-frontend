@@ -5,7 +5,6 @@ import { CategoryStoreProvider } from "@/providers/app-store-provider";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { Toaster } from "react-hot-toast";
 
 const locales = ["en", "fr"];
 
@@ -30,7 +29,6 @@ export default async function LocaleLayout({
         <EdgeStoreProvider>
           {children}
           <InstallPrompt />
-          <Toaster />
           <LoginIframe />
         </EdgeStoreProvider>
       </CategoryStoreProvider>

@@ -4,6 +4,7 @@ import PropertyDetail from "@/components/property/property-detail";
 import { apolloClient } from "@/lib/apollo/client";
 import { GET_PROPERTY } from "@/lib/graphql/queries";
 import { getProperty } from "@/lib/data/server";
+import { capitalize } from "@/lib/utils";
 
 interface PropertyPageProps {
   params: Promise<{ id: string; locale: string }>;
@@ -29,10 +30,12 @@ export async function generateMetadata({
     }
 
     return {
-      title: `${property.title} - ${property.address?.city}, ${property.address?.country}`,
+      title: `${capitalize(property.title as string)} - ${capitalize(
+        property.address?.city as string
+      )}, ${capitalize(property.address?.country as string)}`,
       description: property.description,
       openGraph: {
-        title: property.title,
+        title: capitalize(property.title as string),
         description: property.description,
         siteName: "Ekedterra",
         images: property.mainImage
@@ -41,7 +44,7 @@ export async function generateMetadata({
                 url: property.mainImage,
                 width: 800,
                 height: 600,
-                alt: property.title,
+                alt: capitalize(property.title as string),
               },
             ]
           : [],

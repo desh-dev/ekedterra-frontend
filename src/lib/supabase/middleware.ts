@@ -56,7 +56,7 @@ export async function updateSession(request: NextRequest) {
   // Check if accessing protected authenticated routes
   const isAuthenticatedRoute =
     pathname.includes("/(authenticated)") ||
-    pathname.match(/\/(en|fr)\/(account-settings|profile|agent)/);
+    pathname.match(/\/(en|fr)\/(account-settings|profile)/);
 
   // Check if accessing user-only routes
   const isUserRoute = pathname.match(/\/(en|fr)\/(bookings|favorites)/);

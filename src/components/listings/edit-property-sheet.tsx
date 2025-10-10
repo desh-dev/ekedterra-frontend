@@ -21,7 +21,7 @@ import {
   DELETE_PROPERTY,
 } from "@/lib/graphql/mutations";
 import toast from "react-hot-toast";
-import { Loader2, Trash2 } from "lucide-react";
+import { Loader2, Trash2, MapPin } from "lucide-react";
 import { SingleImageDropzone } from "@/components/upload/single-image";
 import { ImageUploader } from "@/components/upload/multi-image";
 import { UploaderProvider } from "@/components/upload/uploader-provider";
@@ -58,7 +58,7 @@ interface FormData {
   price: string | undefined;
   vacant: boolean;
   mainImage: string | undefined;
-  contactInfo: string | undefined;
+  // contactInfo: string | undefined;
   description: string | undefined;
   address: {
     country: string | undefined;
@@ -81,9 +81,38 @@ export default function EditPropertySheet({
   const { edgestore } = useEdgeStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isGettingLocation, setIsGettingLocation] = useState(false);
   const [existingImages, setExistingImages] = useState<
     Array<{ id: string; imageUrl: string }>
   >([]);
+
+  const getCurrentLocation = () => {
+    if (!navigator.geolocation) {
+      toast.error("Geolocation is not supported by your browser");
+      return;
+    }
+
+    setIsGettingLocation(true);
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setFormData({
+          ...formData,
+          address: {
+            ...formData.address,
+            latitude: String(position.coords.latitude),
+            longitude: String(position.coords.longitude),
+          },
+        });
+        setIsGettingLocation(false);
+      },
+      (error) => {
+        console.error("Error getting location:", error);
+        toast.error("Could not get your location. Please enter it manually.");
+        setIsGettingLocation(false);
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+    );
+  };
 
   const [formData, setFormData] = useState<FormData>({
     title: undefined,
@@ -95,7 +124,7 @@ export default function EditPropertySheet({
     price: undefined,
     vacant: true,
     mainImage: undefined,
-    contactInfo: undefined,
+    // contactInfo: undefined,
     description: undefined,
     address: {
       country: undefined,
@@ -122,7 +151,7 @@ export default function EditPropertySheet({
         price: property.price?.toString() || undefined,
         vacant: property.vacant ?? true,
         mainImage: property.mainImage || undefined,
-        contactInfo: property.contactInfo || undefined,
+        // contactInfo: property.contactInfo || undefined,
         description: property.description || undefined,
         address: {
           country: property.address?.country || undefined,
@@ -201,7 +230,7 @@ export default function EditPropertySheet({
               price: formData.price ? parseFloat(formData.price) : undefined,
               vacant: formData.vacant,
               mainImage: formData.mainImage || undefined,
-              contactInfo: formData.contactInfo?.toLowerCase() || undefined,
+              // contactInfo: formData.contactInfo?.toLowerCase() || undefined,
               description: formData.description?.toLowerCase() || undefined,
             },
           },
@@ -285,7 +314,7 @@ export default function EditPropertySheet({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="bottom"
-        className="px-8 max-h-[80vh] max-w-7xl mx-auto overflow-y-auto"
+        className="px-8 max-h-[80vh] max-w-7xl mx-auto overflow-y-auto overflow-x-hidden"
       >
         <SheetHeader className="w-[100vw] sticky top-0 left-0 right-0 z-10 bg-background rounded-lg pb-4">
           <SheetTitle>Edit property</SheetTitle>
@@ -425,7 +454,7 @@ export default function EditPropertySheet({
               />
             </div>
 
-            <div>
+            {/* <div>
               <Label htmlFor="contactInfo">Contact info</Label>
               <Input
                 id="contactInfo"
@@ -436,7 +465,7 @@ export default function EditPropertySheet({
                 placeholder="Contact information"
                 className="mt-2"
               />
-            </div>
+            </div> */}
 
             <div>
               <Label htmlFor="description">Description</Label>
@@ -558,7 +587,7 @@ export default function EditPropertySheet({
                   id="longitude"
                   type="number"
                   step="any"
-                  value={formData.address.longitude}
+                  value={formData.address.longitude || ""}
                   onChange={(e) =>
                     setFormData({
                       ...formData,
@@ -568,8 +597,8 @@ export default function EditPropertySheet({
                       },
                     })
                   }
-                  placeholder="0.0"
-                  className="mt-2"
+                  placeholder="Longitude"
+                  className="mt-2 flex-1"
                 />
               </div>
               <div>
@@ -578,7 +607,7 @@ export default function EditPropertySheet({
                   id="latitude"
                   type="number"
                   step="any"
-                  value={formData.address.latitude}
+                  value={formData.address.latitude || ""}
                   onChange={(e) =>
                     setFormData({
                       ...formData,
@@ -588,9 +617,39 @@ export default function EditPropertySheet({
                       },
                     })
                   }
-                  placeholder="0.0"
+                  placeholder="Latitude"
                   className="mt-2"
                 />
+              </div>
+              <div className="col-span-2 place-self-end">
+                {formData.address.longitude || formData.address.latitude ? (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setFormData({
+                        ...formData,
+                        address: {
+                          ...formData.address,
+                          longitude: undefined,
+                          latitude: undefined,
+                        },
+                      })
+                    }
+                    className="text-xs text-muted-foreground hover:underline"
+                  >
+                    Clear location
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={getCurrentLocation}
+                    disabled={isGettingLocation}
+                    className="text-xs text-muted-foreground hover:underline flex items-center gap-1"
+                  >
+                    <MapPin className="h-3 w-3" />
+                    Add location
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -633,6 +692,7 @@ export default function EditPropertySheet({
                       src={image.imageUrl}
                       alt="Property"
                       className="w-full h-full object-cover rounded-md"
+                      fill
                     />
                     <button
                       type="button"

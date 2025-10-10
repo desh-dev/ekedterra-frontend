@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { apolloClient } from "@/lib/apollo/client";
 import { CREATE_PROPERTY, ADD_PROPERTY_IMAGES } from "@/lib/graphql/mutations";
 import toast from "react-hot-toast";
-import { Loader2 } from "lucide-react";
+import { Loader2, MapPin } from "lucide-react";
 import { SingleImageDropzone } from "@/components/upload/single-image";
 import { ImageUploader } from "@/components/upload/multi-image";
 import { UploaderProvider } from "@/components/upload/uploader-provider";
@@ -25,6 +25,7 @@ import {
   RentDuration,
 } from "@/lib/graphql/types";
 import { useAuth } from "@/providers/auth-provider";
+import { formatNumber } from "@/lib/utils";
 import {
   Select,
   SelectContent,
@@ -62,16 +63,15 @@ interface FormData {
   };
   additionalImages: string[];
 }
-
 export default function CreatePropertySheet({
   open,
   onOpenChange,
   onSuccess,
 }: CreatePropertySheetProps) {
-  const { user } = useAuth();
+  const { user, isVerified } = useAuth();
   const { edgestore } = useEdgeStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  // const [isGettingLocation, setIsGettingLocation] = useState(false);
+  const [isGettingLocation, setIsGettingLocation] = useState(false);
 
   const [formData, setFormData] = useState<FormData>({
     title: undefined,
@@ -90,7 +90,7 @@ export default function CreatePropertySheet({
       region: undefined,
       city: undefined,
       street: undefined,
-      zip: undefined,
+      zip: "00000",
       longitude: undefined,
       latitude: undefined,
     },
@@ -145,11 +145,11 @@ export default function CreatePropertySheet({
       contactInfo: undefined,
       description: undefined,
       address: {
-        country: undefined,
-        region: undefined,
-        city: undefined,
+        country: "Cameroon",
+        region: "South West",
+        city: "Buea",
         street: undefined,
-        zip: undefined,
+        zip: "00000",
         longitude: undefined,
         latitude: undefined,
       },
@@ -160,8 +160,8 @@ export default function CreatePropertySheet({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!user) {
-      toast.error("You must be logged in to create a property");
+    if (!user || !isVerified) {
+      toast.error("You must be logged in and verified to create a property");
       return;
     }
 
@@ -188,7 +188,7 @@ export default function CreatePropertySheet({
             vacant: formData.vacant,
             mainImage: formData.mainImage || undefined,
             contactInfo: formData.contactInfo?.toLowerCase() || undefined,
-            description: formData.description?.toLowerCase() || undefined,
+            description: formData.description || undefined,
             userId: user.userId,
             address: {
               country: formData.address.country?.toLowerCase() || undefined,
@@ -264,7 +264,7 @@ export default function CreatePropertySheet({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="bottom"
-        className="px-8 max-h-[80vh] max-w-7xl mx-auto overflow-y-auto"
+        className="px-8 max-h-[80vh] max-w-[100vw] md:max-w-7xl mx-auto overflow-y-auto overflow-x-hidden"
       >
         <SheetHeader className="w-[100vw] sticky top-0 left-0 right-0 z-10 bg-background rounded-lg pb-4">
           <SheetTitle>Create new property</SheetTitle>
@@ -329,9 +329,10 @@ export default function CreatePropertySheet({
               </div>
 
               <div>
-                <Label htmlFor="type">Type</Label>
+                <Label htmlFor="type">Type *</Label>
                 <Select
                   value={formData.type}
+                  required
                   onValueChange={(value) =>
                     setFormData({ ...formData, type: value as PropertyType })
                   }
@@ -351,18 +352,31 @@ export default function CreatePropertySheet({
                 </Select>
               </div>
             </div>
-
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="rent">Rent</Label>
                 <Input
                   id="rent"
-                  type="number"
-                  value={formData.rent}
-                  onChange={(e) =>
-                    setFormData({ ...formData, rent: e.target.value })
-                  }
-                  placeholder="0"
+                  type="text"
+                  inputMode="numeric"
+                  value={formData.rent ? formatNumber(formData.rent) : ""}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    // Only update if the value is a valid number or empty
+                    if (value === "" || /^\d{1,3}(,\d{3})*$/.test(value)) {
+                      setFormData({
+                        ...formData,
+                        rent: value.replace(/\D/g, ""),
+                      });
+                    } else if (/^\d+$/.test(value.replace(/,/g, ""))) {
+                      // If user is typing a number, format it
+                      setFormData({
+                        ...formData,
+                        rent: value.replace(/\D/g, ""),
+                      });
+                    }
+                  }}
+                  placeholder="50,000"
                   className="mt-2"
                 />
               </div>
@@ -394,12 +408,26 @@ export default function CreatePropertySheet({
               <Label htmlFor="price">Price</Label>
               <Input
                 id="price"
-                type="number"
-                value={formData.price}
-                onChange={(e) =>
-                  setFormData({ ...formData, price: e.target.value })
-                }
-                placeholder="0"
+                type="text"
+                inputMode="numeric"
+                value={formData.price ? formatNumber(formData.price) : ""}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  // Only update if the value is a valid number or empty
+                  if (value === "" || /^\d{1,3}(,\d{3})*$/.test(value)) {
+                    setFormData({
+                      ...formData,
+                      price: value.replace(/\D/g, ""),
+                    });
+                  } else if (/^\d+$/.test(value.replace(/,/g, ""))) {
+                    // If user is typing a number, format it
+                    setFormData({
+                      ...formData,
+                      price: value.replace(/\D/g, ""),
+                    });
+                  }
+                }}
+                placeholder="50,000"
                 className="mt-2"
               />
             </div>
@@ -418,7 +446,7 @@ export default function CreatePropertySheet({
             </div>
 
             <div>
-              <Label htmlFor="description">Description</Label>
+              <Label htmlFor="description">Description *</Label>
               <textarea
                 id="description"
                 value={formData.description}
@@ -427,6 +455,7 @@ export default function CreatePropertySheet({
                 }
                 placeholder="Property description"
                 className="mt-2 w-full min-h-[100px] px-3 py-2 border rounded-md"
+                required
               />
             </div>
 
@@ -450,7 +479,7 @@ export default function CreatePropertySheet({
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="country">Country</Label>
+                <Label htmlFor="country">Country *</Label>
                 <Input
                   id="country"
                   value={formData.address.country}
@@ -462,10 +491,11 @@ export default function CreatePropertySheet({
                   }
                   placeholder="Country"
                   className="mt-2 capitalize"
+                  required
                 />
               </div>
               <div>
-                <Label htmlFor="region">Region</Label>
+                <Label htmlFor="region">Region *</Label>
                 <Input
                   id="region"
                   value={formData.address.region}
@@ -477,12 +507,13 @@ export default function CreatePropertySheet({
                   }
                   placeholder="Region/State"
                   className="mt-2 capitalize"
+                  required
                 />
               </div>
             </div>
 
             <div>
-              <Label htmlFor="city">City</Label>
+              <Label htmlFor="city">City *</Label>
               <Input
                 id="city"
                 value={formData.address.city}
@@ -494,12 +525,13 @@ export default function CreatePropertySheet({
                 }
                 placeholder="City"
                 className="mt-2 capitalize"
+                required
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="street">Street address</Label>
+                <Label htmlFor="street">Street/Quarter *</Label>
                 <Input
                   id="street"
                   value={formData.address.street}
@@ -509,8 +541,9 @@ export default function CreatePropertySheet({
                       address: { ...formData.address, street: e.target.value },
                     })
                   }
-                  placeholder="Street"
+                  placeholder="Sand Pit"
                   className="mt-2 capitalize"
+                  required
                 />
               </div>
               <div>
@@ -524,7 +557,7 @@ export default function CreatePropertySheet({
                       address: { ...formData.address, zip: e.target.value },
                     })
                   }
-                  placeholder="ZIP"
+                  placeholder="00000"
                   className="mt-2 capitalize"
                 />
               </div>
@@ -532,42 +565,26 @@ export default function CreatePropertySheet({
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                {/* <div className="flex items-center justify-between">
-                  <Label htmlFor="longitude">Longitude</Label>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={getCurrentLocation}
-                    disabled={isGettingLocation}
-                    className="text-xs h-7"
-                  >
-                    {isGettingLocation ? (
-                      <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                    ) : (
-                      <MapPin className="h-3.5 w-3.5 mr-1" />
-                    )}
-                    Get Location
-                  </Button>
-                </div> */}
                 <Label htmlFor="longitude">Longitude</Label>
-                <Input
-                  id="longitude"
-                  type="number"
-                  step="any"
-                  value={formData.address.longitude}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      address: {
-                        ...formData.address,
-                        longitude: e.target.value,
-                      },
-                    })
-                  }
-                  placeholder="0.0"
-                  className="mt-2"
-                />
+                <div className="flex gap-2">
+                  <Input
+                    id="longitude"
+                    type="number"
+                    step="any"
+                    value={formData.address.longitude || ""}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        address: {
+                          ...formData.address,
+                          longitude: e.target.value,
+                        },
+                      })
+                    }
+                    placeholder="0.0"
+                    className="mt-2 flex-1"
+                  />
+                </div>
               </div>
               <div>
                 <Label htmlFor="latitude">Latitude</Label>
@@ -575,7 +592,7 @@ export default function CreatePropertySheet({
                   id="latitude"
                   type="number"
                   step="any"
-                  value={formData.address.latitude}
+                  value={formData.address.latitude || ""}
                   onChange={(e) =>
                     setFormData({
                       ...formData,
@@ -588,6 +605,36 @@ export default function CreatePropertySheet({
                   placeholder="0.0"
                   className="mt-2"
                 />
+              </div>
+              <div className="col-span-2 place-self-end">
+                {formData.address.longitude || formData.address.latitude ? (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setFormData({
+                        ...formData,
+                        address: {
+                          ...formData.address,
+                          longitude: undefined,
+                          latitude: undefined,
+                        },
+                      })
+                    }
+                    className="text-xs text-muted-foreground hover:underline"
+                  >
+                    Clear location
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={getCurrentLocation}
+                    disabled={isGettingLocation}
+                    className="text-xs text-muted-foreground hover:underline flex items-center gap-1"
+                  >
+                    <MapPin className="h-3 w-3" />
+                    Add location
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -654,7 +701,7 @@ export default function CreatePropertySheet({
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={isSubmitting}>
+            <Button type="submit" disabled={isSubmitting || !isVerified}>
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />

@@ -30,11 +30,7 @@ const InstallPrompt = () => {
     return null;
   }
 
-  return (
-    <div>
-      <Toaster position="bottom-center" />
-    </div>
-  );
+  return <Toaster position="bottom-center" />;
 };
 
 export default InstallPrompt;

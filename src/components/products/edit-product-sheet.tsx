@@ -214,7 +214,7 @@ export default function EditProductSheet({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="bottom"
-        className="px-8 max-h-[80vh] max-w-7xl mx-auto overflow-y-auto"
+        className="px-8 max-h-[80vh] max-w-[100vw] md:max-w-7xl mx-auto overflow-y-auto overflow-x-hidden"
       >
         <SheetHeader className="w-[100vw] sticky top-0 left-0 right-0 z-10 bg-background rounded-lg pb-4">
           <SheetTitle>Edit product</SheetTitle>

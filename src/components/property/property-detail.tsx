@@ -213,14 +213,15 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
             )}
           </div>
           {/* Overlay info card */}
-          <div className="relative -mt-4">
+          <div className="relative -mt-4 capitalize">
             <div className="bg-white rounded-t-2xl shadow-md p-4">
               <h1 className="text-xl font-semibold text-gray-900">
                 {property.title}
               </h1>
               {property.address && (
                 <p className="text-gray-600 text-sm mt-1">
-                  Entire rental unit in {property.address?.city}
+                  {property.address?.city}
+                  {", "} {property.address?.street}
                 </p>
               )}
               <div className="flex items-center gap-6 mt-3 text-xs text-gray-700">
@@ -296,7 +297,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
           </button>
         </div>
         {/* Content */}
-        <div className="px-4 md:px-0 grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="px-4 md:px-0 grid grid-cols-1 lg:grid-cols-3 gap-8 capitalize">
           <h1 className="hidden">{property.title}</h1>
           {/* Left Column - Property Details */}
           <div className="lg:col-span-2 space-y-8">

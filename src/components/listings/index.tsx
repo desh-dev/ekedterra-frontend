@@ -34,7 +34,7 @@ const ListingsPage = () => {
   };
 
   const { data, isLoading, refetch } = useQuery({
-    queryKey: ["listings", user?.userId],
+    queryKey: ["listings"],
     queryFn: async () => {
       if (!user) return { properties: [], total: 0 };
 
@@ -43,6 +43,7 @@ const ListingsPage = () => {
         variables: {
           pagination: { page: 0, limit: 100 },
           property: {
+            userId: user.userId,
             rent: filters.rent,
             isVacant: filters.isVacant,
             buildingName: filters.buildingName,
@@ -52,7 +53,7 @@ const ListingsPage = () => {
             },
           },
         },
-        fetchPolicy: "network-only",
+        fetchPolicy: "cache-first",
       });
 
       return {
@@ -102,10 +103,15 @@ const ListingsPage = () => {
           </div>
         </div>
         <div className="flex items-center justify-between pb-4">
-          <div className="flex items-center gap-2 text-sm font-medium border border-gray-200 p-2 rounded-full hover:shadow-md transition-shadow">
+          <button
+            onClick={() => {
+              setIsFiltersOpen(true);
+            }}
+            className="flex items-center gap-2 text-sm font-medium border border-gray-200 p-2 rounded-full hover:shadow-md transition-shadow"
+          >
             <AdjustmentsHorizontalIcon className="h-4 w-4" />
             <span>Filters</span>
-          </div>
+          </button>
           <div className="flex items-center gap-2">
             {/* View Toggle */}
             <div className="flex items-center border rounded-lg">
@@ -150,7 +156,7 @@ const ListingsPage = () => {
           </Card>
         ) : viewMode === "list" ? (
           // List View
-          <div className="space-y-2">
+          <div className="space-y-2 capitalize">
             {properties.map((property: Property) => (
               <Card
                 key={property.id}
@@ -180,7 +186,7 @@ const ListingsPage = () => {
           </div>
         ) : (
           // Grid View
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 capitalize">
             {properties.map((property: Property) => (
               <Card
                 key={property.id}
