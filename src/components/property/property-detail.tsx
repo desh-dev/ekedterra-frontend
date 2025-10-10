@@ -35,7 +35,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
 
   const images =
     property.images && property.images.length > 0
-      ? property.images.map((img) => img.imageUrl)
+      ? [property.mainImage, ...property.images.map((img) => img.imageUrl)]
       : [property.mainImage];
   const isFavorite = user?.favorites?.some((fav) => fav?.id === property.id);
 
@@ -361,7 +361,9 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
           <div className="fixed md:hidden bottom-0 left-0 right-0 px-4 py-2 bg-white flex border-t border-gray-200 justify-between items-center">
             <div className="flex flex-col justify-center items-center">
               <p className="font-semibold uppercase">
-                {property.currency || "xaf"} {property.rent?.toLocaleString()}
+                {property.currency || "xaf"}{" "}
+                {property.rent?.toLocaleString() ||
+                  property.price?.toLocaleString()}
               </p>
               <p className="text-gray-600 text-sm">{property.rentDuration}</p>
             </div>{" "}
