@@ -12,7 +12,7 @@ const HomeSkeleton = () => {
   return (
     <div>
       {/* Mobile Skeleton */}
-      <div className="mx-6 my-4 flex md:hidden items-center justify-center h-16 bg-card border rounded-full shadow-lg hover:shadow-xl transition-shadow duration-300">
+      <div className="mx-6 my-4 sticky top-0 z-50 safe-area-top flex md:hidden items-center justify-center h-16 bg-card border rounded-full shadow-lg hover:shadow-xl transition-shadow duration-300">
         <div className="flex gap-2 w-full flex justify-center items-center">
           <Search size={16} />
           <Skeleton className="h-4 w-16" />

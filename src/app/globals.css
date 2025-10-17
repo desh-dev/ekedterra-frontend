@@ -71,6 +71,9 @@
     padding-top: env(safe-area-inset-top);
   }
 }
+body {
+  overscroll-behavior-y: none;
+}
 
 html {
   min-height: calc(100% + env(safe-area-inset-top));
