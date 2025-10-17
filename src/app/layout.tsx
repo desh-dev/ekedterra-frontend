@@ -344,8 +344,7 @@ export default function RootLayout({
               disableTransitionOnChange
             >
               <AuthProvider>
-                <TopPadding />
-                {children}
+                <TopPadding>{children}</TopPadding>
               </AuthProvider>
             </ThemeProvider>
           </ApolloWrapper>
