@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { ApolloWrapper } from "@/providers/apollo-provider";
@@ -11,7 +11,7 @@ const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : "http://ekedterra.com";
 
-export async function generateViewport() {
+export async function generateViewport(): Promise<Viewport> {
   const store = await cookies();
   const isStandalone = store.get("isStandalone")?.value === "true";
   return {
@@ -20,6 +20,7 @@ export async function generateViewport() {
     initialScale: 1,
     viewportFit: "cover",
     maximumScale: isStandalone ? 1 : 10,
+    userScalable: isStandalone ? false : true,
   };
 }
 
@@ -327,13 +328,11 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning>
       <head>
-        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="no" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       </head>
 
-      <body
-        className={`${geistSans.className} safe-paddings antialiased bg-white`}
-      >
+      <body className={`${geistSans.className} antialiased bg-white`}>
         <ReactQueryProvider>
           <ApolloWrapper>
             <ThemeProvider

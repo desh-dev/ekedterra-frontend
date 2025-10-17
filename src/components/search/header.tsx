@@ -12,7 +12,6 @@ import LanguageSwitcher from "@/components/language-switcher";
 import SearchBar from "../layout/search-bar";
 import SearchBarDesktop from "./search-bar-desktop";
 import { ArrowLeft } from "lucide-react";
-import TopPadding from "../top-padding";
 
 interface HeaderProps {
   onOpenFilters?: () => void;
@@ -25,7 +24,6 @@ export default function Header({ onOpenFilters }: HeaderProps) {
 
   return (
     <header className="w-full sticky top-0 z-50 bg-white md:border-b border-gray-200">
-      <TopPadding />
       <div className="w-full lg:max-w-7xl mx-auto lg:px-8">
         {/* Desktop */}
         <div className="hidden md:flex justify-between items-center px-6">

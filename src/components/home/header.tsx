@@ -10,7 +10,6 @@ import SearchBar from "../layout/search-bar";
 import CategoryTabs from "./category-tabs";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import useIsDesktop from "@/hooks/useIsDesktop";
-import TopPadding from "../top-padding";
 
 export default function Header() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -30,7 +29,6 @@ export default function Header() {
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
       className="w-full sticky top-0 z-50 bg-white  md:bg-gray-50 md:border-b border-gray-200 md:pb-4"
     >
-      <TopPadding />
       <div className="w-full shadow-md md:shadow-none lg:max-w-7xl mx-auto lg:px-8">
         {/* Desktop */}
         <div className="hidden md:flex justify-between items-center px-6">
