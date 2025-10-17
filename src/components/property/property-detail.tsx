@@ -19,6 +19,7 @@ import { useSwipeable } from "react-swipeable";
 import Footer from "../layout/footer";
 import { Button } from "../ui/button";
 import BookingModal from "./booking-modal";
+import { usePreviousPath } from "@/hooks/usePreviousPath";
 
 interface PropertyDetailProps {
   property: Property;
@@ -32,6 +33,15 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
   const { setLogin } = useAppStore((state) => state);
   const { isDesktop } = useIsDesktop();
   const router = useRouter();
+  const prevPath = usePreviousPath();
+
+  const handleBack = () => {
+    if (prevPath) {
+      router.back();
+    } else {
+      router.push("/");
+    }
+  };
 
   const images =
     property.images && property.images.length > 0
@@ -177,7 +187,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
             <div className="absolute top-0 left-0 w-full flex justify-between items-start px-4 pt-4 z-10">
               <button
                 className="rounded-full p-2 bg-white border border-gray-200 shadow hover:bg-gray-100"
-                onClick={() => router.back()}
+                onClick={handleBack}
                 aria-label="Back"
               >
                 <ArrowLeft className="w-6 h-6" />

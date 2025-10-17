@@ -5,15 +5,27 @@ const es = initEdgeStore.create();
  * This is the main router for the Edge Store buckets.
  */
 const edgeStoreRouter = es.router({
-  properties: es.imageBucket({
-    maxSize: 1024 * 1024 * 5, // 5MB
-  }),
-  verificationDocs: es.imageBucket({
-    maxSize: 1024 * 1024 * 5, // 5MB
-  }),
-  products: es.imageBucket({
-    maxSize: 1024 * 1024 * 5, // 5MB
-  }),
+  properties: es
+    .imageBucket({
+      maxSize: 1024 * 1024 * 5, // 5MB
+    })
+    .beforeDelete(() => {
+      return true;
+    }),
+  verificationDocs: es
+    .imageBucket({
+      maxSize: 1024 * 1024 * 5, // 5MB
+    })
+    .beforeDelete(() => {
+      return true;
+    }),
+  products: es
+    .imageBucket({
+      maxSize: 1024 * 1024 * 5, // 5MB
+    })
+    .beforeDelete(() => {
+      return true;
+    }),
 });
 const handler = createEdgeStoreNextHandler({
   router: edgeStoreRouter,
