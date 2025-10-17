@@ -43,6 +43,7 @@ import { useAppStore } from "@/providers/app-store-provider";
 import { usePathname, useRouter } from "@/i18n/routing";
 import { useSearchParams } from "next/navigation";
 import { PropertyType } from "@/lib/graphql/types";
+import TopPadding from "../top-padding";
 
 export const countries = ["Cameroon"];
 export const cities = [
@@ -114,6 +115,7 @@ const SearchBar = () => {
 
   return (
     <div className="w-full max-w-4xl mx-auto">
+      <TopPadding />
       <div className="w-full flex items-center h-16 bg-card border rounded-full shadow-lg hover:shadow-xl transition-shadow duration-300">
         <div className="w-full md:flex justify-between items-center hidden">
           {/* Country */}
