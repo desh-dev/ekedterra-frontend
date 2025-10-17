@@ -332,7 +332,6 @@ export default function CreatePropertySheet({
                 <Label htmlFor="type">Type *</Label>
                 <Select
                   value={formData.type}
-                  required
                   onValueChange={(value) =>
                     setFormData({ ...formData, type: value as PropertyType })
                   }
