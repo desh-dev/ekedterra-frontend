@@ -8,7 +8,7 @@ const TopPadding = ({ children }: { children: React.ReactNode }) => {
   return (
     <div>
       {isStandalone && isIOS && (
-        <div className="h-26 relative top-0 pt-20 border-b border-t border-gray-200"></div>
+        <div className="h-26 fixed top-0 pt-20 border-b border-t border-gray-200"></div>
       )}
       {children}
     </div>
