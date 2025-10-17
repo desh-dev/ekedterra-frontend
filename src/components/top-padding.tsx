@@ -6,10 +6,11 @@ import React from "react";
 const TopPadding = ({ children }: { children: React.ReactNode }) => {
   const { isStandalone, isIOS } = useIsDesktop();
   return (
-    <div>
-      {isStandalone && isIOS && (
-        <div className="mt-26 border-b border-gray-200"></div>
-      )}
+    <div
+      className={`${
+        isStandalone && isIOS ? "h-26 mt-26 border-b border-gray-200" : ""
+      }`}
+    >
       {children}
     </div>
   );
