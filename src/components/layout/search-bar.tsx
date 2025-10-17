@@ -238,7 +238,7 @@ const SearchBar = () => {
           <SheetContent
             side="bottom"
             className={`${
-              isStandalone && isIOS ? "h-[85vh]" : "h-[100vh]"
+              isStandalone && isIOS ? "h-[95vh]" : "h-[100vh]"
             } bg-muted`}
           >
             <SheetHeader>
