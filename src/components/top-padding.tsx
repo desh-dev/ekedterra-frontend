@@ -7,7 +7,9 @@ const TopPadding = ({ children }: { children: React.ReactNode }) => {
   const { isStandalone, isIOS } = useIsDesktop();
   return (
     <div>
-      {isStandalone && isIOS && <div className="h-20 mt-60"></div>}
+      {isStandalone && isIOS && (
+        <div className="mt-26 border-b border-gray-200"></div>
+      )}
       {children}
     </div>
   );
