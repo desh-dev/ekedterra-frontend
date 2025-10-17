@@ -329,7 +329,7 @@ export default function CreatePropertySheet({
               </div>
 
               <div>
-                <Label htmlFor="type">Type *</Label>
+                <Label htmlFor="type">Type</Label>
                 <Select
                   value={formData.type}
                   onValueChange={(value) =>
