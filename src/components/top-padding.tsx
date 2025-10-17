@@ -1,3 +1,5 @@
+"use client";
+
 import useIsDesktop from "@/hooks/useIsDesktop";
 import React from "react";
 
