@@ -10,7 +10,7 @@ import UserMenu from "../user/user-menu";
 const Header = () => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   return (
-    <header className="hidden md:flex w-full sticky top-0 z-50 bg-white md:bg-gray-50 md:border-b border-gray-200">
+    <header className="hidden md:flex w-full safe-area-top sticky top-0 z-50 bg-white md:bg-gray-50 md:border-b border-gray-200">
       <div className="w-full shadow-md md:shadow-none lg:max-w-7xl mx-auto lg:px-8">
         {/* Desktop */}
         <div className="flex justify-between items-center px-6">

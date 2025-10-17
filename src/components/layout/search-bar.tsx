@@ -235,7 +235,12 @@ const SearchBar = () => {
               )}
             </div>
           </SheetTrigger>
-          <SheetContent side="bottom" className="h-[100vh] bg-muted">
+          <SheetContent
+            side="bottom"
+            className={`${
+              isStandalone && isIOS ? "h-[95vh]" : "h-[100vh]"
+            } bg-muted`}
+          >
             <SheetHeader>
               <SheetTitle className="sticky top-0 place-self-center pt-4">
                 <CategoryTabs />

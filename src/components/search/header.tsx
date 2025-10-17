@@ -23,7 +23,7 @@ export default function Header({ onOpenFilters }: HeaderProps) {
   const path = usePathname();
 
   return (
-    <header className="w-full sticky top-0 z-50 bg-white md:border-b border-gray-200">
+    <header className="w-full safe-area-top sticky top-0 z-50 bg-white md:border-b border-gray-200">
       <div className="w-full lg:max-w-7xl mx-auto lg:px-8">
         {/* Desktop */}
         <div className="hidden md:flex justify-between items-center px-6">

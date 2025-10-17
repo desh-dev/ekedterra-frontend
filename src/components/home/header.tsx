@@ -27,7 +27,7 @@ export default function Header() {
         height: isDesktop ? (scrolledDown ? "120px" : "220px") : "auto",
       }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
-      className="w-full sticky top-0 z-50 bg-white  md:bg-gray-50 md:border-b border-gray-200 md:pb-4"
+      className="w-full safe-area-top sticky top-0 z-50 bg-white  md:bg-gray-50 md:border-b border-gray-200 md:pb-4"
     >
       <div className="w-full shadow-md md:shadow-none lg:max-w-7xl mx-auto lg:px-8">
         {/* Desktop */}
