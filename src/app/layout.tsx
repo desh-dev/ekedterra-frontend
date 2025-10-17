@@ -5,20 +5,28 @@ import { ApolloWrapper } from "@/providers/apollo-provider";
 import "./globals.css";
 import ReactQueryProvider from "@/providers/react-query-provider";
 import { AuthProvider } from "@/providers/auth-provider";
+import { cookies } from "next/headers";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : "http://ekedterra.com";
 
+export async function generateViewport() {
+  const store = await cookies();
+  const isStandalone = store.get("isStandalone")?.value === "true";
+  return {
+    themeColor: "#C52B4A",
+    width: "device-width",
+    initialScale: 1,
+    viewportFit: "cover",
+    maximumScale: isStandalone ? 1 : 10,
+  };
+}
+
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
   title: "Ekedterra - House to let",
   description: "Simplify your search for real estate",
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    viewportFit: "cover",
-  },
   icons: {
     apple: [{ url: "/apple-icon-180.png" }],
   },
@@ -303,12 +311,6 @@ export const metadata: Metadata = {
     "apple-mobile-web-app-title": "Ekedterra",
   },
   manifest: "/manifest.json",
-  // themeColor: "#C52B4A",
-  // viewport: {
-  //   width: "device-width",
-  //   initialScale: 1,
-  //   maximumScale: 1,
-  // },
 };
 
 const geistSans = Geist({

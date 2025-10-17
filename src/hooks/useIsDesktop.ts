@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import Cookies from "js-cookie";
 interface UseIsDesktop {
   isDesktop: boolean;
   isIOS: boolean;
@@ -20,7 +20,9 @@ export default function useIsDesktop(): UseIsDesktop {
       "(display-mode: standalone)"
     ).matches;
     setIsIframe(window.self !== window.top);
-
+    if (isStandaloneApp) {
+      Cookies.set("isStandalone", "true");
+    }
     setIsIOS(isIOSDevice);
     setIsStandalone(isStandaloneApp);
     const checkSize = () => setIsDesktop(window.innerWidth >= 768);
