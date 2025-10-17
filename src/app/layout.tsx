@@ -6,6 +6,7 @@ import "./globals.css";
 import ReactQueryProvider from "@/providers/react-query-provider";
 import { AuthProvider } from "@/providers/auth-provider";
 import { cookies } from "next/headers";
+import TopPadding from "@/components/top-padding";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -342,7 +343,10 @@ export default function RootLayout({
               enableSystem={false}
               disableTransitionOnChange
             >
-              <AuthProvider>{children}</AuthProvider>
+              <AuthProvider>
+                <TopPadding />
+                {children}
+              </AuthProvider>
             </ThemeProvider>
           </ApolloWrapper>
         </ReactQueryProvider>
