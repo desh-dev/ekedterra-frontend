@@ -43,7 +43,7 @@ import { useAppStore } from "@/providers/app-store-provider";
 import { usePathname, useRouter } from "@/i18n/routing";
 import { useSearchParams } from "next/navigation";
 import { PropertyType } from "@/lib/graphql/types";
-import TopPadding from "../top-padding";
+import useIsDesktop from "@/hooks/useIsDesktop";
 
 export const countries = ["Cameroon"];
 export const cities = [
@@ -69,6 +69,7 @@ const SearchBar = () => {
   const searchParams = useSearchParams();
   const path = usePathname();
   const sheetCloseRef = useRef<HTMLButtonElement>(null);
+  const { isStandalone, isIOS } = useIsDesktop();
 
   const handleSearch = () => {
     setCountry(tempCountry);
@@ -115,7 +116,6 @@ const SearchBar = () => {
 
   return (
     <div className="w-full max-w-4xl mx-auto">
-      <TopPadding />
       <div className="w-full flex items-center h-16 bg-card border rounded-full shadow-lg hover:shadow-xl transition-shadow duration-300">
         <div className="w-full md:flex justify-between items-center hidden">
           {/* Country */}
@@ -235,7 +235,12 @@ const SearchBar = () => {
               )}
             </div>
           </SheetTrigger>
-          <SheetContent side="bottom" className="h-[100vh] bg-muted">
+          <SheetContent
+            side="bottom"
+            className={`${
+              isStandalone && isIOS ? "h-[85vh]" : "h-[100vh]"
+            } bg-muted`}
+          >
             <SheetHeader>
               <SheetTitle className="sticky top-0 place-self-center pt-4">
                 <CategoryTabs />
