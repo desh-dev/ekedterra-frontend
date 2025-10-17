@@ -14,6 +14,11 @@ export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
   title: "Ekedterra - House to let",
   description: "Simplify your search for real estate",
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    viewportFit: "cover",
+  },
   icons: {
     apple: [{ url: "/apple-icon-180.png" }],
   },
@@ -319,7 +324,9 @@ export default function RootLayout({
 }>) {
   return (
     <html suppressHydrationWarning>
-      <body className={`${geistSans.className} antialiased bg-white`}>
+      <body
+        className={`${geistSans.className} safe-paddings antialiased bg-white`}
+      >
         <ReactQueryProvider>
           <ApolloWrapper>
             <ThemeProvider
