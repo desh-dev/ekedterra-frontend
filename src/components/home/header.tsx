@@ -29,7 +29,7 @@ export default function Header() {
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
       className={`w-full ${
         scrolledDown ? "safe-area-top" : ""
-      } sticky top-0 z-50 bg-white md:bg-gray-50 md:border-b border-gray-200 md:pb-4`}
+      } sticky top-0 z-50 bg-white md:bg-gray-50 md:border-b border-gray-200 md:pb-4 transition-all duration-300`}
     >
       <div className="w-full shadow-md md:shadow-none lg:max-w-7xl mx-auto lg:px-8">
         {/* Desktop */}

@@ -12,6 +12,7 @@ import LanguageSwitcher from "@/components/language-switcher";
 import SearchBar from "../layout/search-bar";
 import SearchBarDesktop from "./search-bar-desktop";
 import { ArrowLeft } from "lucide-react";
+import { useScroll, useMotionValueEvent } from "framer-motion";
 
 interface HeaderProps {
   onOpenFilters?: () => void;
@@ -19,11 +20,21 @@ interface HeaderProps {
 
 export default function Header({ onOpenFilters }: HeaderProps) {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [scrolledDown, setScrolledDown] = useState(false);
   const router = useRouter();
   const path = usePathname();
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    setScrolledDown(latest > 0);
+  });
 
   return (
-    <header className="w-full safe-area-top sticky top-0 z-50 bg-white md:border-b border-gray-200">
+    <header
+      className={`w-full ${
+        scrolledDown ? "safe-area-top" : ""
+      } sticky top-0 z-50 bg-white md:border-b border-gray-200 transition-all duration-300`}
+    >
       <div className="w-full lg:max-w-7xl mx-auto lg:px-8">
         {/* Desktop */}
         <div className="hidden md:flex justify-between items-center px-6">

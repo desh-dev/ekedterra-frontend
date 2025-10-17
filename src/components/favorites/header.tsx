@@ -6,11 +6,22 @@ import LanguageSwitcher from "../language-switcher";
 import { useState } from "react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import UserMenu from "../user/user-menu";
+import { useScroll, useMotionValueEvent } from "framer-motion";
 
 const Header = () => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [scrolledDown, setScrolledDown] = useState(false);
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    setScrolledDown(latest > 0);
+  });
   return (
-    <header className="hidden md:flex w-full safe-area-top sticky top-0 z-50 bg-white md:bg-gray-50 md:border-b border-gray-200">
+    <header
+      className={`hidden md:flex w-full ${
+        scrolledDown ? "safe-area-top" : ""
+      } sticky top-0 z-50 bg-white md:bg-gray-50 md:border-b border-gray-200 transition-all duration-300`}
+    >
       <div className="w-full shadow-md md:shadow-none lg:max-w-7xl mx-auto lg:px-8">
         {/* Desktop */}
         <div className="flex justify-between items-center px-6">
