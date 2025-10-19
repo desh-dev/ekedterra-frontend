@@ -11,6 +11,7 @@ import { useState } from "react";
 import { cities, countries } from "../layout/search-bar";
 import { PropertyType } from "@/lib/graphql/types";
 import { useRouter } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
 
 const types = ["Apartment", "House", "Room", "Studio", "Hotel", "Guesthouse"];
 
@@ -22,7 +23,7 @@ const dropdownVariants = {
 const SearchBarDesktop = () => {
   const { category, country, setCountry, city, setCity, type, setType } =
     useAppStore((state) => state);
-
+  const t = useTranslations("categories");
   const router = useRouter();
   const params = useSearchParams();
   const param = {
@@ -53,7 +54,7 @@ const SearchBarDesktop = () => {
       >
         <Image
           src={cat?.icon as string}
-          alt={cat?.label as string}
+          alt={t(cat?.labelKey as string)}
           width={32}
           height={32}
         />
