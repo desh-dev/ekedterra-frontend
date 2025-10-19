@@ -87,7 +87,9 @@ const ProfilePage = () => {
             </div>
 
             {/* Name */}
-            <h2 className="text-2xl font-bold mb-1">{user.fullName}</h2>
+            <h2 className="text-2xl font-bold mb-1 capitalize">
+              {user.fullName}
+            </h2>
 
             {/* Email/Status */}
             <p className="text-muted-foreground text-sm">{user.email}</p>

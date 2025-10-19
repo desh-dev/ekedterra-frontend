@@ -1,26 +1,28 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import toast, { Toaster } from "react-hot-toast";
-import useIsDesktop from "@/hooks/useIsDesktop";
+import { useEffect } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
+import useIsDesktop from '@/hooks/useIsDesktop';
+import { useTranslations } from 'next-intl';
 
 const InstallPrompt = () => {
   const { isIOS, isStandalone, isIframe } = useIsDesktop();
+  const t = useTranslations('common');
 
   useEffect(() => {
     if (!isStandalone && !isIframe) {
       const message = isIOS
-        ? 'Tap the share button and then "Add to Home Screen" to install the app'
-        : "Install this web app on your device for a better experience";
+        ? t('tapShareButtonAddToHomeScreen')
+        : t('installWebAppForBetterExperience');
 
       toast(message, {
         duration: 10000,
-        position: "bottom-center",
-        icon: "📱",
+        position: 'bottom-center',
+        icon: '📱',
         style: {
-          borderRadius: "10px",
-          background: "#333",
-          color: "#fff",
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
         },
       });
     }

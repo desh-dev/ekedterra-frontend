@@ -1,11 +1,12 @@
-"use client";
+'use client';
 
-import { Fragment } from "react";
-import { Link } from "@/i18n/routing";
-import { useAppStore } from "@/providers/app-store-provider";
-import { useAuth } from "@/providers/auth-provider";
-import { HelpCircle } from "lucide-react";
-import Image from "next/image";
+import { Fragment } from 'react';
+import { Link } from '@/i18n/routing';
+import { useAppStore } from '@/providers/app-store-provider';
+import { useAuth } from '@/providers/auth-provider';
+import { HelpCircle } from 'lucide-react';
+import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 
 interface UserMenuProps {
   onClose: () => void;
@@ -13,6 +14,7 @@ interface UserMenuProps {
 
 export default function UserMenu({ onClose }: UserMenuProps) {
   const setLogin = useAppStore((state) => state.setLogin);
+  const t = useTranslations('common');
 
   const handleAuth = () => {
     setLogin(true);
@@ -33,7 +35,7 @@ export default function UserMenu({ onClose }: UserMenuProps) {
               onClick={handleAuth}
               className="block w-full text-left px-4 py-3 text-sm font-medium text-gray-900 hover:bg-gray-50"
             >
-              Log in or Sign up
+              {t('logInOrSignUp')}
             </button>
           </Fragment>
         ) : (
@@ -45,21 +47,21 @@ export default function UserMenu({ onClose }: UserMenuProps) {
                   className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
                   onClick={onClose}
                 >
-                  Bookings
+                  {t('bookings')}
                 </Link>
                 <Link
                   href="/favorites"
                   className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
                   onClick={onClose}
                 >
-                  Favorites
+                  {t('favorites')}
                 </Link>
                 <Link
                   href="/profile"
                   className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
                   onClick={onClose}
                 >
-                  Account
+                  {t('account')}
                 </Link>
               </div>
             )}
@@ -70,21 +72,21 @@ export default function UserMenu({ onClose }: UserMenuProps) {
                   className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
                   onClick={onClose}
                 >
-                  Manage listings
+                  {t('manageListings')}
                 </Link>
                 <Link
                   href="/agent/products"
                   className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
                   onClick={onClose}
                 >
-                  Manage products
+                  {t('manageProducts')}
                 </Link>
                 <Link
                   href="/profile"
                   className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
                   onClick={onClose}
                 >
-                  Account
+                  {t('account')}
                 </Link>
               </div>
             )}
@@ -100,10 +102,9 @@ export default function UserMenu({ onClose }: UserMenuProps) {
               onClick={onClose}
             >
               <div className="flex flex-col">
-                <p className="font-semibold  text-sm">Become an agent</p>
+                <p className="font-semibold  text-sm">{t('becomeAnAgent')}</p>
                 <p className="text-xs text-gray-500">
-                  It&#39;s easy to become an Ekedterra agent and earn extra
-                  income
+                  {t('itsEasyToBecomeAgent')}
                 </p>
               </div>
               <Image
@@ -123,7 +124,7 @@ export default function UserMenu({ onClose }: UserMenuProps) {
           onClick={onClose}
         >
           <HelpCircle size={16} />
-          <span className=" text-sm text-gray-700">Help Center</span>
+          <span className=" text-sm text-gray-700">{t('helpCenter')}</span>
         </Link>
         {user && (
           <div>
@@ -137,7 +138,7 @@ export default function UserMenu({ onClose }: UserMenuProps) {
                 onClose();
               }}
             >
-              Log out
+              {t('logOut')}
             </button>
           </div>
         )}

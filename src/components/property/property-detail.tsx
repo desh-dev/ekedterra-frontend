@@ -126,7 +126,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
       {/* Fixed Back Button */}
 
       <div className="min-h-screen md:max-w-7xl md:mx-auto md:px-4 sm:px-6 lg:px-8 py-6">
-        <div className="mb-6">
+        <div className="mb-6 capitalize">
           <h1 className="hidden md:block text-2xl md:text-3xl font-semibold text-gray-900 mb-2">
             {property.title}
           </h1>

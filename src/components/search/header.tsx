@@ -13,6 +13,8 @@ import SearchBar from "../layout/search-bar";
 import SearchBarDesktop from "./search-bar-desktop";
 import { ArrowLeft } from "lucide-react";
 import { useScroll, useMotionValueEvent } from "framer-motion";
+import useIsDesktop from "@/hooks/useIsDesktop";
+import { useTranslations } from "next-intl";
 
 interface HeaderProps {
   onOpenFilters?: () => void;
@@ -23,7 +25,9 @@ export default function Header({ onOpenFilters }: HeaderProps) {
   const [scrolledDown, setScrolledDown] = useState(false);
   const router = useRouter();
   const path = usePathname();
+  const { isIOS } = useIsDesktop();
   const { scrollY } = useScroll();
+  const t = useTranslations("navigation");
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setScrolledDown(latest > 0);
@@ -32,8 +36,8 @@ export default function Header({ onOpenFilters }: HeaderProps) {
   return (
     <header
       className={`w-full ${
-        scrolledDown ? "safe-area-top" : ""
-      } sticky top-0 z-50 bg-white md:border-b border-gray-200 transition-all duration-300`}
+        scrolledDown && isIOS ? "safe-area-top transition-all duration-300" : ""
+      } sticky top-0 z-50 bg-white md:border-b border-gray-200`}
     >
       <div className="w-full lg:max-w-7xl mx-auto lg:px-8">
         {/* Desktop */}
@@ -68,7 +72,7 @@ export default function Header({ onOpenFilters }: HeaderProps) {
                 href="/shop"
                 className="space-x-2 text-sm font-medium border border-gray-200 p-2 rounded-full hover:shadow-md transition-shadow"
               >
-                Shop
+                {t("shop")}
               </Link>
             </div>
             <LanguageSwitcher />

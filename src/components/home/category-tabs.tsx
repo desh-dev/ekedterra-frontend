@@ -4,17 +4,19 @@ import Image from "next/image";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { PropertyCategory } from "@/lib/graphql/types";
 import { useAppStore } from "@/providers/app-store-provider";
+import { useTranslations } from "next-intl";
 
 export const categories = [
-  { id: "housing", label: "Homes", icon: "/homes-icon.webp" },
-  { id: "land", label: "Land", icon: "/land-icon.webp" },
-  { id: "business", label: "Stores", icon: "/stores-icon.webp" },
+  { id: "housing", labelKey: "homes", icon: "/homes-icon.webp" },
+  { id: "land", labelKey: "land", icon: "/land-icon.webp" },
+  { id: "business", labelKey: "stores", icon: "/stores-icon.webp" },
 ];
 
 const CategoryTabs = () => {
   const { category, setCategory, setType } = useAppStore((state) => state);
   const [scrolled, setScrolled] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const t = useTranslations("home.categories");
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -61,7 +63,12 @@ const CategoryTabs = () => {
             }
             transition={{ duration: 0.1, ease: "easeInOut" }}
           >
-            <Image src={cat.icon} alt={cat.label} width={60} height={60} />
+            <Image
+              src={cat.icon}
+              alt={t(cat.labelKey)}
+              width={60}
+              height={60}
+            />
           </motion.div>
 
           <span
@@ -71,7 +78,7 @@ const CategoryTabs = () => {
                 : "text-muted-foreground hover:text-foreground"
             }`}
           >
-            {cat.label}
+            {t(cat.labelKey)}
           </span>
         </motion.button>
       ))}

@@ -1,17 +1,18 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Image from "next/image";
-import { useSwipeable } from "react-swipeable";
-import { Link, usePathname, useRouter } from "@/i18n/routing";
-import { HeartIcon } from "@heroicons/react/24/outline";
-import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
-import { Property } from "@/lib/graphql/types";
-import { useAuth } from "@/providers/auth-provider";
-import useIsDesktop from "@/hooks/useIsDesktop";
-import { useAppStore } from "@/providers/app-store-provider";
-import { addFavorite, removeFavorite } from "@/lib/data/client";
-import toast from "react-hot-toast";
+import { useState } from 'react';
+import Image from 'next/image';
+import { useSwipeable } from 'react-swipeable';
+import { Link, usePathname, useRouter } from '@/i18n/routing';
+import { HeartIcon } from '@heroicons/react/24/outline';
+import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
+import { Property } from '@/lib/graphql/types';
+import { useAuth } from '@/providers/auth-provider';
+import useIsDesktop from '@/hooks/useIsDesktop';
+import { useAppStore } from '@/providers/app-store-provider';
+import { addFavorite, removeFavorite } from '@/lib/data/client';
+import toast from 'react-hot-toast';
+import { useTranslations } from 'next-intl';
 
 interface PropertyCardProps {
   property: Property;
@@ -29,6 +30,7 @@ export default function PropertyCard({
   const { setLogin } = useAppStore((state) => state);
   const { isDesktop } = useIsDesktop();
   const router = useRouter();
+  const t = useTranslations('common');
 
   const images =
     property?.images && property.images.length > 0
@@ -48,7 +50,7 @@ export default function PropertyCard({
   const handleToggleFavorite = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!user) return isDesktop ? setLogin(true) : router.push("/auth/login");
+    if (!user) return isDesktop ? setLogin(true) : router.push('/auth/login');
 
     const isFavorite = user.favorites?.some((fav) => fav?.id === property.id);
 
@@ -61,10 +63,10 @@ export default function PropertyCard({
       try {
         await removeFavorite({ userId: user.userId, propertyId: property.id });
       } catch (err) {
-        console.error("Failed to remove favorite:", err);
+        console.error('Failed to remove favorite:', err);
         // Revert optimistic update
         setUser({ ...user, favorites: prevFavorites });
-        toast.error("Failed to remove favorite.");
+        toast.error(t('failedToRemoveFavorite'));
       }
     } else {
       newFavorites = [...prevFavorites, { id: property.id }];
@@ -72,10 +74,10 @@ export default function PropertyCard({
       try {
         await addFavorite({ userId: user.userId, propertyId: property.id });
       } catch (err) {
-        console.error("Failed to add favorite:", err);
+        console.error('Failed to add favorite:', err);
         // Revert optimistic update
         setUser({ ...user, favorites: prevFavorites });
-        toast.error("Failed to add favorite.");
+        toast.error(t('failedToAddFavorite'));
       }
     }
   };
@@ -130,7 +132,9 @@ export default function PropertyCard({
             />
           ) : (
             <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-              <span className="text-gray-400 text-sm">No image available</span>
+              <span className="text-gray-400 text-sm">
+                {t('noImageAvailable')}
+              </span>
             </div>
           )}
 
@@ -143,7 +147,7 @@ export default function PropertyCard({
                   <span
                     key={index}
                     className={`rounded-full transition-all ${
-                      isActive ? "bg-white w-3 h-3" : "bg-white/50 w-2 h-2"
+                      isActive ? 'bg-white w-3 h-3' : 'bg-white/50 w-2 h-2'
                     }`}
                   />
                 );
@@ -202,7 +206,7 @@ export default function PropertyCard({
           )}
 
           {/* Favorite Button */}
-          {path !== "/favorites" && isUser && (
+          {path !== '/favorites' && isUser && (
             <button
               onClick={handleToggleFavorite}
               className="absolute top-3 right-3 p-2 hover:scale-110 transition-transform"
@@ -233,23 +237,23 @@ export default function PropertyCard({
             {property.buildingName && ` - ${property.buildingName}`}
           </p>
           <p className="text-gray-500 text-sm">
-            {property.vacant ? "Available" : "Unavailable"}
+            {property.vacant ? t('available') : t('unavailable')}
             {property.address?.city && `, ${property.address?.city}`}
           </p>
           <div className="flex items-baseline space-x-1">
             <span className="font-medium text-gray-900 uppercase">
-              {property?.currency || "xaf"}{" "}
+              {property?.currency || 'xaf'}{' '}
               {property?.price?.toLocaleString() ||
                 property?.rent?.toLocaleString()}
             </span>
             <span className="text-gray-500 text-sm">
-              {property?.rentDuration === "daily"
-                ? "/night"
-                : property?.rentDuration === "monthly"
-                ? "/month"
-                : property?.rentDuration === "yearly"
-                ? "/year"
-                : ""}
+              {property?.rentDuration === 'daily'
+                ? t('night')
+                : property?.rentDuration === 'monthly'
+                ? t('month')
+                : property?.rentDuration === 'yearly'
+                ? t('year')
+                : ''}
             </span>
           </div>
         </div>

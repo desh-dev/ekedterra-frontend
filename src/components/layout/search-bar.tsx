@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { useMemo, useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Search } from "lucide-react";
+import { useMemo, useRef, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Search } from 'lucide-react';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from '@/components/ui/popover';
 import {
   Command,
   CommandEmpty,
@@ -15,14 +15,14 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command";
+} from '@/components/ui/command';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 import {
   Sheet,
   SheetClose,
@@ -31,33 +31,34 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "../ui/sheet";
-import CategoryTabs from "../home/category-tabs";
+} from '../ui/sheet';
+import CategoryTabs from '../home/category-tabs';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "../ui/accordion";
-import { useAppStore } from "@/providers/app-store-provider";
-import { usePathname, useRouter } from "@/i18n/routing";
-import { useSearchParams } from "next/navigation";
-import { PropertyType } from "@/lib/graphql/types";
-import useIsDesktop from "@/hooks/useIsDesktop";
+} from '../ui/accordion';
+import { useAppStore } from '@/providers/app-store-provider';
+import { usePathname, useRouter } from '@/i18n/routing';
+import { useSearchParams } from 'next/navigation';
+import { PropertyType } from '@/lib/graphql/types';
+import useIsDesktop from '@/hooks/useIsDesktop';
+import { useTranslations } from 'next-intl';
 
-export const countries = ["Cameroon"];
+export const countries = ['Cameroon'];
 export const cities = [
-  "Buea",
-  "Douala",
-  "Yaounde",
-  "Garoua",
-  "Maroua",
-  "Ngaoundere",
-  "Bamenda",
-  "Kribi",
-  "Limbe",
+  'Buea',
+  'Douala',
+  'Yaounde',
+  'Garoua',
+  'Maroua',
+  'Ngaoundere',
+  'Bamenda',
+  'Kribi',
+  'Limbe',
 ];
-const types = ["Apartment", "House", "Room", "Studio", "Hotel", "Guesthouse"];
+const types = ['Apartment', 'House', 'Room', 'Studio', 'Hotel', 'Guesthouse'];
 
 const SearchBar = () => {
   const { category, country, setCountry, city, setCity, type, setType } =
@@ -70,17 +71,18 @@ const SearchBar = () => {
   const path = usePathname();
   const sheetCloseRef = useRef<HTMLButtonElement>(null);
   const { isStandalone, isIOS } = useIsDesktop();
+  const t = useTranslations('common');
 
   const handleSearch = () => {
     setCountry(tempCountry);
     setCity(tempCity);
     setType(tempType);
 
-    if (path !== "/search") {
+    if (path !== '/search') {
       const params = new URLSearchParams();
-      if (country) params.append("country", country);
-      if (city) params.append("city", city);
-      if (type) params.append("type", type);
+      if (country) params.append('country', country);
+      if (city) params.append('city', city);
+      if (type) params.append('type', type);
       router.push(`/search?${params.toString()}`);
     }
     sheetCloseRef.current?.click();
@@ -93,9 +95,9 @@ const SearchBar = () => {
     setCity(undefined);
     setType(undefined);
   };
-  const COUNTRY = country ?? searchParams.get("country") ?? "";
-  const CITY = city ?? searchParams.get("city") ?? "";
-  const TYPE = type ?? searchParams.get("type") ?? "";
+  const COUNTRY = country ?? searchParams.get('country') ?? '';
+  const CITY = city ?? searchParams.get('city') ?? '';
+  const TYPE = type ?? searchParams.get('type') ?? '';
 
   const displaySearchText = useMemo(
     () => () => {
@@ -121,22 +123,22 @@ const SearchBar = () => {
           {/* Country */}
           <div className="flex-1 px-6 py-2 border-b md:border-b-0 md:border-r">
             <div className="text-sm font-semibold text-center text-foreground mb-1">
-              Country
+              {t('country')}
             </div>
             <Popover>
               <PopoverTrigger asChild>
                 <input
-                  value={tempCountry ?? "Search countries..."}
+                  value={tempCountry ?? t('searchCountries')}
                   // onChange={(e) => setTempCountry(e.target.value)}
                   className="w-full bg-transparent text-sm border-none outline-none cursor-pointer placeholder:text-muted-foreground"
-                  placeholder="Search countries"
+                  placeholder={t('searchCountries')}
                 />
               </PopoverTrigger>
               <PopoverContent className="p-0 w-[200px]">
                 <Command>
                   <CommandInput className="border-none ring-0 outline-none focus:ring-0 focus:outline-none" />
                   <CommandList>
-                    <CommandEmpty>No country found.</CommandEmpty>
+                    <CommandEmpty>{t('noCountryFound')}</CommandEmpty>
                     <CommandGroup>
                       {countries.map((c) => (
                         <CommandItem key={c} onSelect={() => setTempCountry(c)}>
@@ -153,22 +155,22 @@ const SearchBar = () => {
           {/* City */}
           <div className="flex-1 px-6 py-2 border-b md:border-b-0 md:border-r cursor-pointer">
             <div className="text-sm font-semibold text-foreground text-center mb-1">
-              City
+              {t('city')}
             </div>
             <Popover>
               <PopoverTrigger asChild>
                 <input
-                  value={tempCity ?? "Search cities..."}
+                  value={tempCity ?? t('searchCities')}
                   // onChange={(e) => setCity(e.target.value)}
                   className="w-full bg-transparent text-sm placeholder:text-muted-foreground border-none outline-none cursor-pointer"
-                  placeholder="Add city"
+                  placeholder={t('addCity')}
                 />
               </PopoverTrigger>
               <PopoverContent className="p-0 w-[200px]">
                 <Command>
                   <CommandInput className="border-none ring-0 outline-none focus:ring-0 focus:outline-none" />
                   <CommandList>
-                    <CommandEmpty>No city found.</CommandEmpty>
+                    <CommandEmpty>{t('noCityFound')}</CommandEmpty>
                     <CommandGroup>
                       {cities.map((c) => (
                         <CommandItem key={c} onSelect={() => setTempCity(c)}>
@@ -184,7 +186,7 @@ const SearchBar = () => {
 
           <div className="flex-1 px-6 py-2 pt-4">
             <div className="text-sm font-semibold text-center text-foreground mb-1">
-              Type
+              {t('type')}
             </div>
             <Select
               value={tempType}
@@ -193,7 +195,7 @@ const SearchBar = () => {
             >
               <SelectTrigger className="bg-transparent border-none outline-none text-sm place-self-center mt-[-4px]">
                 <SelectValue
-                  placeholder="Select type of housing"
+                  placeholder={t('selectTypeOfHousing')}
                   className="text-center"
                 />
               </SelectTrigger>
@@ -221,7 +223,7 @@ const SearchBar = () => {
         <Sheet>
           <SheetTrigger asChild>
             <div className="md:hidden flex justify-center w-full">
-              {path === "/search" ? (
+              {path === '/search' ? (
                 <p className="text-sm font-bold text-gray-700 capitalize">
                   {displaySearchText()}
                 </p>
@@ -229,7 +231,7 @@ const SearchBar = () => {
                 <div className="flex items-center gap-2">
                   <Search size={16} />
                   <p className="text-sm font-bold text-gray-700">
-                    Start your search
+                    {t('startYourSearch')}
                   </p>
                 </div>
               )}
@@ -238,7 +240,7 @@ const SearchBar = () => {
           <SheetContent
             side="bottom"
             className={`${
-              isStandalone && isIOS ? "h-[95vh]" : "h-[100vh]"
+              isStandalone && isIOS ? 'h-[95vh]' : 'h-[100vh]'
             } bg-muted`}
           >
             <SheetHeader>
@@ -253,10 +255,10 @@ const SearchBar = () => {
                 {/* Country */}
                 <AccordionItem value="country" className="bg-white rounded-xl">
                   <AccordionTrigger className="px-4 py-3 text-base font-semibold rounded-xl hover:bg-gray-50 hover:no-underline">
-                    Country{" "}
+                    {t('country')}{' '}
                     {tempCountry && (
                       <span className="text-gray-500 text-center text-sm">
-                        {" "}
+                        {' '}
                         {tempCountry}
                       </span>
                     )}
@@ -265,12 +267,12 @@ const SearchBar = () => {
                     <div className="bg-card rounded-lg p-3">
                       <Command>
                         <CommandInput
-                          placeholder="Search countries..."
+                          placeholder={t('searchCountries')}
                           className="border-none ring-0 outline-none focus:ring-0 focus:outline-none text-base"
                         />
                         <CommandList>
                           <CommandEmpty className="text-base">
-                            No country found.
+                            {t('noCountryFound')}
                           </CommandEmpty>
                           <CommandGroup>
                             {countries.map((c) => (
@@ -292,10 +294,10 @@ const SearchBar = () => {
                 {/* City */}
                 <AccordionItem value="city" className="bg-white rounded-xl">
                   <AccordionTrigger className="px-4 py-3 text-base font-semibold rounded-xl hover:bg-gray-50 hover:no-underline">
-                    City{" "}
+                    {t('city')}{' '}
                     {tempCity && (
                       <span className="text-gray-500 text-center text-sm">
-                        {" "}
+                        {' '}
                         {tempCity}
                       </span>
                     )}
@@ -304,12 +306,12 @@ const SearchBar = () => {
                     <div className="bg-card rounded-lg p-3">
                       <Command>
                         <CommandInput
-                          placeholder="Search cities..."
+                          placeholder={t('searchCities')}
                           className="border-none ring-0 outline-none focus:ring-0 focus:outline-none text-base"
                         />
                         <CommandList>
                           <CommandEmpty className="text-base">
-                            No city found.
+                            {t('noCityFound')}
                           </CommandEmpty>
                           <CommandGroup>
                             {cities.map((c) => (
@@ -329,13 +331,13 @@ const SearchBar = () => {
                 </AccordionItem>
 
                 {/* Type */}
-                {category === "housing" && (
+                {category === 'housing' && (
                   <AccordionItem value="type" className="bg-white rounded-xl">
                     <AccordionTrigger className="px-4 py-3 text-base font-semibold rounded-xl hover:bg-gray-50 hover:no-underline">
-                      Type{" "}
+                      {t('type')}{' '}
                       {tempType && (
                         <span className="text-gray-500 text-center text-sm">
-                          {" "}
+                          {' '}
                           {tempType}
                         </span>
                       )}
@@ -348,7 +350,7 @@ const SearchBar = () => {
                               key={t}
                               onClick={() => setTempType(t as PropertyType)}
                               className={`flex items-center gap-2 p-2 rounded-lg cursor-pointer hover:bg-muted transition text-base ${
-                                type === t ? "bg-muted font-medium" : ""
+                                type === t ? 'bg-muted font-medium' : ''
                               }`}
                             >
                               {t}
@@ -372,7 +374,7 @@ const SearchBar = () => {
                 onClick={onClose}
                 className="text-md font-semibold"
               >
-                Clear
+                {t('clear')}
               </Button>
               <Button
                 size="lg"
@@ -380,7 +382,7 @@ const SearchBar = () => {
                 className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-md font-semibold"
               >
                 <Search className="h-5 w-5 text-primary-foreground" />
-                <span>Search</span>
+                <span>{t('search')}</span>
               </Button>
             </SheetFooter>
           </SheetContent>

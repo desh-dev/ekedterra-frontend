@@ -7,11 +7,15 @@ import { useState } from "react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import UserMenu from "../user/user-menu";
 import { useScroll, useMotionValueEvent } from "framer-motion";
+import useIsDesktop from "@/hooks/useIsDesktop";
+import { useTranslations } from "next-intl";
 
 const Header = () => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [scrolledDown, setScrolledDown] = useState(false);
   const { scrollY } = useScroll();
+  const { isIOS } = useIsDesktop();
+  const t = useTranslations("navigation");
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setScrolledDown(latest > 0);
@@ -19,8 +23,8 @@ const Header = () => {
   return (
     <header
       className={`hidden md:flex w-full ${
-        scrolledDown ? "safe-area-top" : ""
-      } sticky top-0 z-50 bg-white md:bg-gray-50 md:border-b border-gray-200 transition-all duration-300`}
+        scrolledDown && isIOS ? "safe-area-top transition-all duration-300" : ""
+      } sticky top-0 z-50 bg-white md:bg-gray-50 md:border-b border-gray-200`}
     >
       <div className="w-full shadow-md md:shadow-none lg:max-w-7xl mx-auto lg:px-8">
         {/* Desktop */}
@@ -41,7 +45,7 @@ const Header = () => {
               href="/shop"
               className="space-x-2 text-sm font-medium border border-gray-200 p-2 rounded-full hover:shadow-md transition-shadow"
             >
-              Shop
+              {t("shop")}
             </Link>
             <LanguageSwitcher />
             <div>

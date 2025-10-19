@@ -10,11 +10,13 @@ import SearchBar from "../layout/search-bar";
 import CategoryTabs from "./category-tabs";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import useIsDesktop from "@/hooks/useIsDesktop";
+import { useTranslations } from "next-intl";
 
 export default function Header() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [scrolledDown, setScrolledDown] = useState(false);
-  const { isDesktop } = useIsDesktop();
+  const { isDesktop, isIOS } = useIsDesktop();
+  const t = useTranslations("navigation");
 
   const { scrollY } = useScroll();
   useMotionValueEvent(scrollY, "change", (latest) => {
@@ -28,8 +30,8 @@ export default function Header() {
       }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
       className={`w-full ${
-        scrolledDown ? "safe-area-top" : ""
-      } sticky top-0 z-50 bg-white md:bg-gray-50 md:border-b border-gray-200 md:pb-4 transition-all duration-300`}
+        scrolledDown && isIOS ? "safe-area-top transition-all duration-300" : ""
+      } sticky top-0 z-50 bg-white md:bg-gray-50 md:border-b border-gray-200 md:pb-4`}
     >
       <div className="w-full shadow-md md:shadow-none lg:max-w-7xl mx-auto lg:px-8">
         {/* Desktop */}
@@ -78,7 +80,7 @@ export default function Header() {
                 href="/shop"
                 className="space-x-2 text-sm font-medium border border-gray-200 p-2 rounded-full hover:shadow-md transition-shadow"
               >
-                Shop
+                {t("shop")}
               </Link>
             </motion.div>
             <LanguageSwitcher />
