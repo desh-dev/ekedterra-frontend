@@ -20,6 +20,9 @@ export default function LanguageSwitcher() {
   const handleLanguageChange = (newLocale: string) => {
     // Remove the current locale from the pathname
     const pathWithoutLocale = pathname.replace(`/${locale}`, "") || "/";
+    // Set the locale cookie for 1 year
+    Cookies.set("NEXT_LOCALE", newLocale, { expires: 365 });
+    // Navigate to the new locale
     router.push(`/${newLocale}${pathWithoutLocale}`);
     setIsOpen(false);
   };
