@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "@/i18n/routing";
 import { Globe } from "lucide-react";
 import Cookies from "js-cookie";
@@ -15,17 +15,17 @@ export default function LanguageSwitcher() {
   const router = useRouter();
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-  const locale = Cookies.get("NEXT_LOCALE") ?? "en";
+  const [locale, setLocale] = useState("en");
 
   const handleLanguageChange = (newLocale: string) => {
     // Remove the current locale from the pathname
     const pathWithoutLocale = pathname.replace(`/${locale}`, "") || "/";
-    // Set the locale cookie for 1 year
-    Cookies.set("NEXT_LOCALE", newLocale, { expires: 365 });
-    // Navigate to the new locale
     router.push(`/${newLocale}${pathWithoutLocale}`);
     setIsOpen(false);
   };
+  useEffect(() => {
+    setLocale(Cookies.get("NEXT_LOCALE") ?? "en");
+  }, [locale]);
 
   return (
     <div className="relative">
