@@ -94,18 +94,24 @@ const BottomNav = () => {
           href="/"
           className="flex flex-col items-center justify-center flex-1 py-2"
         >
-          <ExploreIcon
-            className={`h-6 w-6 ${
-              ExploreActive ? "text-[#FF385C]" : "text-gray-400"
-            }`}
-          />
-          <span
-            className={`text-xs mt-1 ${
-              ExploreActive ? "text-[#FF385C] font-medium" : "text-gray-400"
-            }`}
+          <motion.div
+            whileTap={{ scale: 1.16 }}
+            transition={{ stiffness: 600, damping: 20 }}
+            className="flex flex-col items-center"
           >
-            {t("explore")}
-          </span>
+            <ExploreIcon
+              className={`h-6 w-6 ${
+                ExploreActive ? "text-[#FF385C]" : "text-gray-400"
+              }`}
+            />
+            <span
+              className={`text-xs mt-1 ${
+                ExploreActive ? "text-[#FF385C] font-medium" : "text-gray-400"
+              }`}
+            >
+              {t("explore")}
+            </span>
+          </motion.div>
         </Link>
         {/* Favorites */}
         {(!user || isUser) && (
@@ -113,18 +119,26 @@ const BottomNav = () => {
             href="/favorites"
             className="flex flex-col items-center justify-center flex-1 py-2"
           >
-            <FavoritesIcon
-              className={`h-6 w-6 ${
-                FavoritesActive ? "text-[#FF385C]" : "text-gray-400"
-              }`}
-            />
-            <span
-              className={`text-xs mt-1 ${
-                FavoritesActive ? "text-[#FF385C] font-medium" : "text-gray-400"
-              }`}
+            <motion.div
+              whileTap={{ scale: 1.16 }}
+              transition={{ stiffness: 600, damping: 20 }}
+              className="flex flex-col items-center"
             >
-              {t("favorites")}
-            </span>
+              <FavoritesIcon
+                className={`h-6 w-6 ${
+                  FavoritesActive ? "text-[#FF385C]" : "text-gray-400"
+                }`}
+              />
+              <span
+                className={`text-xs mt-1 ${
+                  FavoritesActive
+                    ? "text-[#FF385C] font-medium"
+                    : "text-gray-400"
+                }`}
+              >
+                {t("favorites")}
+              </span>
+            </motion.div>
           </Link>
         )}
         {isUser && (
@@ -132,36 +146,48 @@ const BottomNav = () => {
             href="/bookings"
             className="flex flex-col items-center justify-center flex-1 py-2"
           >
-            <CalendarFold
-              className={`h-6 w-6 ${
-                BookingActive ? "text-[#FF385C]" : "text-gray-400"
-              }`}
-            />
-            <span
-              className={`text-xs mt-1 ${
-                BookingActive ? "text-[#FF385C] font-medium" : "text-gray-400"
-              }`}
+            <motion.div
+              whileTap={{ scale: 1.16 }}
+              transition={{ stiffness: 600, damping: 20 }}
+              className="flex flex-col items-center"
             >
-              {t("bookings")}
-            </span>
+              <CalendarFold
+                className={`h-6 w-6 ${
+                  BookingActive ? "text-[#FF385C]" : "text-gray-400"
+                }`}
+              />
+              <span
+                className={`text-xs mt-1 ${
+                  BookingActive ? "text-[#FF385C] font-medium" : "text-gray-400"
+                }`}
+              >
+                {t("bookings")}
+              </span>
+            </motion.div>
           </Link>
         )}
         <Link
           href="/shop"
           className="flex flex-col items-center justify-center flex-1 py-2"
         >
-          <ShopIcon
-            className={`h-6 w-6 ${
-              ShopActive ? "text-[#FF385C]" : "text-gray-400"
-            }`}
-          />
-          <span
-            className={`text-xs mt-1 ${
-              ShopActive ? "text-[#FF385C] font-medium" : "text-gray-400"
-            }`}
+          <motion.div
+            whileTap={{ scale: 1.16 }}
+            transition={{ stiffness: 600, damping: 20 }}
+            className="flex flex-col items-center"
           >
-            {t("shop")}
-          </span>
+            <ShopIcon
+              className={`h-6 w-6 ${
+                ShopActive ? "text-[#FF385C]" : "text-gray-400"
+              }`}
+            />
+            <span
+              className={`text-xs mt-1 ${
+                ShopActive ? "text-[#FF385C] font-medium" : "text-gray-400"
+              }`}
+            >
+              {t("shop")}
+            </span>
+          </motion.div>
         </Link>
         {/* Products */}
         {isAgent && (
@@ -169,18 +195,24 @@ const BottomNav = () => {
             href="/agent/products"
             className="flex flex-col items-center justify-center flex-1 py-2"
           >
-            <ProductIcon
-              className={`h-6 w-6 ${
-                ProductActive ? "text-[#FF385C]" : "text-gray-400"
-              }`}
-            />
-            <span
-              className={`text-xs mt-1 ${
-                ProductActive ? "text-[#FF385C] font-medium" : "text-gray-400"
-              }`}
+            <motion.div
+              whileTap={{ scale: 1.16 }}
+              transition={{ stiffness: 600, damping: 20 }}
+              className="flex flex-col items-center"
             >
-              {t("products")}
-            </span>
+              <ProductIcon
+                className={`h-6 w-6 ${
+                  ProductActive ? "text-[#FF385C]" : "text-gray-400"
+                }`}
+              />
+              <span
+                className={`text-xs mt-1 ${
+                  ProductActive ? "text-[#FF385C] font-medium" : "text-gray-400"
+                }`}
+              >
+                {t("products")}
+              </span>
+            </motion.div>
           </Link>
         )}
         {/* Listings */}
@@ -189,18 +221,24 @@ const BottomNav = () => {
             href="/agent/listings"
             className="flex flex-col items-center justify-center flex-1 py-2"
           >
-            <ListingIcon
-              className={`h-6 w-6 ${
-                ListingActive ? "text-[#FF385C]" : "text-gray-400"
-              }`}
-            />
-            <span
-              className={`text-xs mt-1 ${
-                ListingActive ? "text-[#FF385C] font-medium" : "text-gray-400"
-              }`}
+            <motion.div
+              whileTap={{ scale: 1.16 }}
+              transition={{ stiffness: 600, damping: 20 }}
+              className="flex flex-col items-center"
             >
-              {t("listings")}
-            </span>
+              <ListingIcon
+                className={`h-6 w-6 ${
+                  ListingActive ? "text-[#FF385C]" : "text-gray-400"
+                }`}
+              />
+              <span
+                className={`text-xs mt-1 ${
+                  ListingActive ? "text-[#FF385C] font-medium" : "text-gray-400"
+                }`}
+              >
+                {t("listings")}
+              </span>
+            </motion.div>
           </Link>
         )}
         {/* Profile / Log in */}
@@ -208,18 +246,24 @@ const BottomNav = () => {
           href={profileHref}
           className="flex flex-col items-center justify-center flex-1 py-2"
         >
-          <ProfileIcon
-            className={`h-6 w-6 ${
-              ProfileActive ? "text-[#FF385C]" : "text-gray-400"
-            }`}
-          />
-          <span
-            className={`text-xs mt-1 ${
-              ProfileActive ? "text-[#FF385C] font-medium" : "text-gray-400"
-            }`}
+          <motion.div
+            whileTap={{ scale: 1.16 }}
+            transition={{ stiffness: 600, damping: 20 }}
+            className="flex flex-col items-center"
           >
-            {profileName}
-          </span>
+            <ProfileIcon
+              className={`h-6 w-6 ${
+                ProfileActive ? "text-[#FF385C]" : "text-gray-400"
+              }`}
+            />
+            <span
+              className={`text-xs mt-1 ${
+                ProfileActive ? "text-[#FF385C] font-medium" : "text-gray-400"
+              }`}
+            >
+              {profileName}
+            </span>
+          </motion.div>
         </Link>
       </nav>
     </motion.div>

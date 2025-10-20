@@ -65,7 +65,6 @@ export function PersonalInformationSheet({
     frontId: undefined,
   });
 
-  // Pre-populate form with user data when the sheet opens
   useEffect(() => {
     if (user && open) {
       setFormData({
@@ -110,7 +109,6 @@ export function PersonalInformationSheet({
         })
       );
 
-      // Add or update user address if any field is filled
       if (
         formData.address.country ||
         formData.address.region ||
@@ -135,7 +133,6 @@ export function PersonalInformationSheet({
         );
       }
 
-      // Update verification docs if frontId is uploaded
       if (
         formData.frontId &&
         formData.frontId !== user.verificationDocs?.frontId
@@ -155,8 +152,13 @@ export function PersonalInformationSheet({
           },
         });
         promises.push(verificationDocsPromise);
+        user.verificationDocs?.frontId &&
+          promises.push(
+            edgestore.verificationDocs.delete({
+              url: user.verificationDocs.frontId,
+            })
+          );
 
-        // Confirm upload with EdgeStore
         promises.push(
           edgestore.verificationDocs.confirmUpload({
             url: formData.frontId,
@@ -166,7 +168,6 @@ export function PersonalInformationSheet({
 
       await Promise.all(promises);
 
-      // Refresh user data
       const updatedUser = {
         ...user,
         fullName: formData.fullName,
@@ -200,7 +201,7 @@ export function PersonalInformationSheet({
       setIsSubmitting(false);
     }
   };
-
+  //TODO: Translate page
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
@@ -229,7 +230,6 @@ export function PersonalInformationSheet({
             />
           </div>
 
-          {/* Phone Number */}
           <div>
             <Label htmlFor="phone">Phone number</Label>
             <Input
@@ -247,7 +247,6 @@ export function PersonalInformationSheet({
             </p>
           </div>
 
-          {/* Address Section */}
           <div className="space-y-4">
             <h3 className="font-semibold">Residential address</h3>
 
@@ -334,7 +333,6 @@ export function PersonalInformationSheet({
             </div>
           </div>
 
-          {/* Identity Verification */}
           <div>
             <h3 className="font-semibold mb-2">Identity verification</h3>
             <p className="text-sm text-muted-foreground mb-4">
@@ -367,7 +365,6 @@ export function PersonalInformationSheet({
             </div>
           </div>
 
-          {/* Submit Button */}
           <div className="flex py-4 justify-between">
             <div>
               <Button
