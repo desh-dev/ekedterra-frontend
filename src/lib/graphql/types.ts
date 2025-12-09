@@ -35,6 +35,7 @@ export type RentDuration = "daily" | "monthly" | "yearly";
 export interface UserRole {
   id: string;
   role: string;
+  verified: boolean;
 }
 
 export interface VerificationDocs {
@@ -96,7 +97,6 @@ export interface User {
   fullName: string;
   phone?: string;
   roles: UserRole[];
-  verified: boolean;
   address?: UserAddress;
   favorites?: Partial<Property>[];
   bookings?: Booking[];

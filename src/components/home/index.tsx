@@ -49,24 +49,25 @@ const HomePage = () => {
     }
   };
 
-  const { data, error, status, fetchNextPage, refetch } = useInfiniteQuery({
-    queryKey: ["properties"],
-    queryFn: getProperties,
-    initialPageParam: 0,
-    // Remove setTotal from select!
-    select: (data) => data,
-    getNextPageParam: (lastPage, allPages) => {
-      const totalPropertiesLoaded = allPages.reduce(
-        (acc, page) => acc + page?.properties?.length,
-        0
-      );
+  const { data, error, status, fetchNextPage, isFetchingNextPage, refetch } =
+    useInfiniteQuery({
+      queryKey: ["properties"],
+      queryFn: getProperties,
+      initialPageParam: 0,
+      // Remove setTotal from select!
+      select: (data) => data,
+      getNextPageParam: (lastPage, allPages) => {
+        const totalPropertiesLoaded = allPages.reduce(
+          (acc, page) => acc + page?.properties?.length,
+          0
+        );
 
-      if (totalPropertiesLoaded >= total) {
-        return undefined;
-      }
-      return allPages?.length;
-    },
-  });
+        if (totalPropertiesLoaded >= total) {
+          return undefined;
+        }
+        return allPages?.length;
+      },
+    });
 
   useEffect(() => {
     // Set total only once when data is loaded
@@ -110,6 +111,7 @@ const HomePage = () => {
             endRef={ref}
             //@ts-expect-error Object is possibly 'null'.
             favorites={user?.favorites?.map((favorite) => favorite?.id) || []}
+            isFetchingNextPage={isFetchingNextPage}
           />
         )}
       </main>

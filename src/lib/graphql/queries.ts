@@ -140,8 +140,8 @@ export const GET_USER = gql`
       roles {
         id
         role
+        verified
       }
-      verified
       address {
         id
         country

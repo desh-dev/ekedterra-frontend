@@ -155,6 +155,8 @@
     }
   },
   "common": {
+    "noPropertiesFound": "Aucune propriété trouvée",
+    "noPropertiesFoundDescription": "Essayez de modifier vos critères de recherche ou parcourir toutes les propriétés disponibles.",
     "error": "Erreur",
     "loading": "Chargement...",
     "prev": "Précédent",
@@ -423,6 +425,20 @@
     "privacy": "Confidentialité",
     "yourPrivacyChoices": "Vos choix de confidentialité",
     "englishUS": "Anglais (États-Unis)",
-    "usd": "$ USD"
+    "usd": "$ USD",
+    "months": {
+      "january": "janvier",
+      "february": "février",
+      "march": "mars",
+      "april": "avril",
+      "may": "mai",
+      "june": "juin",
+      "july": "juillet",
+      "august": "août",
+      "september": "septembre",
+      "october": "octobre",
+      "november": "novembre",
+      "december": "décembre"
+    }
   }
 }

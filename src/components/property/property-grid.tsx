@@ -3,18 +3,24 @@
 import { Property } from "@/lib/graphql/types";
 import PropertyCard from "./property-card";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
+import { Skeleton } from "../ui/skeleton";
+import PropertyCardSkeleton from "./property-card-skeleton";
 
 interface PropertyGridProps {
   properties: Property[];
   favorites?: string[];
   endRef?: (node?: Element | null | undefined) => void;
+  isFetchingNextPage: boolean;
 }
 
 export default function PropertyGrid({
   properties,
   favorites = [],
   endRef,
+  isFetchingNextPage,
 }: PropertyGridProps) {
+  const t = useTranslations("common");
   if (properties.length === 0) {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center">
@@ -27,10 +33,10 @@ export default function PropertyGrid({
           />
         </div>
         <h3 className="text-xl font-medium text-gray-900 mb-2">
-          No properties found
+          {t("noPropertiesFound")}
         </h3>
         <p className="text-gray-500 text-center max-w-md">
-          Try adjusting your search criteria or browse all available properties.
+          {t("noPropertiesFoundDescription")}
         </p>
       </div>
     );
@@ -45,7 +51,7 @@ export default function PropertyGrid({
           isFavorite={favorites.includes(property.id)}
         />
       ))}
-      <div ref={endRef}></div>
+      <div ref={endRef}>{isFetchingNextPage && <PropertyCardSkeleton />}</div>
     </div>
   );
 }

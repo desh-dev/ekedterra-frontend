@@ -20,6 +20,7 @@ import Footer from "../layout/footer";
 import { Button } from "../ui/button";
 import BookingModal from "./booking-modal";
 import { usePreviousPath } from "@/hooks/usePreviousPath";
+import dayjs from "dayjs";
 
 interface PropertyDetailProps {
   property: Property;
@@ -234,7 +235,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
                   {", "} {property.address?.street}
                 </p>
               )}
-              <div className="flex items-center gap-6 mt-3 text-xs text-gray-700">
+              <div className="flex items-center gap-6 mt-3 text-sm text-gray-700">
                 {property.type && (
                   <span className="capitalize">{property.type}</span>
                 )}
@@ -242,6 +243,10 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
                   <span>· {property.buildingName}</span>
                 )}
               </div>
+              <h5 className="text-gray-500 text-sm md:hidden mt-4">
+                <span className="font-medium">Posted on: </span>
+                {dayjs(property.createdAt).format("DD/MM/YYYY HH:mm")}
+              </h5>
             </div>
           </div>
         </div>
@@ -308,7 +313,9 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
         </div>
         {/* Content */}
         <div className="px-4 md:px-0 grid grid-cols-1 lg:grid-cols-3 gap-8 capitalize">
-          <h1 className="hidden">{property.title}</h1>
+          <h5 className="hidden md:block">
+            {dayjs(property.createdAt).format("DD/MM/YYYY HH:mm")}
+          </h5>
           {/* Left Column - Property Details */}
           <div className="lg:col-span-2 space-y-8">
             {/* Host Info */}

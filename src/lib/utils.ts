@@ -52,3 +52,62 @@ export function parseFormattedNumber(value: string): number {
   if (!value) return 0;
   return Number(value.replace(/,/g, ''));
 }
+
+/**
+ * Formats a date in Instagram-style relative time format
+ * @param dateString The date string to format (ISO format)
+ * @param monthNames Array of month names in the desired language (lowercase)
+ * @returns Formatted date string (e.g., '1m', '5h', '2d', '3w', '6mo', '1y', 'november 4', 'november 4, 2022')
+ */
+export function formatInstagramDate(
+  dateString: string,
+  monthNames: string[] = [
+    'january', 'february', 'march', 'april', 'may', 'june',
+    'july', 'august', 'september', 'october', 'november', 'december'
+  ]
+): string {
+  if (!dateString) return '';
+  
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffSeconds = Math.floor(diffMs / 1000);
+  const diffMinutes = Math.floor(diffSeconds / 60);
+  const diffHours = Math.floor(diffMinutes / 60);
+  const diffDays = Math.floor(diffHours / 24);
+  const diffWeeks = Math.floor(diffDays / 7);
+  const diffMonths = Math.floor(diffDays / 30);
+  const diffYears = Math.floor(diffDays / 365);
+
+  const currentYear = now.getFullYear();
+  const postYear = date.getFullYear();
+
+  // If older than 1 week, check if we should show month/day format
+  if (diffDays >= 7) {
+    if (postYear === currentYear) {
+      // Same year: "november 4"
+      const month = monthNames[date.getMonth()];
+      const day = date.getDate();
+      return `${month} ${day}`;
+    } else {
+      // Previous year: "november 4, 2022"
+      const month = monthNames[date.getMonth()];
+      const day = date.getDate();
+      const year = date.getFullYear();
+      return `${month} ${day}, ${year}`;
+    }
+  }
+
+  // Less than 1 week: use relative time formats
+  // Less than 1 minute
+  if (diffSeconds < 60) return '1m';
+  
+  // Less than 1 hour
+  if (diffMinutes < 60) return `${diffMinutes}m`;
+  
+  // Less than 24 hours
+  if (diffHours < 24) return `${diffHours}h`;
+  
+  // Less than 7 days
+  return `${diffDays}d`;
+}

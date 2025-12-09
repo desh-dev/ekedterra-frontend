@@ -49,7 +49,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
             !user.roles.some((role) => role.role === "admin") &&
               !user.roles.some((role) => role.role === "agent")
           );
-          setIsVerified(user.verified);
+          setIsVerified(user.roles.some((role) => role.verified));
         } else {
           setIsAdmin(false);
           setIsAgent(false);

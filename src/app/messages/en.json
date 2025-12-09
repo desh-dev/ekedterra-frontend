@@ -155,6 +155,8 @@
     }
   },
   "common": {
+    "noPropertiesFound": "No properties found",
+    "noPropertiesFoundDescription": "Try adjusting your search criteria or browse all available properties.",
     "error": "Error",
     "loading": "Loading...",
     "prev": "Prev",
@@ -423,6 +425,20 @@
     "privacy": "Privacy",
     "yourPrivacyChoices": "Your Privacy Choices",
     "englishUS": "English (US)",
-    "usd": "$ USD"
+    "usd": "$ USD",
+    "months": {
+      "january": "january",
+      "february": "february",
+      "march": "march",
+      "april": "april",
+      "may": "may",
+      "june": "june",
+      "july": "july",
+      "august": "august",
+      "september": "september",
+      "october": "october",
+      "november": "november",
+      "december": "december"
+    }
   }
 }
