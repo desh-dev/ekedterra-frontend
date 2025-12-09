@@ -4,21 +4,20 @@ import { Property } from "@/lib/graphql/types";
 import PropertyCard from "./property-card";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { Skeleton } from "../ui/skeleton";
 import PropertyCardSkeleton from "./property-card-skeleton";
 
 interface PropertyGridProps {
   properties: Property[];
   favorites?: string[];
   endRef?: (node?: Element | null | undefined) => void;
-  isFetchingNextPage: boolean;
+  isFetchingNextPage?: boolean;
 }
 
 export default function PropertyGrid({
   properties,
   favorites = [],
   endRef,
-  isFetchingNextPage,
+  isFetchingNextPage = false,
 }: PropertyGridProps) {
   const t = useTranslations("common");
   if (properties.length === 0) {

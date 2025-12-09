@@ -101,7 +101,7 @@ export async function updateSession(request: NextRequest) {
       (role: { role: string }) => role.role === "agent"
     );
     const isUserRole = !isAdmin && !isAgent;
-    const isVerified = isAdmin ? userData.verified : false;
+    const isVerified = isAdmin ? userData.roles.some((role) => role.verified) : false;
 
     // Check user-only routes (bookings, favorites)
     if (isUserRoute && !isUserRole) {

@@ -1,9 +1,13 @@
-'use client';
+"use client";
 
-import { useState, Fragment } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
-import { XMarkIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
-import Image from 'next/image';
+import { useState, Fragment } from "react";
+import { Dialog, Transition } from "@headlessui/react";
+import {
+  XMarkIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from "@heroicons/react/24/outline";
+import Image from "next/image";
 
 interface PropertyGalleryProps {
   images: string[];
@@ -12,17 +16,22 @@ interface PropertyGalleryProps {
   title: string;
 }
 
-export default function PropertyGallery({ images, isOpen, onClose, title }: PropertyGalleryProps) {
+export default function PropertyGallery({
+  images,
+  isOpen,
+  onClose,
+  title,
+}: PropertyGalleryProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const goToPrevious = () => {
-    setCurrentIndex((prevIndex) => 
+    setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? images.length - 1 : prevIndex - 1
     );
   };
 
   const goToNext = () => {
-    setCurrentIndex((prevIndex) => 
+    setCurrentIndex((prevIndex) =>
       prevIndex === images.length - 1 ? 0 : prevIndex + 1
     );
   };
@@ -59,7 +68,12 @@ export default function PropertyGallery({ images, isOpen, onClose, title }: Prop
             >
               <Dialog.Panel className="w-full h-full max-w-none bg-black text-white">
                 {/* Header */}
-                <div className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between p-6">
+                <div
+                  className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between p-6"
+                  style={{
+                    paddingTop: "max(1.5rem, env(safe-area-inset-top))",
+                  }}
+                >
                   <button
                     onClick={onClose}
                     className="flex items-center space-x-2 text-white hover:text-gray-300 transition-colors"
@@ -67,13 +81,11 @@ export default function PropertyGallery({ images, isOpen, onClose, title }: Prop
                     <XMarkIcon className="w-6 h-6" />
                     <span className="text-sm font-medium">Close</span>
                   </button>
-                  
                   <div className="text-center">
                     <p className="text-sm font-medium">
                       {currentIndex + 1} / {images.length}
                     </p>
                   </div>
-                  
                   <div className="w-20" /> {/* Spacer for centering */}
                 </div>
 
@@ -120,8 +132,8 @@ export default function PropertyGallery({ images, isOpen, onClose, title }: Prop
                           onClick={() => goToImage(index)}
                           className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${
                             index === currentIndex
-                              ? 'border-white'
-                              : 'border-transparent opacity-60 hover:opacity-80'
+                              ? "border-white"
+                              : "border-transparent opacity-60 hover:opacity-80"
                           }`}
                         >
                           <Image
@@ -141,9 +153,9 @@ export default function PropertyGallery({ images, isOpen, onClose, title }: Prop
                 <div
                   className="fixed inset-0 -z-10"
                   onKeyDown={(e) => {
-                    if (e.key === 'ArrowLeft') goToPrevious();
-                    if (e.key === 'ArrowRight') goToNext();
-                    if (e.key === 'Escape') onClose();
+                    if (e.key === "ArrowLeft") goToPrevious();
+                    if (e.key === "ArrowRight") goToNext();
+                    if (e.key === "Escape") onClose();
                   }}
                   tabIndex={0}
                 />

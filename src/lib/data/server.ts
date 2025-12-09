@@ -24,7 +24,7 @@ export async function getRoles() {
   const user: User = await getUser(data?.claims?.sub || "");
   let isVerified = false;
   const isAdmin = user?.roles?.some((role) => role.role === "admin");
-  if (isAdmin) isVerified = user.verified;
+  if (isAdmin) isVerified = user.roles.some((role) => role.verified);
   const isAgent = user?.roles?.some((role) => role.role === "agent");
   const isUser = !isAdmin && !isAgent;
   return {

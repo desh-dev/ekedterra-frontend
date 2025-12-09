@@ -18,7 +18,7 @@ import { useTranslations } from "next-intl";
 import LanguageSwitcher from "../language-switcher";
 
 const ProfilePage = () => {
-  const { user, loading, isAgent, signOut } = useAuth();
+  const { user, loading, isAgent, isVerified, signOut } = useAuth();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const t = useTranslations("profile");
 
@@ -46,7 +46,6 @@ const ProfilePage = () => {
     hasVerificationDocs.backId &&
     hasVerificationDocs.selfie &&
     hasVerificationDocs.selfieWithId;
-  const isVerified = user.verified;
 
   // Get user's initials for avatar
   const getInitials = (name: string) => {
