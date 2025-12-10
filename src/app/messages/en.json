@@ -96,6 +96,32 @@
     "personalInformation": "Personal information",
     "logout": "Logout"
   },
+  "contactUs": {
+    "title": "Contact Us",
+    "description": "We'd love to hear from you. Send us a message and we'll respond soon.",
+    "metadata": {
+      "title": "Contact Ekedterra",
+      "description": "Get in touch with the Ekedterra team."
+    },
+    "form": {
+      "title": "Send us a message",
+      "description": "Fill out the form and we'll get back to you.",
+      "nameLabel": "Full name",
+      "namePlaceholder": "John Doe",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "subjectLabel": "Subject",
+      "subjectPlaceholder": "How can we help?",
+      "messageLabel": "Message",
+      "messagePlaceholder": "Write your message here...",
+      "honeypot": "If you are human, leave this field empty.",
+      "submit": "Send message",
+      "submitting": "Sending...",
+      "success": "Message sent! We'll get back to you soon.",
+      "error": "Something went wrong. Please try again.",
+      "missingKey": "Missing Web3Forms access key."
+    }
+  },
   "metadata": {
     "home": {
       "title": "Ekedterra - House to let",

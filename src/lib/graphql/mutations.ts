@@ -189,7 +189,6 @@ export const UPDATE_USER = gql`
       avatarUrl
       fullName
       phone
-      verified
       updatedAt
     }
   }

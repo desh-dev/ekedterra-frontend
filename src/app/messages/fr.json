@@ -96,6 +96,32 @@
     "personalInformation": "Informations personnelles",
     "logout": "Se deconnecter"
   },
+  "contactUs": {
+    "title": "Contactez-nous",
+    "description": "Nous serions ravis de vous lire. Envoyez-nous un message et nous vous répondrons rapidement.",
+    "metadata": {
+      "title": "Contacter Ekedterra",
+      "description": "Prenez contact avec l'équipe Ekedterra."
+    },
+    "form": {
+      "title": "Envoyez-nous un message",
+      "description": "Remplissez le formulaire et nous vous répondrons.",
+      "nameLabel": "Nom complet",
+      "namePlaceholder": "Jean Dupont",
+      "emailLabel": "Email",
+      "emailPlaceholder": "vous@exemple.com",
+      "subjectLabel": "Sujet",
+      "subjectPlaceholder": "Comment pouvons-nous vous aider ?",
+      "messageLabel": "Message",
+      "messagePlaceholder": "Écrivez votre message ici...",
+      "honeypot": "Si vous êtes humain, laissez ce champ vide.",
+      "submit": "Envoyer le message",
+      "submitting": "Envoi...",
+      "success": "Message envoyé ! Nous vous répondrons bientôt.",
+      "error": "Une erreur est survenue. Veuillez réessayer.",
+      "missingKey": "Clé Web3Forms manquante."
+    }
+  },
   "metadata": {
     "home": {
       "title": "Ekedterra - Maison à louer",

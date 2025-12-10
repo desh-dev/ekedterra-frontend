@@ -78,19 +78,11 @@ export default function GlobalError({
                       If you need immediate help from our customer service team
                       about an ongoing reservation, please{" "}
                       <Link
-                        href="/contact"
+                        href="/contact-us"
                         className="text-[#FF385C] hover:underline font-medium"
                       >
                         contact us
                       </Link>
-                      . If it isn&apos;t an urgent matter, please visit our{" "}
-                      <Link
-                        href="/help"
-                        className="text-[#FF385C] hover:underline font-medium"
-                      >
-                        Help Center
-                      </Link>{" "}
-                      for additional information. Thanks for your patience!
                     </p>
 
                     <div className="pt-4">
