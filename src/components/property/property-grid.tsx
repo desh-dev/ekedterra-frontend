@@ -42,7 +42,7 @@ export default function PropertyGrid({
   }
 
   return (
-    <div className="min-h-screen max-w-7xl mx-auto px-4 lg:px-8 lg:pt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <div className="min-h-screen max-w-7xl mx-auto px-4 pb-4 lg:px-8 lg:pt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       {properties.map((property) => (
         <PropertyCard
           key={property.id}

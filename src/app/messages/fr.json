@@ -1,18 +1,18 @@
 {
   "home": {
-      "categories": {
-        "all": "Tout",
-        "apartments": "Appartements",
-        "houses": "Maisons",
-        "studios": "Studios",
-        "rooms": "Chambres",
-        "hotels": "Hôtels",
-        "guesthouses": "Maisons d'hôtes",
-        "land": "Terrain",
-        "business": "Commerce",
-        "homes": "Maisons",
-        "stores": "Magasins"
-      }
+    "categories": {
+      "all": "Tout",
+      "apartments": "Appartements",
+      "houses": "Maisons",
+      "studios": "Studios",
+      "rooms": "Chambres",
+      "hotels": "Hôtels",
+      "guesthouses": "Maisons d'hôtes",
+      "land": "Terrain",
+      "business": "Commerce",
+      "homes": "Maisons",
+      "stores": "Magasins"
+    }
   },
   "auth": {
     "login": {
@@ -452,6 +452,12 @@
     "yourPrivacyChoices": "Vos choix de confidentialité",
     "englishUS": "Anglais (États-Unis)",
     "usd": "$ USD",
+    "footerExplore": "Explorer",
+    "footerAgents": "Pour les agents",
+    "footerCompany": "Entreprise",
+    "footerAllRightsReserved": "Tous droits réservés.",
+    "footerFollowUs": "Suivez-nous",
+    "footerContactUs": "Contactez-nous",
     "months": {
       "january": "janvier",
       "february": "février",

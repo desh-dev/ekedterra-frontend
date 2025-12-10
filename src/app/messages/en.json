@@ -1,18 +1,18 @@
 {
   "home": {
-      "categories": {
-        "all": "All",
-        "apartments": "Apartments",
-        "houses": "Houses",
-        "studios": "Studios",
-        "rooms": "Rooms",
-        "hotels": "Hotels",
-        "guesthouses": "Guesthouses",
-        "land": "Land",
-        "business": "Business",
-        "homes": "Homes",
-        "stores": "Stores"
-      }
+    "categories": {
+      "all": "All",
+      "apartments": "Apartments",
+      "houses": "Houses",
+      "studios": "Studios",
+      "rooms": "Rooms",
+      "hotels": "Hotels",
+      "guesthouses": "Guesthouses",
+      "land": "Land",
+      "business": "Business",
+      "homes": "Homes",
+      "stores": "Stores"
+    }
   },
   "auth": {
     "login": {
@@ -452,6 +452,12 @@
     "yourPrivacyChoices": "Your Privacy Choices",
     "englishUS": "English (US)",
     "usd": "$ USD",
+    "footerExplore": "Explore",
+    "footerAgents": "For agents",
+    "footerCompany": "Company",
+    "footerAllRightsReserved": "All rights reserved.",
+    "footerFollowUs": "Follow us",
+    "footerContactUs": "Contact us",
     "months": {
       "january": "january",
       "february": "february",
