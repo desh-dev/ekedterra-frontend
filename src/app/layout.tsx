@@ -6,6 +6,7 @@ import "./globals.css";
 import ReactQueryProvider from "@/providers/react-query-provider";
 import { AuthProvider } from "@/providers/auth-provider";
 import { cookies } from "next/headers";
+import { getLocale } from "next-intl/server";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -322,12 +323,11 @@ const geistSans = Geist({
 
 export default async function RootLayout({
   children,
-  params,
 }: Readonly<{
   children: React.ReactNode;
-  params: Promise<{ locale: string }>;
 }>) {
-  const { locale } = await params;
+  const locale = await getLocale();
+
   return (
     <html suppressHydrationWarning lang={locale}>
       <head>
