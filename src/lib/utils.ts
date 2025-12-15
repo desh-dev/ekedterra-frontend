@@ -25,10 +25,6 @@ export function capitalize(text: string): string {
     })
     .join("");
 }
-// This check can be removed, it is just for tutorial purposes
-export const hasEnvVars =
-  process.env.NEXT_PUBLIC_SUPABASE_URL &&
-  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_OR_ANON_KEY;
 
 /**
  * Formats a number with commas as thousand separators
@@ -54,7 +50,6 @@ export function parseFormattedNumber(value: string): number {
   if (!value) return 0;
   return Number(value.replace(/,/g, ""));
 }
-
 
 dayjs.extend(relativeTime);
 

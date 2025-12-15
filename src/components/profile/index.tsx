@@ -57,7 +57,7 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
+    <div className="min-h-screen overflow-y-auto bg-background p-4 md:p-8">
       <div className="max-w-4xl mx-auto">
         {/* Page Header */}
         <div className="w-full flex justify-between items-center mb-6">

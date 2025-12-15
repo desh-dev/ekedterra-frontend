@@ -71,7 +71,6 @@ export default function CreatePropertySheet({
   const { user, isVerified } = useAuth();
   const { edgestore } = useEdgeStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isGettingLocation, setIsGettingLocation] = useState(false);
 
   const [formData, setFormData] = useState<FormData>({
     title: undefined,
@@ -627,7 +626,6 @@ export default function CreatePropertySheet({
                   <button
                     type="button"
                     onClick={getCurrentLocation}
-                    disabled={isGettingLocation}
                     className="text-xs text-muted-foreground hover:underline flex items-center gap-1"
                   >
                     <MapPin className="h-3 w-3" />

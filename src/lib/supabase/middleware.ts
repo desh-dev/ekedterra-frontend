@@ -1,18 +1,16 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
-import { hasEnvVars } from "../utils";
-import { getUser } from "../data/server";
+import { jwtDecode, JwtPayload } from "jwt-decode";
+
+interface CustomJwtPayload extends JwtPayload {
+  user_roles: string[];
+  user_verified: boolean;
+}
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
   });
-
-  // If the env vars are not set, skip middleware check. You can remove this
-  // once you setup the project.
-  if (!hasEnvVars) {
-    return supabaseResponse;
-  }
 
   // With Fluid compute, don't put this client in a global environment
   // variable. Always create a new one on each request.
@@ -52,11 +50,10 @@ export async function updateSession(request: NextRequest) {
   // Extract locale from pathname
   const localeMatch = pathname.match(/^\/(en|fr)/);
   const locale = localeMatch ? localeMatch[1] : "fr";
-
   // Check if accessing protected authenticated routes
-  const isAuthenticatedRoute =
-    pathname.includes("/(authenticated)") ||
-    pathname.match(/\/(en|fr)\/(account-settings|profile)/);
+  const isAuthenticatedRoute = pathname.match(
+    /\/(en|fr)\/(account-settings|profile)/
+  );
 
   // Check if accessing user-only routes
   const isUserRoute = pathname.match(/\/(en|fr)\/(bookings|favorites)/);
@@ -65,6 +62,9 @@ export async function updateSession(request: NextRequest) {
   const isVerifiedAgentRoute = pathname.match(
     /\/(en|fr)\/agent\/(listings|products)/
   );
+
+  // Check if accessing admin routes
+  const isAdminRoute = pathname.match(/\/(en|fr)\/admin/);
 
   // Check if accessing auth pages (login, sign-up, etc)
   const isAuthPage =
@@ -78,40 +78,52 @@ export async function updateSession(request: NextRequest) {
   }
 
   // If user is not logged in and trying to access authenticated routes
-  if (!user && isAuthenticatedRoute) {
+  if (
+    !user &&
+    (isAuthenticatedRoute?.length || isAdminRoute?.length || isUserRoute)
+  ) {
     const url = request.nextUrl.clone();
     url.pathname = `/${locale}/auth/login`;
     return NextResponse.redirect(url);
   }
 
-  // If user is logged in and trying to access protected routes, check roles
-  if (user && (isUserRoute || isVerifiedAgentRoute)) {
-    const userData = await getUser(user.sub);
+  // Check admin routes first - require admin role
+  if (isAdminRoute?.length) {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
 
-    if (!userData) {
+    const jwt: CustomJwtPayload = jwtDecode(session?.access_token || "");
+    const isAdmin = jwt.user_roles?.some((r: string) => r === "admin");
+
+    if (!isAdmin) {
       const url = request.nextUrl.clone();
       url.pathname = `/${locale}`;
       return NextResponse.redirect(url);
     }
+  }
 
-    const isAdmin = userData.roles?.some(
-      (role: { role: string }) => role.role === "admin"
-    );
-    const isAgent = userData.roles?.some(
-      (role: { role: string }) => role.role === "agent"
-    );
+  // If user is logged in and trying to access protected routes, check roles
+  if (user && (isUserRoute?.length || isVerifiedAgentRoute?.length)) {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    const jwt: CustomJwtPayload = jwtDecode(session?.access_token || "");
+    const isAdmin = jwt.user_roles?.some((r: string) => r === "admin");
+    const isAgent = jwt.user_roles?.some((r: string) => r === "agent");
     const isUserRole = !isAdmin && !isAgent;
-    const isVerified = isAdmin ? userData.roles.some((role) => role.verified) : false;
+    const isVerified = jwt.user_verified;
 
     // Check user-only routes (bookings, favorites)
-    if (isUserRoute && !isUserRole) {
+    if (isUserRoute?.length && !isUserRole) {
       const url = request.nextUrl.clone();
       url.pathname = `/${locale}`;
       return NextResponse.redirect(url);
     }
 
     // Check verified agent routes (listings, products)
-    if (isVerifiedAgentRoute && !isVerified) {
+    if (isVerifiedAgentRoute?.length && !isVerified) {
       const url = request.nextUrl.clone();
       url.pathname = `/${locale}`;
       return NextResponse.redirect(url);

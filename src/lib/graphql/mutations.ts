@@ -340,3 +340,9 @@ export const DELETE_PRODUCT_IMAGE = gql`
     deleteProductImage(id: $id)
   }
 `;
+
+export const UPDATE_USER_VERIFICATION = gql`
+  mutation UpdateUserVerification($id: ID!, $verified: Boolean!, $email: String) {
+    updateUserVerification(id: $id, verified: $verified, email: $email)
+  }
+`

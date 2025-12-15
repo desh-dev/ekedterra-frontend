@@ -12,8 +12,9 @@ import useIsDesktop from "@/hooks/useIsDesktop";
 import { useAppStore } from "@/providers/app-store-provider";
 import { addFavorite, removeFavorite } from "@/lib/data/client";
 import toast from "react-hot-toast";
-import { useTranslations, useLocale } from "next-intl";
-import { formatInstagramDate } from "@/lib/utils";
+import { useTranslations } from "next-intl";
+import { formatInstagramDate as formatDate } from "@/lib/utils";
+import { FcRefresh } from "react-icons/fc";
 
 interface PropertyCardProps {
   property: Property;
@@ -257,9 +258,9 @@ export default function PropertyCard({
                 : ""}
             </span>
           </div>
-          {property?.createdAt && (
-            <p className="text-gray-400 text-xs lowercase">
-              {formatInstagramDate(property.createdAt, [
+          {property?.updatedAt && (
+            <p className="text-gray-400 text-xs lowercase flex flex-row gap-2 items-center">
+              {formatDate(property.updatedAt, [
                 t("months.january"),
                 t("months.february"),
                 t("months.march"),
@@ -273,6 +274,11 @@ export default function PropertyCard({
                 t("months.november"),
                 t("months.december"),
               ])}
+              {property.createdAt !== property.updatedAt && (
+                <span>
+                  <FcRefresh />
+                </span>
+              )}
             </p>
           )}
         </div>

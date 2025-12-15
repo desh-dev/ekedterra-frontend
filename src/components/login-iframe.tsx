@@ -4,9 +4,11 @@ import { useAppStore } from "@/providers/app-store-provider";
 import React, { useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { useAuth } from "@/providers/auth-provider";
+import { useLocale } from "next-intl";
 
 const LoginIframe = () => {
   const { login, setLogin } = useAppStore((state) => state);
+  const locale = useLocale();
   const { setUser } = useAuth();
   const handleClose = () => setLogin(false);
   useEffect(() => {
@@ -31,7 +33,7 @@ const LoginIframe = () => {
             </DialogHeader>
             <div className="flex justify-center items-center">
               <iframe
-                src={`${window.location.origin}/auth/login`}
+                src={`${window.location.origin}/${locale}/auth/login`}
                 height="500"
                 width="400"
               />

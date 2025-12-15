@@ -184,6 +184,40 @@ export const GET_USER = gql`
   }
 `;
 
+export const GET_AGENTS = gql`
+  query Agents($page: Int!, $limit: Int!) {
+    agents(page: $page, limit: $limit) {
+      userId
+      email
+      avatarUrl
+      fullName
+      phone
+      address {
+        id
+        country
+        region
+        city
+        street
+        zip
+      }
+      roles {
+        id
+        role
+        verified
+      }
+      verificationDocs {
+        id
+        frontId
+        backId
+        selfie
+        selfieWithId
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
 // Booking Queries
 export const GET_BOOKINGS = gql`
   query GetBookings($bookingFilterInput: BookingFilterInput!) {
@@ -192,12 +226,28 @@ export const GET_BOOKINGS = gql`
       userId
       propertyId
       bookingDate
+      checkoutDate
       status
       createdAt
       updatedAt
     }
   }
 `;
+
+// export const GET_ALL_BOOKINGS = gql`
+//   query Bookings($bookingFilterInput: BookingFilterInput!) {
+//     bookings(bookingFilterInput: $bookingFilterInput) {
+//       id
+//       userId
+//       propertyId
+//       bookingDate
+//       checkoutDate
+//       status
+//       createdAt
+//       updatedAt
+//     }
+//   }
+// `;
 
 export const GET_BOOKING = gql`
   query GetBooking($id: ID!) {
@@ -262,3 +312,48 @@ export const GET_PRODUCTS_LISTINGS = gql`
     }
   }
 `;
+
+// export const GET_ALL_PROPERTIES = gql`
+//   query GetAllProperties($property: PropertyInput, $pagination: PaginationInput!) {
+//     properties(property: $property, pagination: $pagination) {
+//       data {
+//         id
+//         title
+//         buildingName
+//         type
+//         rent
+//         rentDuration
+//         price
+//         vacant
+//         mainImage
+//         contactInfo
+//         category
+//         description
+//         userId
+//         user {
+//           userId
+//           email
+//           fullName
+//           phone
+//         }
+//         address {
+//           id
+//           country
+//           region
+//           city
+//           street
+//           zip
+//           longitude
+//           latitude
+//         }
+//         images {
+//           id
+//           imageUrl
+//         }
+//         createdAt
+//         updatedAt
+//       }
+//       total
+//     }
+//   }
+// `;

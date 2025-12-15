@@ -136,6 +136,13 @@ export interface BookingInput {
   checkoutDate?: string;
 }
 
+export interface BookingFilterInput {
+  page: number;
+  limit: number;
+  propertyId?: string;
+  userId?: string;
+}
+
 export interface BookingUpdateInput {
   status?: BookingStatus;
   bookingDate?: string;

@@ -22,7 +22,7 @@ export default function PropertyGrid({
   const t = useTranslations("common");
   if (properties.length === 0) {
     return (
-      <div className="min-h-[60vh] flex flex-col items-center justify-center">
+      <div className="min-h-[70vh] flex flex-col items-center justify-center">
         <div className="relative mb-4 w-48 h-48">
           <Image
             src="/properties-not-found.webp"

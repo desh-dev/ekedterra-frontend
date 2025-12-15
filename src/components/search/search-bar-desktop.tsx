@@ -23,7 +23,7 @@ const dropdownVariants = {
 const SearchBarDesktop = () => {
   const { category, country, setCountry, city, setCity, type, setType } =
     useAppStore((state) => state);
-  const t = useTranslations("categories");
+  const t = useTranslations("home.categories");
   const router = useRouter();
   const params = useSearchParams();
   const param = {

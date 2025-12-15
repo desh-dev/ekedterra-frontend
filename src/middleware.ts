@@ -8,7 +8,7 @@ const intlMiddleware = createIntlMiddleware(routing);
 export async function middleware(request: NextRequest) {
   const intlResponse = intlMiddleware(request);
   const authResponse = await updateSession(request);
-  return intlResponse || authResponse;
+  return  authResponse || intlResponse;
 }
 
 export const config = {
