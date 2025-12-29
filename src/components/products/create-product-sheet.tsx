@@ -19,7 +19,7 @@ import { SingleImageDropzone } from "@/components/upload/single-image";
 import { ImageUploader } from "@/components/upload/multi-image";
 import { UploaderProvider } from "@/components/upload/uploader-provider";
 import { useEdgeStore } from "@/lib/edgestore";
-import { PropductCategory } from "@/lib/graphql/types";
+import { ProductCategory } from "@/lib/graphql/types";
 import { useAuth } from "@/providers/auth-provider";
 import {
   Select,
@@ -38,7 +38,7 @@ interface CreateProductSheetProps {
 interface FormData {
   name: string | undefined;
   description: string | undefined;
-  category: PropductCategory;
+  category: ProductCategory;
   price: string | undefined;
   stock: string | undefined;
   mainImage: string | undefined;
@@ -60,7 +60,7 @@ export default function CreateProductSheet({
   const [formData, setFormData] = useState<FormData>({
     name: undefined,
     description: undefined,
-    category: "" as PropductCategory,
+    category: "" as ProductCategory,
     price: undefined,
     stock: undefined,
     mainImage: undefined,
@@ -74,7 +74,7 @@ export default function CreateProductSheet({
     setFormData({
       name: undefined,
       description: undefined,
-      category: "" as PropductCategory,
+      category: "" as ProductCategory,
       price: undefined,
       stock: undefined,
       mainImage: undefined,
@@ -111,8 +111,8 @@ export default function CreateProductSheet({
         mutation: CREATE_PRODUCT,
         variables: {
           product: {
-            name: formData.name?.toLowerCase() || undefined,
-            description: formData.description?.toLowerCase() || undefined,
+            name: formData.name || undefined,
+            description: formData.description || undefined,
             category: formData.category,
             price: formData.price ? Number(formData.price) : undefined,
             stock: formData.stock ? Number(formData.stock) : undefined,
@@ -204,7 +204,7 @@ export default function CreateProductSheet({
                   setFormData({ ...formData, name: e.target.value })
                 }
                 placeholder="Product name"
-                className="mt-2 capitalize"
+                className="mt-2"
                 required
               />
             </div>
@@ -218,7 +218,7 @@ export default function CreateProductSheet({
                   setFormData({ ...formData, description: e.target.value })
                 }
                 placeholder="Product description"
-                className="mt-2 w-full min-h-[100px] px-3 py-2 border rounded-md capitalize"
+                className="mt-2 w-full min-h-[100px] px-3 py-2 border rounded-md"
               />
             </div>
 
@@ -229,7 +229,7 @@ export default function CreateProductSheet({
                 onValueChange={(value) =>
                   setFormData({
                     ...formData,
-                    category: value as PropductCategory,
+                    category: value as ProductCategory,
                   })
                 }
               >
@@ -380,12 +380,14 @@ export default function CreateProductSheet({
                   onProgressChange,
                   options: { temporary: true },
                 });
-                setFormData({
-                  ...formData,
-                  additionalImages: [...formData.additionalImages, res.url],
-                });
                 return { url: res.url };
               }}
+              onUploadCompleted={({ url }) =>
+                setFormData((prevData) => ({
+                  ...prevData,
+                  additionalImages: [...prevData.additionalImages, url],
+                }))
+              }
             >
               <ImageUploader maxFiles={10} maxSize={1024 * 1024 * 5} />
             </UploaderProvider>

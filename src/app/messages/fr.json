@@ -174,11 +174,24 @@
     "listings": {
       "title": "Mes annonces",
       "description": "Consultez et gérez vos annonces de propriétés."
-    },
-    "products": {
-      "title": "Mes produits",
-      "description": "Consultez et gérez vos produits."
     }
+  },
+  "products": {
+    "title": "Mes produits",
+    "description": "Consultez et gérez vos produits.",
+    "yourProducts": "Vos produits",
+    "noProducts": "Aucun produit pour l'instant",
+    "noProductsDescription": "Commencez par créer votre premier produit.",
+    "createProduct": "Nouveau produit",
+    "listView": "Vue en liste",
+    "gridView": "Vue en grille",
+    "sale": "Promo",
+    "was": "était à",
+    "backToShop": "Retour à la boutique",
+    "stock": "Stock",
+    "productDescription": "Description",
+    "contactOnWhatsApp": "Contacter sur WhatsApp",
+    "whatsappMessage": "Bonjour Ekedterra, je suis intéressé(e) par ce produit :\n\nNom : {name}\nCatégorie : {category}\nPrix : {price}\nLien : {link}\n\nMerci de me renseigner sur la disponibilité et comment procéder à l'achat. Cordialement !"
   },
   "common": {
     "noPropertiesFound": "Aucune propriété trouvée",

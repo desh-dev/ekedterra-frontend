@@ -11,7 +11,7 @@ export type PropertyType =
   | undefined;
 export type PropertyCategory = "housing" | "land" | "business";
 
-export type PropductCategory =
+export type ProductCategory =
   | "transport"
   | "electronics"
   | "furniture"
@@ -221,7 +221,7 @@ export interface Product {
   id: string;
   name: string;
   description: string;
-  category: PropductCategory;
+  category: ProductCategory;
   price: number;
   stock: number;
   mainImage: string;
@@ -238,7 +238,7 @@ export interface ProductInput {
   id?: string;
   name?: string;
   description?: string;
-  category?: PropductCategory;
+  category?: ProductCategory;
   price?: number;
   stock?: number;
   mainImage?: string;

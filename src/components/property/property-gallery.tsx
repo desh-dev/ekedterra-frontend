@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Fragment } from "react";
+import { useEffect, useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import {
   XMarkIcon,
@@ -14,6 +14,7 @@ interface PropertyGalleryProps {
   isOpen: boolean;
   onClose: () => void;
   title: string;
+  initialIndex?: number;
 }
 
 export default function PropertyGallery({
@@ -21,8 +22,15 @@ export default function PropertyGallery({
   isOpen,
   onClose,
   title,
+  initialIndex = 0,
 }: PropertyGalleryProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const nextIndex = Math.max(0, Math.min(initialIndex, images.length - 1));
+    setCurrentIndex(Number.isFinite(nextIndex) ? nextIndex : 0);
+  }, [isOpen, initialIndex, images.length]);
 
   const goToPrevious = () => {
     setCurrentIndex((prevIndex) =>

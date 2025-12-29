@@ -168,12 +168,15 @@ export default function EditPropertySheet({
     }
   }, [property, open]);
 
-  const handleDeleteImage = async (imageId: string) => {
+  const handleDeleteImage = async (imageId: string, imageUrl: string) => {
     try {
-      await apolloClient.mutate({
-        mutation: DELETE_PROPERTY_IMAGE,
-        variables: { id: imageId },
-      });
+      await Promise.all([
+        apolloClient.mutate({
+          mutation: DELETE_PROPERTY_IMAGE,
+          variables: { id: imageId },
+        }),
+        edgestore.products.delete({ url: imageUrl }),
+      ]);
       setExistingImages(existingImages.filter((img) => img.id !== imageId));
       toast.success("Image deleted successfully");
     } catch (error) {
@@ -706,7 +709,9 @@ export default function EditPropertySheet({
                     />
                     <button
                       type="button"
-                      onClick={() => handleDeleteImage(image.id)}
+                      onClick={() =>
+                        handleDeleteImage(image.id, image.imageUrl)
+                      }
                       className="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
                     >
                       <Trash2 className="h-4 w-4" />
@@ -729,12 +734,14 @@ export default function EditPropertySheet({
                   onProgressChange,
                   options: { temporary: true },
                 });
-                setFormData({
-                  ...formData,
-                  newImages: [...formData.newImages, res.url],
-                });
                 return { url: res.url };
               }}
+              onUploadCompleted={({ url }) =>
+                setFormData((prevData) => ({
+                  ...prevData,
+                  newImages: [...prevData.newImages, url],
+                }))
+              }
             >
               <ImageUploader maxFiles={10} maxSize={1024 * 1024 * 5} />
             </UploaderProvider>

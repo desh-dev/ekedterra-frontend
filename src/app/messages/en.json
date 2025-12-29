@@ -174,11 +174,24 @@
     "listings": {
       "title": "My Listings",
       "description": "View and manage your property listings."
-    },
-    "products": {
-      "title": "My Products",
-      "description": "View and manage your products."
     }
+  },
+  "products": {
+    "title": "My Products",
+    "description": "View and manage your products.",
+    "yourProducts": "Your products",
+    "noProducts": "No products yet",
+    "noProductsDescription": "Get started by creating your first product.",
+    "createProduct": "Create new product",
+    "listView": "List view",
+    "gridView": "Grid view",
+    "sale": "Sale",
+    "was": "was",
+    "backToShop": "Back to shop",
+    "stock": "Stock",
+    "productDescription": "Description",
+    "contactOnWhatsApp": "Contact on WhatsApp",
+    "whatsappMessage": "Hello Ekedterra, I'm interested in this product:\n\nName: {name}\nCategory: {category}\nPrice: {price}\nLink: {link}\n\nPlease share availability and how to buy. Thanks!"
   },
   "common": {
     "noPropertiesFound": "No properties found",

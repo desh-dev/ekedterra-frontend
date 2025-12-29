@@ -675,12 +675,14 @@ export default function CreatePropertySheet({
                   onProgressChange,
                   options: { temporary: true },
                 });
-                setFormData({
-                  ...formData,
-                  additionalImages: [...formData.additionalImages, res.url],
-                });
                 return { url: res.url };
               }}
+              onUploadCompleted={({ url }) =>
+                setFormData((prevData) => ({
+                  ...prevData,
+                  additionalImages: [...prevData.additionalImages, url],
+                }))
+              }
             >
               <ImageUploader maxFiles={10} maxSize={1024 * 1024 * 5} />
             </UploaderProvider>

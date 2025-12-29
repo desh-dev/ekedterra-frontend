@@ -263,9 +263,36 @@ export const GET_BOOKING = gql`
   }
 `;
 
+export const GET_PRODUCT = gql`
+  query GetProduct($id: ID!) {
+    product(id: $id) {
+      id
+      name
+      description
+      category
+      price
+      stock
+      mainImage
+      images {
+        id
+        imageUrl
+      }
+      salePrice
+      bulkPrice
+      bulkQty
+      userId
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
 export const GET_PRODUCTS = gql`
-  query GetProducts($product: ProductInput, $pagination: PaginationInput!) {
-    products(product: $product, pagination: $pagination) {
+  query GetProducts(
+    $product: ProductInput!
+    $paginationInput: PaginationInput!
+  ) {
+    products(product: $product, paginationInput: $paginationInput) {
       data {
         id
         name
@@ -287,8 +314,11 @@ export const GET_PRODUCTS = gql`
 `;
 
 export const GET_PRODUCTS_LISTINGS = gql`
-  query GetProducts($product: ProductInput, $pagination: PaginationInput!) {
-    products(product: $product, pagination: $pagination) {
+  query GetProducts(
+    $product: ProductInput!
+    $paginationInput: PaginationInput!
+  ) {
+    products(product: $product, paginationInput: $paginationInput) {
       data {
         id
         name

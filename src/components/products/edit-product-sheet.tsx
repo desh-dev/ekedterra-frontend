@@ -24,7 +24,7 @@ import { SingleImageDropzone } from "@/components/upload/single-image";
 import { ImageUploader } from "@/components/upload/multi-image";
 import { UploaderProvider } from "@/components/upload/uploader-provider";
 import { useEdgeStore } from "@/lib/edgestore";
-import { Product, PropductCategory } from "@/lib/graphql/types";
+import { Product, ProductCategory } from "@/lib/graphql/types";
 import {
   Select,
   SelectContent,
@@ -44,7 +44,7 @@ interface EditProductSheetProps {
 interface FormData {
   name: string | undefined;
   description: string | undefined;
-  category: PropductCategory;
+  category: ProductCategory;
   price: string | undefined;
   stock: string | undefined;
   mainImage: string | undefined;
@@ -70,7 +70,7 @@ export default function EditProductSheet({
   const [formData, setFormData] = useState<FormData>({
     name: undefined,
     description: undefined,
-    category: "" as PropductCategory,
+    category: "" as ProductCategory,
     price: undefined,
     stock: undefined,
     mainImage: undefined,
@@ -86,7 +86,7 @@ export default function EditProductSheet({
       setFormData({
         name: product.name || undefined,
         description: product.description || undefined,
-        category: product.category || ("" as PropductCategory),
+        category: product.category || ("" as ProductCategory),
         price: product.price?.toString() || undefined,
         stock: product.stock?.toString() || undefined,
         mainImage: product.mainImage || undefined,
@@ -99,12 +99,15 @@ export default function EditProductSheet({
     }
   }, [product, open]);
 
-  const handleDeleteImage = async (imageId: string) => {
+  const handleDeleteImage = async (imageId: string, imageUrl: string) => {
     try {
-      await apolloClient.mutate({
-        mutation: DELETE_PRODUCT_IMAGE,
-        variables: { id: imageId },
-      });
+      await Promise.all([
+        apolloClient.mutate({
+          mutation: DELETE_PRODUCT_IMAGE,
+          variables: { id: imageId },
+        }),
+        edgestore.products.delete({ url: imageUrl }),
+      ]);
       setExistingImages(existingImages.filter((img) => img.id !== imageId));
       toast.success("Image deleted successfully");
     } catch (error) {
@@ -162,8 +165,8 @@ export default function EditProductSheet({
           variables: {
             id: product.id,
             product: {
-              name: formData.name?.toLowerCase() || undefined,
-              description: formData.description?.toLowerCase() || undefined,
+              name: formData.name || undefined,
+              description: formData.description || undefined,
               category: formData.category || undefined,
               price: formData.price ? parseFloat(formData.price) : undefined,
               stock: formData.stock ? parseInt(formData.stock) : undefined,
@@ -247,7 +250,7 @@ export default function EditProductSheet({
                   setFormData({ ...formData, name: e.target.value })
                 }
                 placeholder="Product name"
-                className="mt-2 capitalize"
+                className="mt-2"
                 required
               />
             </div>
@@ -261,7 +264,7 @@ export default function EditProductSheet({
                   setFormData({ ...formData, description: e.target.value })
                 }
                 placeholder="Product description"
-                className="mt-2 w-full min-h-[100px] px-3 py-2 border rounded-md capitalize"
+                className="mt-2 w-full min-h-[100px] px-3 py-2 border rounded-md"
               />
             </div>
 
@@ -272,7 +275,7 @@ export default function EditProductSheet({
                 onValueChange={(value) =>
                   setFormData({
                     ...formData,
-                    category: value as PropductCategory,
+                    category: value as ProductCategory,
                   })
                 }
               >
@@ -421,11 +424,14 @@ export default function EditProductSheet({
                     <Image
                       src={image.imageUrl}
                       alt="Product"
+                      fill
                       className="w-full h-full object-cover rounded-md"
                     />
                     <button
                       type="button"
-                      onClick={() => handleDeleteImage(image.id)}
+                      onClick={() =>
+                        handleDeleteImage(image.id, image.imageUrl)
+                      }
                       className="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
                     >
                       <Trash2 className="h-4 w-4" />
@@ -448,12 +454,14 @@ export default function EditProductSheet({
                   onProgressChange,
                   options: { temporary: true },
                 });
-                setFormData({
-                  ...formData,
-                  newImages: [...formData.newImages, res.url],
-                });
                 return { url: res.url };
               }}
+              onUploadCompleted={({ url }) =>
+                setFormData((prevData) => ({
+                  ...prevData,
+                  newImages: [...prevData.newImages, url],
+                }))
+              }
             >
               <ImageUploader maxFiles={10} maxSize={1024 * 1024 * 5} />
             </UploaderProvider>

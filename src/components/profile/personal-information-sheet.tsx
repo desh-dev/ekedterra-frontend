@@ -152,13 +152,13 @@ export function PersonalInformationSheet({
           },
         });
         promises.push(verificationDocsPromise);
-        user.verificationDocs?.frontId &&
+        if (user.verificationDocs?.frontId) {
           promises.push(
             edgestore.verificationDocs.delete({
               url: user.verificationDocs.frontId,
             })
           );
-
+        }
         promises.push(
           edgestore.verificationDocs.confirmUpload({
             url: formData.frontId,
