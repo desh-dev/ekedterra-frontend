@@ -59,7 +59,7 @@ export default function ProductDetail({ product }: ProductDetail) {
     : [product.mainImage].filter(Boolean);
 
   return (
-    <div className="min-h-screen bg-white my-8 md:my-0">
+    <div className="min-h-screen bg-white">
       <main className="mx-auto w-full max-w-6xl px-4 py-5 md:px-8 md:py-8">
         <div className="mb-4">
           <Link

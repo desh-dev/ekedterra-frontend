@@ -7,6 +7,7 @@ import ReactQueryProvider from "@/providers/react-query-provider";
 import { AuthProvider } from "@/providers/auth-provider";
 import { cookies } from "next/headers";
 import { getLocale } from "next-intl/server";
+import MetaPixel from "@/components/analytics/meta-pixel";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -331,23 +332,24 @@ export default async function RootLayout({
   return (
     <html suppressHydrationWarning lang={locale}>
       <head>
+        <MetaPixel />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       </head>
 
       <body className={`${geistSans.className} antialiased bg-white`}>
-        <ReactQueryProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem={false}
+          disableTransitionOnChange
+        >
           <ApolloWrapper>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="light"
-              enableSystem={false}
-              disableTransitionOnChange
-            >
+            <ReactQueryProvider>
               <AuthProvider>{children}</AuthProvider>
-            </ThemeProvider>
+            </ReactQueryProvider>
           </ApolloWrapper>
-        </ReactQueryProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
