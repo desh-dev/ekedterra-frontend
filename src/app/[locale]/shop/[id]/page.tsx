@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getTranslations } from "next-intl/server";
 import { getProduct } from "@/lib/data/server";
 import ProductDetail from "@/components/products/product-details";
 
@@ -44,10 +43,9 @@ export async function generateMetadata({
   } catch (error) {
     console.error("Error generating metadata:", error);
     const { locale } = await params;
-    const t = await getTranslations({ locale, namespace: "metadata.shop" });
 
     return {
-      title: t("title"),
+      title: locale === "en" ? "Product Details" : "Détails du produit",
     };
   }
 }
