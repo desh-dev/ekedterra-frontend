@@ -16,11 +16,17 @@ import { PersonalInformationSheet } from "./personal-information-sheet";
 import Loading from "../loading";
 import { useTranslations } from "next-intl";
 import LanguageSwitcher from "../language-switcher";
+import { useRouter } from "@/i18n/routing";
 
 const ProfilePage = () => {
   const { user, loading, isAgent, isVerified, signOut } = useAuth();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const t = useTranslations("profile");
+  const router = useRouter();
+  const handleSignout = () => {
+    signOut();
+    router.push("/");
+  };
 
   if (loading) {
     return (
@@ -190,7 +196,7 @@ const ProfilePage = () => {
             <ChevronRight className="w-5 h-5 text-muted-foreground" />
           </button>
           <button
-            onClick={signOut}
+            onClick={handleSignout}
             className="w-full flex items-center gap-3 p-4 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
           >
             <LogOut className="w-5 h-5 text-muted-foreground" />

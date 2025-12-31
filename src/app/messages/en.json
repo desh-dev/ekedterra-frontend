@@ -123,6 +123,10 @@
     }
   },
   "metadata": {
+    "products": {
+      "title": "Products - Ekedterra",
+      "description": "Manage your products."
+    },
     "home": {
       "title": "Ekedterra - House to let",
       "description": "Simplify your search for real estate. Find your perfect home with ease and confidence. Connect with trusted agents and discover properties that match your lifestyle. And shop at our agent marketplace for the best deals and exclusive offers at the Ekedterra Shop!."
@@ -467,6 +471,7 @@
     "footerAllRightsReserved": "All rights reserved.",
     "footerFollowUs": "Follow us",
     "footerContactUs": "Contact us",
+    "products": "Products",
     "months": {
       "january": "january",
       "february": "february",

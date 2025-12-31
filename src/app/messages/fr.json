@@ -123,6 +123,10 @@
     }
   },
   "metadata": {
+    "products": {
+      "title": "Produits - Ekedterra",
+      "description": "Gérez vos produits."
+    },
     "home": {
       "title": "Ekedterra - Maison à louer",
       "description": "Simplifiez votre recherche de biens immobiliers. Trouvez votre maison parfaite avec facilité et confiance. Connectez-vous avec des agents fiables et découvrez des propriétés qui correspondent à votre style de vie. Et profitez de nos offres exclusives sur notre marché d'agents pour les meilleurs deals et offres spéciales sur le Boutique Ekedterra !"
@@ -467,6 +471,7 @@
     "footerAllRightsReserved": "Tous droits réservés.",
     "footerFollowUs": "Suivez-nous",
     "footerContactUs": "Contactez-nous",
+    "products": "Produits",
     "months": {
       "january": "janvier",
       "february": "février",

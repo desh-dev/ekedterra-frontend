@@ -19,7 +19,7 @@ import BottomNav from "./layout/bottom-nav";
 import { useAuth } from "@/providers/auth-provider";
 import { getUser } from "@/lib/data/client";
 import { User } from "@/lib/graphql/types";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 export function LoginForm({
   className,
@@ -31,6 +31,7 @@ export function LoginForm({
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { setUser } = useAuth();
+  const locale = useLocale();
   const t = useTranslations("auth.login");
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -60,7 +61,9 @@ export function LoginForm({
       );
       const previousUrl = document.referrer;
       if (previousUrl && previousUrl.includes(window.location.origin)) {
-        router.push(previousUrl.replace(window.location.origin, "") || "/");
+        router.push(
+          previousUrl.replace(`${window.location.origin}/${locale}`, "") || "/"
+        );
       } else {
         router.push("/");
       }
@@ -76,9 +79,7 @@ export function LoginForm({
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl">{t("title")}</CardTitle>
-          <CardDescription>
-            {t("description")}
-          </CardDescription>
+          <CardDescription>{t("description")}</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin}>

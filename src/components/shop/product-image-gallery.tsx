@@ -39,14 +39,10 @@ export default function ProductImageGallery({
   return (
     <div className="space-y-3">
       <div
-        className="relative aspect-square w-full overflow-hidden rounded-xl bg-gray-100 cursor-pointer group"
-        onClick={handleMainImageClick}
-        onDoubleClick={() => setIsGalleryOpen(true)}
+        className="relative aspect-square w-full overflow-hidden rounded-xl bg-gray-100 cursor-pointer group z-99"
+        onClick={() => setIsGalleryOpen(true)}
         role="button"
         tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") handleMainImageClick();
-        }}
       >
         {mainImage ? (
           <>
