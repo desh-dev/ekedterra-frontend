@@ -19,26 +19,47 @@ export default function ProductImageGallery({
   const safeImages = useMemo(() => images.filter(Boolean), [images]);
   const mainImage = safeImages[selectedIndex] || safeImages[0];
 
+  const handleMainImageClick = () => {
+    // Cycle to next image when main image is clicked
+    setSelectedIndex((prev) => (prev + 1) % safeImages.length);
+  };
+
+  const scrollToThumbnail = (index: number) => {
+    const container = document.getElementById("thumbnail-container");
+    const thumb = document.getElementById(`thumbnail-${index}`);
+    if (container && thumb) {
+      thumb.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center",
+      });
+    }
+  };
+
   return (
     <div className="space-y-3">
       <div
-        className="relative aspect-square w-full overflow-hidden rounded-xl bg-gray-100 cursor-pointer"
-        onClick={() => setIsGalleryOpen(true)}
+        className="relative aspect-square w-full overflow-hidden rounded-xl bg-gray-100 cursor-pointer group"
+        onClick={handleMainImageClick}
+        onDoubleClick={() => setIsGalleryOpen(true)}
         role="button"
         tabIndex={0}
         onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") setIsGalleryOpen(true);
+          if (e.key === "Enter" || e.key === " ") handleMainImageClick();
         }}
       >
         {mainImage ? (
-          <Image
-            src={mainImage}
-            alt={title}
-            fill
-            sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-cover"
-            priority
-          />
+          <>
+            <Image
+              src={mainImage}
+              alt={title}
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
+              priority
+            />
+            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300" />
+          </>
         ) : (
           <div className="flex h-full w-full items-center justify-center text-sm text-muted-foreground">
             No image
@@ -47,16 +68,25 @@ export default function ProductImageGallery({
       </div>
 
       {safeImages.length > 1 && (
-        <div className="grid grid-cols-4 gap-2">
-          {safeImages.slice(0, 4).map((src, idx) => {
+        <div
+          id="thumbnail-container"
+          className="flex gap-2 overflow-x-auto pb-2 -mx-2 px-2 scrollbar-hide"
+        >
+          {safeImages.map((src, idx) => {
             const isActive = idx === selectedIndex;
             return (
               <button
-                key={src}
+                key={idx}
+                id={`thumbnail-${idx}`}
                 type="button"
-                onClick={() => setSelectedIndex(idx)}
-                className={`relative aspect-square overflow-hidden rounded-lg bg-gray-100 border transition-colors ${
-                  isActive ? "border-primary" : "border-transparent"
+                onClick={() => {
+                  setSelectedIndex(idx);
+                  scrollToThumbnail(idx);
+                }}
+                className={`relative aspect-square flex-shrink-0 w-20 sm:w-24 overflow-hidden rounded-lg bg-gray-100 border transition-all ${
+                  isActive
+                    ? "border-primary scale-105"
+                    : "border-transparent hover:border-gray-300"
                 }`}
               >
                 <Image

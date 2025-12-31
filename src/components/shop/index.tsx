@@ -348,7 +348,7 @@ const ShopPage = () => {
                           {salePrice ? (
                             <>
                               <div className="font-semibold">
-                                {salePrice.toLocaleString()}
+                                XAF {salePrice.toLocaleString()}
                               </div>
                               <div className="text-sm text-muted-foreground line-through">
                                 {price.toLocaleString()}
@@ -356,7 +356,7 @@ const ShopPage = () => {
                             </>
                           ) : (
                             <div className="font-semibold">
-                              {price.toLocaleString()}
+                              XAF {price.toLocaleString()}
                             </div>
                           )}
                         </div>
