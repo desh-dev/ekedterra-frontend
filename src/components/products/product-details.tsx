@@ -7,7 +7,6 @@ import React from "react";
 import ProductImageGallery from "../shop/product-image-gallery";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
-import { usePreviousPath } from "@/hooks/usePreviousPath";
 import { ShareIcon } from "@heroicons/react/24/outline";
 import { ArrowLeft } from "lucide-react";
 import Header from "../favorites/header";
@@ -21,7 +20,6 @@ export default function ProductDetail({ product }: ProductDetail) {
   const t = useTranslations("products");
   const tCommon = useTranslations("common");
   const router = useRouter();
-  const prevPath = usePreviousPath();
 
   const baseUrl = "https://ekedterra.com"; // Hardcoded base URL
   const productPath = `/${locale}/shop/${product.id}`;
@@ -55,7 +53,7 @@ export default function ProductDetail({ product }: ProductDetail) {
   const whatsappUrl = `https://wa.me/${String(agentPhone).replace(
     /[^0-9]/g,
     ""
-  )}?text=${message}`;
+  )}?text=${encodeURIComponent(message)}`;
 
   const galleryImages = product.images?.length
     ? [product.mainImage, ...product.images.map((i: any) => i.imageUrl)].filter(

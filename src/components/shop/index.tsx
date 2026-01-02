@@ -156,8 +156,8 @@ const ShopPage = () => {
     },
   });
 
-  const products = data?.products || [];
-  const total = data?.total ?? 0;
+  const products = useMemo(() => data?.products || [], [data]);
+  const total = useMemo(() => data?.total || 0, [data]);
 
   const showSkeletons = isLoading || isFetching;
 

@@ -19,11 +19,6 @@ export default function ProductImageGallery({
   const safeImages = useMemo(() => images.filter(Boolean), [images]);
   const mainImage = safeImages[selectedIndex] || safeImages[0];
 
-  const handleMainImageClick = () => {
-    // Cycle to next image when main image is clicked
-    setSelectedIndex((prev) => (prev + 1) % safeImages.length);
-  };
-
   const scrollToThumbnail = (index: number) => {
     const container = document.getElementById("thumbnail-container");
     const thumb = document.getElementById(`thumbnail-${index}`);

@@ -42,7 +42,7 @@ const FavoritesPage = () => {
         setError(err);
       })
       .finally(() => setIsLoading(false));
-  }, [user, page]);
+  }, [user, page, pagedFavoriteIds]);
 
   if (loading || isLoading) {
     return (
@@ -84,7 +84,11 @@ const FavoritesPage = () => {
   }
 
   if (isError) {
-    return <div>{t("error")}: {error?.message}</div>;
+    return (
+      <div>
+        {t("error")}: {error?.message}
+      </div>
+    );
   }
 
   return (

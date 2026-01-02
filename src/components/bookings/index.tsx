@@ -44,7 +44,7 @@ const BookingPage = () => {
         setError(err);
       })
       .finally(() => setIsLoading(false));
-  }, [user, page]);
+  }, [user, page, pagedBookings]);
 
   if (loading || isLoading) {
     return (
@@ -86,7 +86,11 @@ const BookingPage = () => {
   }
 
   if (isError) {
-    return <div>{t("error")}: {error?.message}</div>;
+    return (
+      <div>
+        {t("error")}: {error?.message}
+      </div>
+    );
   }
 
   return (
