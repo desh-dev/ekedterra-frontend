@@ -12,6 +12,7 @@ const nextConfig: NextConfig = {
       "a0.muscache.com",
       "files.edgestore.dev",
       "www.facebook.com",
+      "m.media-amazon.com",
     ],
   },
 };
