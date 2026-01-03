@@ -7,7 +7,12 @@ const nextConfig: NextConfig = {
   output: "standalone",
   // Minimal experimental config
   images: {
-    domains: ["images.unsplash.com", "a0.muscache.com", "files.edgestore.dev"],
+    domains: [
+      "images.unsplash.com",
+      "a0.muscache.com",
+      "files.edgestore.dev",
+      "www.facebook.com",
+    ],
   },
 };
 

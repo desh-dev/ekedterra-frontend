@@ -197,6 +197,67 @@
     "contactOnWhatsApp": "Contacter sur WhatsApp",
     "whatsappMessage": "Bonjour Ekedterra, je suis intéressé(e) par ce produit :\n\nNom : {name}\nCatégorie : {category}\nPrix : {price}\nLien : {link}\n\nMerci de me renseigner sur la disponibilité et comment procéder à l'achat. Cordialement !"
   },
+  "shopPage": {
+    "searchProductsPlaceholder": "Rechercher des produits...",
+    "sort": {
+      "label": "Trier",
+      "name": "Nom",
+      "priceLowToHigh": "Prix : Croissant",
+      "priceHighToLow": "Prix : Décroissant"
+    },
+    "filterDialog": {
+      "category": "Catégorie",
+      "allCategories": "Toutes les catégories"
+    },
+    "results": {
+      "showing": "Affichage de {endCount} sur {total} produits",
+      "updating": "(mise à jour...)",
+      "show": "Afficher :",
+      "perPage": "par page"
+    },
+    "product": {
+      "saleBadge": "PROMO",
+      "noImage": "Aucune image"
+    },
+    "pagination": {
+      "pageOf": "Page {current} sur {total}"
+    },
+    "amazon": {
+      "label": "Lien Amazon",
+      "inputPlaceholder": "Collez un lien de produit Amazon",
+      "previewButton": "Aperçu",
+      "invalidLink": "Seuls les liens Amazon sont pris en charge. Utilisez un lien commençant par <amazon1>https://amazon.com</amazon1> ou <amazon2>https://a.co</amazon2>.",
+      "invalidLinkPlain": "Seuls les liens Amazon sont pris en charge. Utilisez un lien commençant par {amazon1} ou {amazon2}.",
+      "logoAlt": "Amazon",
+      "errors": {
+        "failedToFetchPreview": "Impossible de récupérer l’aperçu"
+      },
+      "whatsapp": {
+        "intro": "Bonjour ! Je souhaite acheter ce produit.",
+        "productLine": "Produit : {title}",
+        "linkLine": "Lien : {link}"
+      },
+      "empty": {
+        "title": "Collez un lien produit",
+        "description": "Vérifiez votre produit ici avant de passer commande sur WhatsApp."
+      },
+      "ready": {
+        "title": "Prêt pour l'aperçu",
+        "description": "Cliquez sur \"Aperçu\" pour récupérer les détails du produit à partir du lien."
+      },
+      "preview": {
+        "fallbackTitle": "Aperçu du lien",
+        "noImage": "Aucune image"
+      },
+      "benefits": {
+        "title": "Pourquoi commander chez nous ?",
+        "doorstepDelivery": "Livraison à domicile dans tout le pays",
+        "fractionShipping": "Vous ne payez qu'une fraction des frais d'expédition Amazon",
+        "fragileCare": "Marchandises fragiles manipulées avec soin"
+      },
+      "checkoutButton": "Commander sur WhatsApp"
+    }
+  },
   "common": {
     "noPropertiesFound": "Aucune propriété trouvée",
     "noPropertiesFoundDescription": "Essayez de modifier vos critères de recherche ou parcourir toutes les propriétés disponibles.",

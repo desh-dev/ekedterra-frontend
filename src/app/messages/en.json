@@ -197,6 +197,67 @@
     "contactOnWhatsApp": "Contact on WhatsApp",
     "whatsappMessage": "Hello Ekedterra, I'm interested in this product:\n\nName: {name}\nCategory: {category}\nPrice: {price}\nLink: {link}\n\nPlease share availability and how to buy. Thanks!"
   },
+  "shopPage": {
+    "searchProductsPlaceholder": "Search products...",
+    "sort": {
+      "label": "Sort",
+      "name": "Name",
+      "priceLowToHigh": "Price: Low to High",
+      "priceHighToLow": "Price: High to Low"
+    },
+    "filterDialog": {
+      "category": "Category",
+      "allCategories": "All categories"
+    },
+    "results": {
+      "showing": "Showing {endCount} of {total} products",
+      "updating": "(updating...)",
+      "show": "Show:",
+      "perPage": "per page"
+    },
+    "product": {
+      "saleBadge": "SALE",
+      "noImage": "No image"
+    },
+    "pagination": {
+      "pageOf": "Page {current} of {total}"
+    },
+    "amazon": {
+      "label": "Amazon link",
+      "inputPlaceholder": "Paste an Amazon product link",
+      "previewButton": "Preview",
+      "invalidLink": "Only Amazon links are supported. Use a link starting with <amazon1>https://amazon.com</amazon1> or <amazon2>https://a.co</amazon2>.",
+      "invalidLinkPlain": "Only Amazon links are supported. Use a link starting with {amazon1} or {amazon2}.",
+      "logoAlt": "Amazon",
+      "errors": {
+        "failedToFetchPreview": "Failed to fetch preview"
+      },
+      "whatsapp": {
+        "intro": "Hi! I'd like to purchase this product.",
+        "productLine": "Product: {title}",
+        "linkLine": "Link: {link}"
+      },
+      "empty": {
+        "title": "Paste a product link",
+        "description": "Verify your product here before checking out on WhatsApp."
+      },
+      "ready": {
+        "title": "Ready to preview",
+        "description": "Click \"Preview\" to fetch product details from the link."
+      },
+      "preview": {
+        "fallbackTitle": "Link preview",
+        "noImage": "No image"
+      },
+      "benefits": {
+        "title": "Why order with us?",
+        "doorstepDelivery": "Doorstep delivery nationwide",
+        "fractionShipping": "You pay only a fraction of the actual Amazon shipping fee",
+        "fragileCare": "Fragile cargo handled with care"
+      },
+      "checkoutButton": "Checkout on WhatsApp"
+    }
+  },
   "common": {
     "noPropertiesFound": "No properties found",
     "noPropertiesFoundDescription": "Try adjusting your search criteria or browse all available properties.",
